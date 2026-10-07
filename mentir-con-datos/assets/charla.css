@@ -289,7 +289,7 @@ html.anima .acto-deco.cuadro { animation: flotar 5.5s ease-in-out infinite; }
 @media print {
   html.anima .revelable { opacity: 1 !important; }
   *, *::before, *::after { animation: none !important; }
-  #fondo-particulas, .modo-toggle, .charla-barra { display: none !important; }
+  #fondo-particulas, .modo-toggle, .charla-barra, .charla-progreso, #mazo { display: none !important; }
 }
 
 /* ---------- Botón y modo charla ---------- */
@@ -304,38 +304,260 @@ html.anima .acto-deco.cuadro { animation: flotar 5.5s ease-in-out infinite; }
 .modo-toggle:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--tinta); }
 .modo-toggle:focus-visible { outline: 3px solid var(--lavanda); outline-offset: 3px; }
 
-/* Barra del modo charla: como el pie de las diapositivas del taller (título, módulo, contador y flechas) */
-.charla-barra { display: none; }
+/* ---------- Modo charla: la clase en diapositivas (charla.js) ----------
+   Cada diapositiva se arma en un lienzo de 1280 px de ancho y charla.js la escala para llenar la pantalla: las medidas
+   en px de esta sección son del lienzo (en un proyector de 1920 px se ven 1,5 veces más grandes). */
+:root { --barra: 52px; }
+.charla-barra, .charla-progreso, #mazo { display: none; }
+html.charla-cargando #quarto-content { visibility: hidden; }
+body.charla { overflow: hidden; }
+body.charla #quarto-content { display: none !important; }
+body.charla #mazo { display: block; position: fixed; left: 0; right: 0; top: 0; bottom: var(--barra); z-index: 1000; }
+body.charla .solo-lectura { display: none; }
+.solo-charla { display: none; }
+body.charla .solo-charla { display: block; }
+
+.diapositiva { display: none; position: absolute; inset: 0; overflow: hidden; }
+.diapositiva.activa { display: block; }
+.diapositiva.con-scroll { overflow-y: auto; }
+.diapo-lienzo {
+  position: absolute; left: 0; top: 0; width: 1280px; transform-origin: 0 0;
+  display: flex; flex-direction: column;
+  padding: 34px 64px 30px; box-sizing: border-box;
+  font: 400 21px/1.5 var(--sans); color: var(--tinta);
+}
+.diapo-cabeza { flex: none; margin-bottom: 22px; }
+.diapo-donde { display: flex; align-items: center; gap: 12px; font: 500 15px/1.3 var(--sans); color: var(--tinta-3); }
+.diapo-pill { font: 700 12.5px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--tinta); background: var(--amarillo); border-radius: 999px; padding: .4em 1em .36em; }
+.diapo-seccion { font: 700 15px/1.3 var(--sans); color: var(--tinta); }
+.diapo-seccion::before { content: "·"; margin-right: 12px; color: var(--tinta-3); }
+.diapo-titulo { font: 800 58px/1 var(--display); font-stretch: 62.5%; letter-spacing: -.01em; margin: 14px 0 0; color: var(--tinta); }
+.diapo-cuerpo { flex: 1 0 auto; display: flex; flex-direction: column; justify-content: center; }
+
+/* Lo que va adentro: una columna centrada o dos columnas (.dos: la imagen a la izquierda, la interacción a la derecha) */
+#mazo .diapo > *, #mazo .lado > * { margin-top: 0; margin-bottom: 0; }
+#mazo .diapo > * + *, #mazo .lado > * + * { margin-top: 22px; }
+#mazo .diapo:not(.dos) { width: 100%; max-width: 1040px; margin: 0; }
+#mazo .diapo.dos { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 34px; align-items: center; }
+#mazo .diapo.dos.media { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); }
+#mazo .diapo.dos.ancha { grid-template-columns: minmax(0, 1.85fr) minmax(0, 1fr); gap: 22px 28px; }
+/* Con texto, gráfico y consigna: el gráfico a la izquierda; el texto arriba y la consigna abajo, a la derecha */
+#mazo .diapo.dos.ancha:has(> :nth-child(3)) > figure.fig-atlas { grid-column: 1; grid-row: 1 / span 2; }
+#mazo .diapo.dos.ancha:has(> :nth-child(3)) > p { align-self: end; }
+#mazo .diapo.dos.ancha:has(> :nth-child(3)) > :last-child { align-self: start; }
+/* Textos cortos sueltos */
+#mazo .diapo.frase > p { font-size: 27px; line-height: 1.5; }
+#mazo .diapo.dos > * + * { margin-top: 0; }
+#mazo .diapo > p, #mazo .lado > p, #mazo .diapo > ul > li, #mazo .diapo > ol > li { font-size: 21px; }
+#mazo .diapo > ul, #mazo .diapo > ol { padding-left: 1.3em; }
+#mazo .diapo > ul > li + li, #mazo .diapo > ol > li + li { margin-top: 8px; }
+
+#mazo .gancho, #mazo .pregunta, #mazo .adivina, #mazo .desafio, #mazo .charlalo, #mazo .antidoto { margin: 0; padding: 22px 28px 24px; }
+#mazo .bloque-kicker { font-size: 13px; margin-bottom: 14px; }
+#mazo .bloque-kicker .ico { font-size: 17px; }
+#mazo .medio { font-size: 13px; }
+#mazo .titular { font-size: 46px; margin: 6px 0 10px; }
+#mazo .gancho > p, #mazo .desafio > p, #mazo .charlalo > p, #mazo .desafio li, #mazo .charlalo li { font-size: 21px; }
+#mazo .pregunta > p:first-of-type, #mazo .adivina > p:first-of-type { font-size: 25px; line-height: 1.35; }
+#mazo .opciones { gap: 10px; margin-top: 16px; }
+#mazo .opciones button { font-size: 19px; padding: .4em 1.1em .4em .45em; }
+#mazo .opciones .letra { font-size: 14px; }
+#mazo .acciones { margin-top: 16px; }
+#mazo .btn-charla { font-size: 16px; }
+#mazo .respuesta { font-size: 17.5px; line-height: 1.5; margin-top: 14px; padding: 14px 18px; }
+#mazo .respuesta p { font-size: inherit; }
+/* Tapada, la respuesta ocupa poco: al destaparla, la diapositiva se reacomoda (charla.js) */
+#mazo .respuesta.oculta { max-height: 3.4em; overflow: hidden; }
+.diapositiva.reacomoda .diapo-lienzo { transition: transform .55s var(--salida); }
+#mazo .estimacion label { font-size: 13px; }
+#mazo .estimacion output { font-size: 30px; }
+#mazo .veredicto { font-size: 17px; }
+#mazo .reloj { font-size: 15px; }
+#mazo .gancho img, #mazo .diapo > .cell img { display: block; width: auto; height: auto; max-width: 100%; max-height: 380px; margin: 14px auto 0; }
+#mazo .diapo.dos .gancho img { max-height: 330px; }
+#mazo .gancho figure, #mazo .gancho .cell, #mazo .gancho .cell-output-display { margin: 0; }
+#mazo .gancho figure p { margin: 0; }
+#mazo svg.torta-3d-gancho, #mazo svg.picto-gancho { max-height: 330px; }
+#mazo svg.avion { max-width: 380px; }
+#mazo .anchorjs-link { display: none; }
+#mazo math[display="block"] { font-size: 1.2em; margin: 14px 0; }
+
+/* Código: las recetas y el ejercicio final */
+#mazo details.receta-plegada { margin: 0; border: 0; background: none; }
+#mazo details.receta-plegada > summary { display: none; }
+#mazo details.receta-plegada > .receta-cuerpo { padding: 0; }
+#mazo .receta > p { font-size: 19px; }
+#mazo div.sourceCode { margin: 10px 0 0; }
+#mazo pre code { font-size: 15.5px; line-height: 1.5; }
+#mazo .cell-output pre code { font-size: 15px; }
+#mazo .cell-annotation dd, #mazo .cell-annotation dt { font-size: 15px; }
+#mazo .panel-tabset .nav-link { font-size: 16px; }
+#mazo .receta .cell:has(> .cell-output-display img) { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 4px 26px; align-items: center; }
+#mazo .receta .cell:has(> .cell-output-display img) > * { grid-column: 1; }
+#mazo .receta .cell:has(> .cell-output-display img) > .cell-output-display { grid-column: 2; grid-row: 1 / span 3; margin: 0; }
+#mazo .receta .cell-output-display img { display: block; max-width: 100%; max-height: 470px; width: auto; height: auto; margin: 0 auto; }
+
+/* Antídoto: la diapositiva es la frase */
+#mazo .tipo-antidoto .antidoto { width: 100%; max-width: 980px; margin: 0 auto; padding: 32px 42px 36px; }
+#mazo .tipo-antidoto .antidoto p { font-size: 24px; line-height: 1.5; }
+#mazo .tipo-antidoto .antidoto strong:first-child { display: block; font: 800 50px/1.02 var(--display); font-stretch: 62.5%; box-shadow: none; margin-bottom: 14px; }
+#mazo .tipo-antidoto .antidoto strong:first-child span { box-shadow: inset 0 -.38em 0 var(--amarillo); }
+
+/* Portada */
+#mazo .tipo-portada #title-block-header { padding: 0; margin: 0; max-width: 820px; }
+#mazo .tipo-portada .diapo-lienzo { padding-left: 96px; }
+#mazo .tipo-portada h1.title { font-size: 168px; }
+#mazo .tipo-portada .subtitle { font-size: 46px !important; }
+#mazo .tipo-portada .quarto-title-meta { margin-top: 34px; }
+#mazo .tipo-portada .quarto-title-meta p, #mazo .tipo-portada .quarto-title-meta-contents { font-size: 18px; }
+#mazo .hero-tag { font-size: 14px; margin-left: -96px; padding-left: 96px; }
+#mazo .hero-formas { display: block; left: auto; right: -330px; width: 330px; }
+#mazo .hero-formas .f-circulo { width: 230px; height: 230px; left: 40px; top: 20%; }
+#mazo .hero-formas .f-arco { width: 160px; height: 210px; border-radius: 80px 80px 0 0; left: 150px; bottom: -14%; }
+
+/* Franjas de acto: la diapositiva entera toma el color del acto */
+.diapositiva.tipo-acto { background-color: var(--amarillo); background-image: var(--grano); }
+.diapositiva.tipo-acto.acto-2 { background-color: #8FAED6; }
+.diapositiva.tipo-acto.acto-epilogo { background-color: var(--tinta); }
+.diapositiva.tipo-acto .diapo-lienzo { color: inherit; padding-left: 110px; }
+.diapositiva.tipo-acto.acto-epilogo .diapo-lienzo { color: var(--papel-claro); }
+#mazo .acto-banda { margin: 0; padding: 0; background: none; overflow: visible; position: static; }
+#mazo .acto-interior { max-width: 900px; margin: 0; padding: 0; position: static; }
+#mazo .acto-pill { font-size: 15px; }
+#mazo .acto-banda h1 { font-size: 132px; margin: 22px 0 22px; }
+#mazo .acto-banda p { font-size: 25px; max-width: 860px; }
+#mazo .acto-deco { display: block; }
+#mazo .acto-deco.asterisco { right: 9%; top: 14%; width: 132px; }
+#mazo .acto-deco.cuadro { right: 7%; bottom: 13%; width: 58px; }
+
+/* Tapa de cada módulo: el título palabra por palabra y, a la derecha, el número calado sobre un círculo amarillo */
+.tapa { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 30px; align-items: center; min-height: 520px; padding-left: 24px; }
+.tapa-texto { display: flex; flex-direction: column; align-items: flex-start; }
+.tapa-acto { font: 700 13px var(--sans); letter-spacing: .1em; text-transform: uppercase; background: var(--tarjeta); color: var(--tinta); border: 2px solid var(--tinta); border-radius: 999px; padding: .34em 1em; margin-bottom: 26px; }
+.tapa .h2-num { display: inline-block; font-size: 15px; margin: 0 0 18px; }
+.tapa-titulo { font: 800 108px/.93 var(--display); font-stretch: 62.5%; letter-spacing: -.015em; margin: 0; padding: 0; border: 0; color: var(--tinta); }
+.tapa-titulo .w { display: inline-block; }
+.tapa-marca { position: relative; height: 360px; display: grid; place-items: center; }
+.tapa-marca::before { content: ""; position: absolute; left: 10px; top: 24px; width: 230px; height: 230px; border-radius: 50%; background-color: var(--amarillo); background-image: var(--grano); }
+.tapa-num { position: relative; font: 900 300px/1 var(--display); font-stretch: 62.5%; color: transparent; -webkit-text-stroke: 3px var(--tinta); }
+.tapa-asterisco { position: relative; width: 250px; color: var(--tinta); }
+.tapa-asterisco svg { display: block; width: 100%; height: auto; }
+.tapa-asterisco svg g { stroke-width: 4.5; }
+
+/* Checklist, índice de gráficos y recursos, en diapositiva */
+#mazo #checklist ol { columns: 3; column-gap: 34px; margin: 0; }
+#mazo #checklist li { break-inside: avoid; padding: 6px 2px; gap: 2px 10px; }
+#mazo #checklist .truco { font-size: 11.5px; }
+#mazo #checklist .pregunta-check { font-size: 15.5px; line-height: 1.32; }
+#mazo .indice-graficos { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; margin: 6px 0 0; }
+#mazo .ig-mini { height: 84px; padding: 6px; }
+#mazo .ig-mini svg, #mazo .ig-mini img { max-height: 72px; }
+#mazo .ig-cuerpo { padding: 8px 10px 10px; gap: 4px; }
+#mazo .ig-num { font-size: 10px; }
+#mazo .ig-titulo { font-size: 13.5px; line-height: 1.22; }
+#mazo .ig-ver { display: none; }
+#mazo .ig-cuerpo { padding-bottom: 8px; }
+#mazo .ig-titulo { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+#mazo .recursos { margin: 0; }
+#mazo .recurso .t { font-size: 18px; }
+#mazo .recurso .d { font-size: 15px; }
+#mazo .rio { margin: 0; gap: 16px; }
+#mazo .rio .tramo h4 { font-size: 36px; }
+#mazo .rio .tramo p { font-size: 18px; }
+#mazo .rio-flecha { font-size: 13px; margin: 0; }
+#mazo table.resumen-anscombe { font-size: 16.5px; }
+#mazo table.resumen-anscombe th { font-size: 11px; white-space: normal; }
+#mazo table.resumen-anscombe td:first-child { font-size: 24px; }
+#mazo .pyme { margin: 0 auto; max-width: 900px; padding: 30px 34px; gap: 28px; }
+#mazo .pyme > svg { flex-basis: 130px; width: 130px; }
+#mazo .pyme .pyme-nombre { font-size: 52px; }
+#mazo .pyme p { font-size: 21px; }
+#mazo .pyme .medio { font-size: 13px; }
+
+/* Celular o tableta vertical (#mazo.angosto): la diapositiva usa el ancho real de la pantalla, una columna y scroll */
+#mazo.angosto .diapo-lienzo { padding: 18px 16px 28px; font-size: 16.5px; }
+#mazo.angosto .diapo-titulo { font-size: 34px; }
+#mazo.angosto .diapo.dos, #mazo.angosto .diapo.dos.media, #mazo.angosto .diapo.dos.ancha { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+#mazo.angosto .diapo.dos.ancha:has(> :nth-child(3)) > figure.fig-atlas { grid-row: auto; }
+#mazo.angosto .diapo > p, #mazo.angosto .lado > p, #mazo.angosto .diapo > ul > li, #mazo.angosto .diapo > ol > li,
+#mazo.angosto .gancho > p, #mazo.angosto .desafio > p, #mazo.angosto .charlalo > p, #mazo.angosto .diapo.frase > p { font-size: 16.5px; }
+#mazo.angosto .gancho, #mazo.angosto .pregunta, #mazo.angosto .adivina, #mazo.angosto .desafio, #mazo.angosto .charlalo, #mazo.angosto .antidoto { padding: 16px 16px 18px; }
+#mazo.angosto .titular { font-size: 30px; }
+#mazo.angosto .pregunta > p:first-of-type, #mazo.angosto .adivina > p:first-of-type { font-size: 18px; }
+#mazo.angosto .opciones button { font-size: 15px; white-space: normal; }
+#mazo.angosto .estimacion output { font-size: 22px; min-width: 0; }
+#mazo.angosto .tipo-antidoto .antidoto p { font-size: 17px; }
+#mazo.angosto .tipo-antidoto .antidoto strong:first-child { font-size: 32px; }
+#mazo.angosto .tapa { grid-template-columns: minmax(0, 1fr); min-height: 0; padding-left: 0; }
+#mazo.angosto .tapa-marca { display: none; }
+#mazo.angosto .tapa-titulo { font-size: 48px; }
+#mazo.angosto .tipo-portada .diapo-lienzo { padding-left: 16px; }
+#mazo.angosto .tipo-portada h1.title { font-size: 64px; }
+#mazo.angosto .tipo-portada .subtitle { font-size: 24px !important; }
+#mazo.angosto .hero-tag { margin-left: -16px; padding-left: 16px; font-size: 11px; }
+#mazo.angosto .hero-formas, #mazo.angosto .acto-deco { display: none; }
+.diapositiva.tipo-acto #mazo.angosto .diapo-lienzo, #mazo.angosto .diapositiva.tipo-acto .diapo-lienzo { padding-left: 18px; }
+#mazo.angosto .acto-banda h1 { font-size: 56px; }
+#mazo.angosto .acto-banda p { font-size: 17px; }
+#mazo.angosto .banda { padding: 16px; }
+#mazo.angosto .banda-inner { grid-template-columns: minmax(0, 1fr); }
+#mazo.angosto .banda .lema { font-size: 32px; }
+#mazo.angosto .receta .cell:has(> .cell-output-display img) { grid-template-columns: minmax(0, 1fr); }
+#mazo.angosto .receta .cell:has(> .cell-output-display img) > .cell-output-display { grid-column: 1; grid-row: auto; }
+#mazo.angosto math[display="block"] { display: block; overflow-x: auto; }
+#mazo.angosto #checklist ol { columns: 1; }
+#mazo.angosto .indice-graficos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+#mazo.angosto .rio { grid-template-columns: minmax(0, 1fr); }
+#mazo.angosto .pyme { flex-direction: column; padding: 18px; }
+#mazo.angosto .pyme .pyme-nombre { font-size: 34px; }
+#mazo.angosto .pyme p { font-size: 16.5px; }
+#mazo.angosto .diapo-donde { flex-wrap: wrap; font-size: 13px; }
+
+/* Entrada de cada diapositiva: los bloques suben de a uno (como en el taller) */
+@keyframes entrar-diapo { from { opacity: 0; translate: 0 26px; } }
+html.anima #mazo .revelable, html.anima #mazo .escalonado > * { opacity: 1; animation: none; }
+html.anima #mazo .diapositiva.entra .diapo-cabeza,
+html.anima #mazo .diapositiva.entra .diapo-cuerpo > .diapo > *,
+html.anima #mazo .diapositiva.entra .diapo-cuerpo > .antidoto,
+html.anima #mazo .diapositiva.entra .diapo-cuerpo > details,
+html.anima #mazo .diapositiva.entra .tapa-texto > :not(.tapa-titulo),
+html.anima #mazo .diapositiva.entra .tapa-marca,
+html.anima #mazo .diapositiva.entra .acto-interior > *,
+html.anima #mazo .diapositiva.entra .quarto-title > *,
+html.anima #mazo .diapositiva.entra .quarto-title-meta { animation: entrar-diapo .65s var(--salida) backwards; }
+html.anima #mazo .diapositiva.entra .diapo-cuerpo > * > :nth-child(2) { animation-delay: .1s; }
+html.anima #mazo .diapositiva.entra .diapo-cuerpo > * > :nth-child(3) { animation-delay: .2s; }
+html.anima #mazo .diapositiva.entra .diapo-cuerpo > * > :nth-child(4) { animation-delay: .3s; }
+html.anima #mazo .diapositiva.entra .diapo-cuerpo > * > :nth-child(n+5) { animation-delay: .4s; }
+html.anima #mazo .diapositiva.entra .tapa-titulo .w { animation: palabra .7s var(--salida) backwards; animation-delay: calc(.12s + var(--i, 0) * .07s); }
+html.anima #mazo .diapositiva.entra .tapa-marca::before { animation: aparecer .8s var(--salida) backwards; }
+html.anima #mazo .tapa-asterisco { animation: girar 28s linear infinite; }
+
+/* Barra de abajo: como el pie de las diapositivas del taller (título, módulo, aviso, contador y flechas) */
 body.charla .charla-barra {
-  display: flex; align-items: center; gap: 1rem;
-  position: fixed; left: 0; right: 0; bottom: 0; z-index: 1040;
-  padding: .55rem 1.2rem; background: rgba(242, 238, 229, .94); border-top: 2px solid var(--tinta);
-  font: 500 .8rem var(--sans); color: var(--tinta-2);
+  display: flex; align-items: center; gap: 14px;
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 1040; height: var(--barra); box-sizing: border-box;
+  padding: 0 205px 0 20px; background: rgba(242, 238, 229, .96); border-top: 2px solid var(--tinta);
+  font: 500 15px var(--sans); color: var(--tinta-2);
 }
 .charla-barra .cb-titulo { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .charla-barra .cb-titulo b { color: var(--tinta); }
-.charla-barra .cb-cuenta { font-weight: 700; color: var(--tinta); font-variant-numeric: tabular-nums; }
+.charla-barra .cb-aviso { font: 600 13.5px var(--sans); color: var(--tinta); background: var(--amarillo); border-radius: 999px; padding: .3em .95em; white-space: nowrap; }
+.charla-barra .cb-aviso:empty { display: none; }
+.charla-barra .cb-cuenta { font-weight: 700; color: var(--tinta); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .charla-barra button {
-  width: 2.1rem; height: 2.1rem; border-radius: 50%; border: 2px solid var(--tinta); background: var(--tarjeta);
-  font: 700 .95rem var(--sans); color: var(--tinta); cursor: pointer; display: inline-grid; place-items: center;
+  width: 2.2rem; height: 2.2rem; flex: none; border-radius: 50%; border: 2px solid var(--tinta); background: var(--tarjeta);
+  font: 700 1rem var(--sans); color: var(--tinta); cursor: pointer; display: inline-grid; place-items: center;
 }
-.charla-barra button:hover { background: var(--amarillo); }
-.charla-progreso { display: none; }
+.charla-barra button:hover:not(:disabled) { background: var(--amarillo); }
+.charla-barra button:disabled { opacity: .35; cursor: default; }
 body.charla .charla-progreso { display: block; position: fixed; left: 0; top: 0; height: 5px; background: var(--amarillo); z-index: 1041; width: 0; transition: width .4s var(--salida); box-shadow: 0 1px 0 var(--tinta); }
-body.charla .modo-toggle { bottom: 4.2rem; }
-body.charla .parada-activa { scroll-margin-top: 1.5rem; }
-
-body.charla { font-size: 1.24rem; padding-bottom: 3.4rem; }
-body.charla #quarto-margin-sidebar, body.charla #quarto-sidebar, body.charla .sidebar.toc-left { display: none !important; }
-body.charla main.content { max-width: 1120px; margin-left: auto; margin-right: auto; grid-column: body-content-start / body-content-end !important; }
-body.charla .page-columns { grid-template-columns: [screen-start] 1.5em [screen-start-inset page-start page-start-inset body-start-outset body-start body-content-start] minmax(500px, 1fr) [body-content-end body-end body-end-outset page-end-inset page-end screen-end-inset] 1.5em [screen-end] !important; }
-body.charla .solo-lectura { display: none; }
-body.charla .titular { font-size: clamp(2.2rem, 4.6vw, 3.3rem); }
-body.charla .opciones button { font-size: 1.15rem; }
-body.charla h2 { font-size: clamp(2.8rem, 6vw, 4.2rem); }
-body.charla .acto-banda h1 { font-size: clamp(4rem, 11vw, 7.6rem); }
-.solo-charla { display: none; }
-body.charla .solo-charla { display: block; }
+body.charla .modo-toggle { bottom: 8px; right: 14px; z-index: 1045; font-size: .8rem; padding: .42em 1em; box-shadow: 2px 2px 0 var(--tinta); }
+@media (max-width: 700px) {
+  body.charla .charla-barra { padding-right: 160px; gap: 8px; }
+  .charla-barra .cb-titulo, .charla-barra .cb-aviso { display: none; }
+  body.charla .modo-toggle { font-size: .72rem; }
+}
 
 /* En pantallas angostas las decoraciones de las franjas tapan el texto */
 @media (max-width: 760px) { .acto-deco { display: none; } .acto-banda { padding: 2.6rem 0 2.4rem; } }

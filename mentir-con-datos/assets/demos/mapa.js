@@ -58,7 +58,7 @@ Labo.registrar('mapa', function (raiz, p) {
   }
   function color(c) { return pintadas[c] ? C.verde : C.grisClaro; }
   function dibujarMapa() {
-    var alto = Math.min(560, Math.max(380, ancho * 0.9)), filas = FILAS.length, celda = Math.floor(alto / filas), u = celda;
+    var alto = L.alto(raiz, Math.min(560, Math.max(380, ancho * 0.9))), filas = FILAS.length, celda = Math.floor(alto / filas), u = celda;
     var w = 24 * u, h = filas * u;
     var svg = d3.create('svg').attr('viewBox', '0 0 ' + w + ' ' + h).attr('width', w).attr('role', 'img').attr('aria-label', 'Mapa de celdas de Argentina por provincia');
     var grupos = {};

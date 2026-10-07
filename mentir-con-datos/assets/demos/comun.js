@@ -111,6 +111,9 @@ window.Labo = (function () {
     return function () { ultimo = 0; correr(); };
   }
 
+  // En las diapositivas del modo charla los gráficos van un poco más bajos, para que entren con su consigna al lado
+  function alto(nodo, h) { return nodo && nodo.closest && nodo.closest('#mazo') ? Math.round(h * 0.8) : h; }
+
   // Valores por defecto de Observable Plot con la estética de la clase
   function estiloPlot(spec) {
     spec.style = Object.assign({ fontFamily: '"Source Sans 3", sans-serif', fontSize: '13.5px', background: 'transparent', color: C.tinta, overflow: 'visible' }, spec.style || {});
@@ -196,7 +199,7 @@ window.Labo = (function () {
     return CSS_FIGURA;
   }
   function aPNG(fig, nombre) {
-    var ancho = Math.ceil(fig.getBoundingClientRect().width);
+    var ancho = Math.ceil(fig.offsetWidth || fig.getBoundingClientRect().width);   // sin la escala de las diapositivas
     var clon = fig.cloneNode(true);
     // Estilos de texto computados, en línea: así el PNG usa las mismas tipografías aunque una regla no viaje
     var PROPS = ['font-family', 'font-size', 'font-weight', 'font-style', 'font-stretch', 'line-height', 'letter-spacing', 'text-transform', 'color'];
@@ -360,5 +363,5 @@ window.Labo = (function () {
   }
   document.addEventListener('DOMContentLoaded', montar);
 
-  return { C: C, el: el, num: num, pct: pct, rango: rango, opciones: opciones, boton: boton, estado: estado, tabla: tabla, responsivo: responsivo, plot: plot, franjas: franjas, registrar: registrar, montar: montar, animarEntrada: animarEntrada, figuras: function () { return figuras; } };
+  return { C: C, el: el, num: num, pct: pct, rango: rango, opciones: opciones, boton: boton, estado: estado, tabla: tabla, responsivo: responsivo, alto: alto, plot: plot, franjas: franjas, registrar: registrar, montar: montar, animarEntrada: animarEntrada, figuras: function () { return figuras; } };
 })();

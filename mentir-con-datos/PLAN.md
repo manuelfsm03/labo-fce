@@ -60,8 +60,7 @@ internet falla.
 - **La estética del taller de IA** ([datso653.github.io/taller-ia](https://datso653.github.io/taller-ia/)): papel crema con
   grano y partículas de colores que flotan detrás de la página, títulos en Noto Serif Display condensada, texto en
   Poppins, amarillo `#F5C900` y celeste `#A8C5DA` planos, tarjetas con borde negro, pastillas como antetítulo, franjas
-  de color al empezar cada acto y entradas animadas (bloques que suben, títulos palabra por palabra). En modo charla,
-  la clase se recorre como un deck: ← → de parada en parada, con un pie fijo y un contador.
+  de color al empezar cada acto y entradas animadas (bloques que suben, títulos palabra por palabra).
 - **La estructura y los gráficos de El Atlas** ([dschteingart.github.io/el-atlas-charts](https://dschteingart.github.io/el-atlas-charts/)):
   cada interactivo es un "Gráfico N" con antetítulo, título que cuenta el hallazgo, bajada en itálica (Source Serif 4),
   controles en botonera, etiquetas directas, franjas por gobierno en las series largas, fuente y firma, descargas en
@@ -80,8 +79,20 @@ comportamiento, sobre la banda verde con grilla. La consola tiene pestañas Pyth
   quedó.
 - ⏱️ **Desafío**: una consigna con el demo, del tipo "¿quién logra el *lie factor* más alto?".
 - 💬 **Charlalo con quien tengas al lado**: consigna corta en parejas.
-- **Modo charla** (botón): letra grande, recetas de código plegadas e índice oculto, para proyectar. El modo lectura
-  es para después.
+- **Modo charla** (botón): la clase pasa a **diapositivas que se entienden solas**. Definido con Manuel: cada diapositiva
+  trae todo lo que hace falta para su interacción. El gráfico va con la pregunta sobre ese gráfico y el interactivo con
+  su consigna; nunca uno en una diapositiva y el otro en la siguiente.
+  - En el `.qmd` se arman con `::: {.diapo}`. Con `.dos` van en dos columnas: imagen a la izquierda, interacción a la
+    derecha. `.media` y `.ancha` dan más lugar al gráfico; `.frase` agranda los textos cortos.
+  - Son diapositivas solas la portada, las franjas de acto, una tapa por módulo (número grande calado, como las placas
+    del taller), cada receta (código a la izquierda y el gráfico que sale, a la derecha) y cada antídoto.
+  - Cada diapositiva se arma en un lienzo de 1280 px de ancho y se escala para llenar la pantalla. Si no entra, se
+    achica hasta entrar entera. En el celular usa el ancho de la pantalla y scrollea.
+  - Mientras está tapada, la respuesta ocupa poco; al destaparla, la diapositiva se reacomoda.
+  - ← → y el control remoto (RePág/AvPág) avanzan. En las preguntas, → primero revela y después avanza.
+  - Esc vuelve a la lectura en el mismo lugar. Los bloques se mudan a la diapositiva y vuelven a la página, así que los
+    interactivos conservan lo que se tocó.
+  - El modo lectura es para después.
 - Las **🕵️ tarjetas antídoto** de cada módulo se juntan solas en el checklist del epílogo, con links de vuelta a cada
   módulo.
 
@@ -97,7 +108,7 @@ final lo que se *ve* (gráficos).
 2. 🙋 **Votación o predicción del aula**, antes de revelar.
 3. **El truco**: corto.
 4. 🎛️ **Hacelo vos**: interactivo con desafío.
-5. 🧪 **La receta**: Python tramposo vs honesto, plegada en modo charla.
+5. 🧪 **La receta**: Python tramposo vs honesto; en modo charla, una diapositiva aparte.
 6. 🕵️ **Antídoto**.
 
 **Apertura de la clase (dentro del prólogo):** "Un gráfico, dos titulares". La misma serie aparece graficada dos veces

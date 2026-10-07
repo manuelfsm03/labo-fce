@@ -9,7 +9,10 @@ Una clase de unas 3 horas sobre cómo se manipulan los números para que cuenten
 Sigue el camino de un número: primero lo que se **elige** (datos), después lo que se **calcula** (estadística) y al final lo que se **ve** (gráficos). Casi todos los ejemplos son de gestión, con una pyme inventada que cruza toda la clase (**Dulce Dato**, una fábrica de alfajores), y algunos son de economía, con datos argentinos reales.
 
 - **Para los alumnos:** `mentir-con-datos/mentir-con-datos.html`. Es un solo archivo que funciona sin internet: se abre con doble clic.
-- **Para proyectar:** el mismo archivo, con el botón **🎤 Modo charla** (abajo a la derecha): agranda todo, pliega el código y se avanza con las flechas ← → de bloque en bloque, como en una presentación. También se puede abrir directo en ese modo agregando `?modo=charla` al final de la dirección.
+- **Para proyectar:** el mismo archivo, con el botón **🎤 Modo charla** (abajo a la derecha). La clase se convierte en unas 130 diapositivas que se ajustan a la pantalla, y cada una trae todo lo de ese momento: el gráfico junto con la pregunta sobre ese gráfico, el interactivo junto con su consigna.
+  - Se avanza con ← → o con un control remoto (RePág/AvPág). En las preguntas, → primero destapa la respuesta y después pasa a la siguiente diapositiva.
+  - Esc vuelve a la página en el mismo lugar, y lo que se tocó en los interactivos queda.
+  - Se puede abrir directo en ese modo agregando `?modo=charla` al final de la dirección, o en una diapositiva puntual con `?modo=charla&diapo=24`.
 - **Los gráficos:** cada interactivo se descarga como PNG o con sus datos en CSV, y al final hay un índice con todos.
 
 ### Cronograma docente

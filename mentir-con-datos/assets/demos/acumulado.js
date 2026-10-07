@@ -43,7 +43,7 @@ Labo.registrar('acumulado', function (raiz, p) {
       Plot.ruleY([0], { stroke: C.eje })
     ];
     var spec = {
-      width: w, height: Math.max(260, Math.min(360, w * 0.48)), marginLeft: 52, marginBottom: 32,
+      width: w, height: L.alto(raiz, Math.max(260, Math.min(360, w * 0.48))), marginLeft: 52, marginBottom: 32,
       y: { label: acum ? p.ejes.acumulada : p.ejes.mensual, labelAnchor: 'top', labelArrow: 'none', grid: true, domain: [0, acum ? topeA : topeM], tickFormat: function (v) { return L.num(v, 0) + (unidad.trim() === '%' ? '%' : ''); } },
       marks: marcas
     };

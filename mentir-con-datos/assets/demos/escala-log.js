@@ -21,7 +21,7 @@ Labo.registrar('escala-log', function (raiz, p) {
     ancho = w;
     var log = escala === 'log';
     var g = L.plot({
-      width: w, height: Math.max(280, Math.min(380, w * 0.52)), marginLeft: 56, marginBottom: 30, marginTop: 30,
+      width: w, height: L.alto(raiz, Math.max(280, Math.min(380, w * 0.52))), marginLeft: 56, marginBottom: 30, marginTop: 30,
       x: { label: null, ticks: 8 },
       y: {
         type: log ? 'log' : 'linear', domain: log ? [0.7, 2500] : [0, 1600], grid: true,

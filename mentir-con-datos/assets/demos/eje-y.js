@@ -40,7 +40,7 @@ Labo.registrar('eje-y', function (raiz, p) {
     var banda = (w - ml - mr) / n;
     var inset = Math.max(2, (banda * 0.8 - 26) / 2);
     var grafico = L.plot({
-      width: w, height: Math.max(260, Math.min(380, w * 0.5)),
+      width: w, height: L.alto(raiz, Math.max(260, Math.min(380, w * 0.5))),
       marginLeft: ml, marginRight: mr, marginBottom: 34,
       x: { domain: datos.map(function (d) { return d.nombre; }), label: null, padding: 0.2, tickSize: 0 },
       y: { domain: [y0, maximo + (maximo - y0) * 0.12], label: p.eje, labelAnchor: 'top', labelArrow: 'none', tickFormat: function (v) { return L.num(v, y0 > 0 ? 2 : 1); }, ticks: 5, grid: true },

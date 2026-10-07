@@ -24,7 +24,7 @@ Labo.registrar('real', function (raiz, p) {
     var campo = modo, fin = datos[datos.length - 1];
     var lo = d3.min(datos, function (d) { return d[campo]; });
     var g = L.plot({
-      width: ancho, height: Math.max(250, Math.min(340, ancho * 0.48)), marginLeft: 46, marginRight: 70, marginBottom: 32,
+      width: ancho, height: L.alto(raiz, Math.max(250, Math.min(340, ancho * 0.48))), marginLeft: 46, marginRight: 70, marginBottom: 32,
       x: { label: null, tickFormat: mes, ticks: 6 },
       y: { label: 'Índice (' + mes(b.fecha) + ' = 100)', labelAnchor: 'top', labelArrow: 'none', grid: true, domain: modo === 'nominal' ? [0, 450] : [Math.floor(lo / 10) * 10 - 5, 125], tickFormat: function (v) { return L.num(v, 0); } },
       marks: [

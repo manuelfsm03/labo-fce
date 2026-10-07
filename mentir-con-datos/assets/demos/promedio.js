@@ -55,5 +55,5 @@ Labo.registrar('promedio', function (raiz, p) {
     raiz.setAttribute('data-debajo', debajo);
   }
   L.responsivo(lienzo, function (w) { ancho = w; dibujar(); });
-  L.tabla(raiz, gente, [{ titulo: 'Quién', valor: 'quien' }, { titulo: 'Sueldo por mes', valor: function (d) { return millones(d.sueldo); }, num: true }]);
+  L.tabla(raiz, gente, [{ titulo: 'Quién', valor: 'quien' }, { titulo: 'Sueldo por mes (millones de pesos)', valor: function (d) { return L.num(d.sueldo / 1e6, 2); }, num: true }]);
 });

@@ -55,7 +55,7 @@ Labo.registrar('doble-eje', function (raiz, p) {
       var t = function (v) { return izq[0] + (v - der[0]) / (der[1] - der[0]) * (izq[1] - izq[0]); };
       var inv = function (y) { return der[0] + (y - izq[0]) / (izq[1] - izq[0]) * (der[1] - der[0]); };
       g = L.plot({
-        width: w, height: Math.max(260, Math.min(360, w * 0.5)), marginLeft: 50, marginRight: 64, marginBottom: 32,
+        width: w, height: L.alto(raiz, Math.max(260, Math.min(360, w * 0.5))), marginLeft: 50, marginRight: 64, marginBottom: 32,
         x: { label: null, tickFormat: mes, ticks: 6 },
         y: { domain: izq, axis: null },
         marks: [
@@ -76,7 +76,7 @@ Labo.registrar('doble-eje', function (raiz, p) {
       var serie = datos.slice(base).map(function (d) { return { fecha: d.fecha, salarios: 100 * d.salarios / b.salarios, dolar: 100 * d.dolar / b.dolar }; });
       var f = serie[serie.length - 1];
       g = L.plot({
-        width: w, height: Math.max(260, Math.min(360, w * 0.5)), marginLeft: 50, marginRight: 110, marginBottom: 32,
+        width: w, height: L.alto(raiz, Math.max(260, Math.min(360, w * 0.5))), marginLeft: 50, marginRight: 110, marginBottom: 32,
         x: { label: null, tickFormat: mes, ticks: 6 },
         y: { label: 'Índice (' + mes(b.fecha) + ' = 100)', labelAnchor: 'top', labelArrow: 'none', grid: true, tickFormat: function (v) { return L.num(v, 0); } },
         marks: [

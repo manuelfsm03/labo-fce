@@ -29,10 +29,12 @@ gobiernos = [{"nombre": n, "corto": c, "desde": d, "hasta": h} for n, c, d, h in
 ```
 
 ::: {.uso .solo-lectura}
-**Cómo usar esta página.** Es la clase entera: la podés proyectar o leer a tu ritmo. Abajo a la derecha está el botón **🎤 Modo charla**, que agranda todo, pliega el código y te deja avanzar con las flechas ← → como en una presentación. Las preguntas tienen la respuesta tapada: jugate antes de tocar **Revelar**. Todo funciona sin internet.
+**Cómo usar esta página.** Es la clase entera: la podés leer a tu ritmo o proyectarla. Abajo a la derecha está el botón **🎤 Modo charla**, que la convierte en diapositivas: cada una trae todo lo de ese momento, por ejemplo el gráfico junto con la pregunta sobre ese gráfico. Se avanza con las flechas ← → (o con un control remoto) y la flecha → también destapa las respuestas. Las preguntas tienen la respuesta tapada: jugate antes de tocar **Revelar**. Todo funciona sin internet.
 :::
 
 ## Prólogo: los números no mienten… ¿o no? {#prologo}
+
+:::: {.diapo .dos .media}
 
 ::: {.gancho}
 Dos noticieros, el mismo día, la misma fuente (INDEC), el mismo dato: la inflación mensual. Miren los títulos.
@@ -77,6 +79,10 @@ plt.show()
 :::
 :::
 
+::::
+
+:::: {.diapo}
+
 Hoy vamos a aprender a mentir con datos. En serio: vamos a hacer gráficos tramposos a propósito, con Python, para entender cómo funcionan. Pero la idea es el revés: **que no te lo hagan a vos.**
 
 La clase sigue el camino que recorre un número. Primero alguien *elige* qué medir, a quién preguntarle y qué período mirar. Después *calcula* un resumen. Al final lo *dibuja*. En cada paso se puede hacer trampa, y cuanto más cerca del origen, más difícil es verla. Vamos a recorrerlo en orden, desde que nace el dato hasta que llega al titular.
@@ -109,7 +115,13 @@ Ejes, tortas, dibujos, mapas.
 <div class="rio-flecha" aria-hidden="true"><span>nace el dato: la clase arranca acá</span><span class="linea"></span><span>llega al titular</span></div>
 ```
 
+::::
+
 ### Mismos números, cuatro historias
+
+:::: {.diapo .dos .media}
+
+::: {.lado}
 
 Arranquemos por el caso más famoso de la estadística. Son cuatro conjuntos de datos, de 11 puntos cada uno. Este es su resumen:
 
@@ -136,6 +148,8 @@ resumen = pd.DataFrame({
 resumen.style.hide(axis="index").set_table_attributes('class="resumen-anscombe"')
 ```
 
+:::
+
 ::: {.pregunta}
 Mismas medias, mismas varianzas, misma correlación, misma recta. ¿Cómo se imaginan los cuatro gráficos?
 
@@ -144,18 +158,21 @@ Mismas medias, mismas varianzas, misma correlación, misma recta. ¿Cómo se ima
 - No hay forma de saberlo sin mirarlos
 
 ::: {.respuesta}
-**No hay forma de saberlo sin mirarlos.** Destapen el gráfico de abajo.
+**No hay forma de saberlo sin mirarlos.** Ahora los destapamos.
 :::
 :::
 
+::::
+
 ```{=html}
-<div class="banda column-screen">
+<div class="banda column-screen diapo">
   <div class="banda-inner">
     <div>
       <div class="kicker">El cuarteto de Anscombe (1973)</div>
       <p class="lema">Mismos números, <b>cuatro</b> historias.</p>
       <p>Una nube con tendencia, una curva, una recta perfecta con un intruso y una columna con un punto suelto. El resumen es idéntico en los cuatro casos.</p>
       <p>Tocá I, II, III y IV. Después arrastrá un solo punto y mirá cómo cambian la recta y la consola.</p>
+      <div class="desafio"><p>Que pase alguien al frente. En el conjunto I, ¿hasta cuánto puede bajar el R² moviendo <strong>un solo punto</strong>? ¿Y subirlo?</p></div>
     </div>
     <figure class="anscombe velado" id="anscombe">
       <div class="ans-velo"><button type="button">👀 Mostrar los cuatro gráficos</button></div>
@@ -183,10 +200,6 @@ Mismas medias, mismas varianzas, misma correlación, misma recta. ¿Cómo se ima
   </div>
 </div>
 ```
-
-::: {.desafio}
-Que pase alguien al frente. En el conjunto I, ¿hasta cuánto puede bajar el R² moviendo **un solo punto**? ¿Y subirlo?
-:::
 
 ::: {.receta}
 El resumen de arriba sale de cuatro líneas de pandas. Copialo en Colab y probalo:
@@ -224,6 +237,8 @@ Arrancamos por el nacimiento del dato: qué se cuenta como qué, a quién se le 
 :::
 :::
 
+:::: {.diapo}
+
 ::: {.pyme}
 ```{=html}
 <svg viewBox="0 0 40 28" role="img" aria-label="Un alfajor">
@@ -244,7 +259,11 @@ Marta toma decisiones con números todos los días. A veces se los presentan bie
 :::
 :::
 
+::::
+
 ## 1 · ¿Qué estás midiendo? {#definiciones}
+
+:::: {.diapo .dos}
 
 ::: {.gancho}
 [La reunión de los lunes en Dulce Dato · inventada]{.medio}
@@ -266,11 +285,17 @@ Marta le pregunta al gerente comercial cuántos clientes tiene la empresa. El ge
 :::
 :::
 
+::::
+
 ### El truco
+
+:::: {.diapo}
 
 Antes de calcular nada, alguien decide **qué cuenta como qué**. "Cliente", "venta", "empleado", "pobre", "desocupado": cada palabra esconde una definición, y moviéndola un poco el número cambia muchísimo. ¿Una venta es cuando se factura, cuando se entrega o cuando se cobra? ¿El que trabaja por agencia cuenta en la dotación? ¿El kiosco que compró una sola vez, hace cinco años, sigue siendo cliente?
 
 Es el mismo truco del estudio que "descubre" que el 90% de los perros tiene tendencias violentas: contó como violento a cualquier perro que alguna vez mordió algo, aunque fuera de cachorro. Nadie mintió. La definición estaba en la página 34 del informe; el titular, en todos los diarios.
+
+::::
 
 ::: {.receta}
 Con pandas, la definición es un parámetro más: los mismos datos dan números distintos.
@@ -293,6 +318,8 @@ for definicion, dias in [("compraron en el último mes", 30), ("compraron en el 
 2. Cambiar `dias` es cambiar la definición de "cliente". Los datos son siempre los mismos.
 :::
 
+:::: {.diapo}
+
 En economía pasa todo el tiempo. Pobreza, desempleo, informalidad, inflación: cada una tiene una definición técnica, a veces distinta de la del habla cotidiana, y a veces distinta entre países o entre años.
 
 ::: {.pregunta data-correcta="2"}
@@ -307,7 +334,11 @@ Una persona trabajó **una hora** la semana pasada, cortando el pasto de un veci
 :::
 :::
 
+::::
+
 ### Hacelo vos
+
+:::: {.diapo .dos .ancha}
 
 ```{python}
 #| echo: false
@@ -328,9 +359,17 @@ labo.demo("definiciones", grupos=grupos_ocupacion, figura=dict(
 
 Son 100 personas inventadas, con proporciones parecidas a las de la EPH. Con las mismas personas, la "tasa de desocupación" puede ir de 7% a más de 20% según a quién cuentes como desocupado. Lo honesto es usar la definición estándar y, si querés mostrar otra cosa, mostrarla aparte con su nombre: la tasa de subocupación, la de desocupación más desalentados, etc.
 
+::::
+
+:::: {.diapo .frase}
+
 Un aviso más, de otro estudio real. Cuando a los varones de Estados Unidos les preguntan su altura, aparecen muy pocos que miden 1,80 y demasiados que miden 1,83 (seis pies). No hay ningún gen raro: muchos redondean para arriba. Un dato **declarado** no es lo mismo que un dato **medido**. En una empresa, igual: no es lo mismo lo que el vendedor dice que vendió que lo que figura en la facturación.
 
+::::
+
 ### ⭐ Cuando el que miente es el que mide
+
+:::: {.diapo}
 
 ::: {.pregunta data-correcta="3"}
 ¿Cuánta inflación hubo en la Argentina en 2010?
@@ -344,6 +383,8 @@ Un aviso más, de otro estudio real. Cuando a los varones de Estados Unidos les 
 :::
 :::
 
+::::
+
 Es el truco más grave de todos, porque arruina el dato en el origen y para siempre: no hay gráfico honesto que arregle un número inventado. Por eso importan tanto las estadísticas públicas independientes y que publiquen sus métodos.
 
 ::: {.antidoto data-truco="Definiciones" data-pregunta="¿Cómo se definió lo que se mide? ¿Quién lo midió y con qué método?"}
@@ -351,6 +392,8 @@ Es el truco más grave de todos, porque arruina el dato en el origen y para siem
 :::
 
 ## 2 · ¿A quién le preguntaste? {#muestras}
+
+:::: {.diapo .dos}
 
 ::: {.gancho}
 [Encuesta en el Instagram de Dulce Dato · inventada]{.medio}
@@ -371,14 +414,22 @@ Marta tiene que decidir si lo fabrica para todos los kioscos o si lo deja como p
 :::
 :::
 
+::::
+
 ### El truco
+
+:::: {.diapo}
 
 Casi nunca se mide a toda la población: se toma una **muestra**. Ahí se puede mentir (o equivocarse) de dos formas:
 
 - **Muestras sesgadas.** Encuestas online, gente que se ofrece para un estudio, "le pregunté a los vendedores", "le pregunté a mis amigos". Es lo mismo que hacemos todos cuando generalizamos desde nuestra experiencia: nuestra muestra de "la gente" son los que conocemos.
 - **Muestras chiquitas.** "El 66% de los hombres dice que su prioridad es la plata" (preguntaron a 15). Un libro clásico cuenta que "un tercio de las mujeres que fueron a la universidad se casó con un profesor": eran tres mujeres, y una se casó con un profesor.
 
+::::
+
 ### Hacelo vos
+
+:::: {.diapo .dos .ancha}
 
 ```{python}
 #| echo: false
@@ -394,10 +445,14 @@ labo.demo("muestra", poblacion=10_000, verdad=0.40, n_aleatoria=400, prob_respon
 Hagan clic varias veces en cada botón. ¿Cuál le erra más? ¿Cuál tiene más respuestas? ¿Por qué la de Instagram le erra siempre para el mismo lado?
 :::
 
+::::
+
 ### Los que no volvieron
 
-::: {.pregunta data-correcta="2"}
-Segunda Guerra Mundial. Los aviones que vuelven de combate llegan con agujeros de bala como en el dibujo. Hay que agregar blindaje, pero pesa: solo se puede reforzar una parte. ¿Dónde lo ponen?
+:::: {.diapo .dos}
+
+::: {.gancho data-kicker="Segunda Guerra Mundial"}
+Los aviones que vuelven de combate llegan con agujeros de bala como en el dibujo.
 
 ```{=html}
 <svg class="avion" viewBox="0 0 400 360" role="img" aria-label="Avión visto desde arriba con agujeros de bala en alas, fuselaje y cola, y ninguno en motores ni cabina.">
@@ -416,6 +471,10 @@ Segunda Guerra Mundial. Los aviones que vuelven de combate llegan con agujeros d
   </g>
 </svg>
 ```
+:::
+
+::: {.pregunta data-correcta="2"}
+Hay que agregar blindaje, pero pesa: solo se puede reforzar una parte. ¿Dónde lo ponen?
 
 - En las alas, el fuselaje y la cola, donde hay más agujeros
 - En los motores y la cabina, donde no hay agujeros
@@ -424,6 +483,8 @@ Segunda Guerra Mundial. Los aviones que vuelven de combate llegan con agujeros d
 **En los motores y la cabina.** El estadístico Abraham Wald se dio cuenta de que la muestra solo tenía los aviones *que volvieron*. Los que recibían balazos en el motor o en la cabina no volvían a contarlo. Los agujeros muestran dónde un avión puede recibir un tiro y sobrevivir. Es el **sesgo de supervivencia**, y está en todos lados: la encuesta de satisfacción de una empresa (los clientes que se fueron enojados no la contestan), los fondos de inversión que "siempre ganaron" (los que perdieron cerraron y no aparecen en la lista), los emprendedores exitosos que "dejaron la facultad", los edificios viejos que "se hacían mejor antes" (los malos ya se cayeron).
 :::
 :::
+
+::::
 
 ::: {.receta}
 ```{python}
@@ -454,6 +515,8 @@ print(f"Aleatoria: {aleatoria.mean():.0%} dice que le encanta, con 400 respuesta
 inflacion = (ipc_reg["nacional"].pct_change() * 100).dropna()
 ventana_tv = inflacion["2025-05-01":"2026-03-01"]
 ```
+
+:::: {.diapo .dos}
 
 ::: {.gancho}
 [Un noticiero argentino, en vivo · datos del INDEC]{.medio}
@@ -487,13 +550,21 @@ Mayo de 2025 a marzo de 2026. ¿La inflación estaba subiendo?
 :::
 :::
 
+::::
+
 ### El truco
+
+:::: {.diapo}
 
 Se llama **cherry picking**: quedarse con la parte de los datos que sirve para defender una posición y dejar afuera la que la contradice. No hace falta inventar nada. Alcanza con elegir dónde empieza y dónde termina el gráfico, qué países se comparan, qué años, qué mes base.
 
 En una empresa pasa todos los días: el gerente que muestra las ventas "desde que llegó", la dueña que le lleva al banco solo los meses buenos, el proveedor que compara su precio con el de la competencia justo en el mes en que el otro estaba más caro.
 
+::::
+
 ### Hacelo vos
+
+:::: {.diapo .dos .ancha}
 
 ```{python}
 #| echo: false
@@ -514,6 +585,8 @@ labo.demo("cherry", [{"fecha": f.strftime("%Y-%m-%d"), "v": round(v, 2)} for f, 
 ::: {.desafio data-minutos="2"}
 **Dos equipos, la misma serie.** El equipo A tiene que encontrar la ventana más honesta posible en la que "la inflación se disparó". El equipo B, una en la que "se desplomó". Gana el titular más dramático que el otro equipo no pueda desmentir *sin cambiar la ventana*.
 :::
+
+::::
 
 El consejo es el de siempre: no quedarse con un solo gráfico de un solo medio, por más prolijo que sea. Mirar la serie completa, comparar fuentes y, cuando se puede, ir directo a la fuente de los datos. En este caso el INDEC publica la serie entera, gratis.
 
@@ -544,6 +617,8 @@ print(f"Ventanas donde 'sube': {sube} · donde 'baja': {baja}")  # <3>
 
 ## 4 · Si torturás los datos, confiesan {#p-hacking}
 
+:::: {.diapo .dos}
+
 ::: {.gancho data-kicker="Experimento en vivo"}
 Saquen una moneda (o usen el celular). Tírenla **10 veces** y anoten cuántas caras salieron. ¿Alguien sacó 8 o más? Que pase al frente: **tiene poderes**.
 :::
@@ -551,6 +626,10 @@ Saquen una moneda (o usen el celular). Tírenla **10 veces** y anoten cuántas c
 ::: {.desafio data-minutos="2" data-kicker="Todos a tirar la moneda"}
 Diez tiradas cada uno. Levanten la mano los que sacaron 8, 9 o 10 caras.
 :::
+
+::::
+
+:::: {.diapo}
 
 ::: {.pregunta data-correcta="2"}
 ¿La persona que sacó 9 caras tiene poderes?
@@ -560,22 +639,30 @@ Diez tiradas cada uno. Levanten la mano los que sacaron 8, 9 o 10 caras.
 
 ::: {.respuesta}
 **No.** Para una persona, sacar 8 o más caras de 10 tiene una chance de 5,5%. Pero acá lo intentaron 40 personas a la vez. La chance de que *al menos una* lo logre es de casi 90%. Si mirás muchos resultados y te quedás con el más llamativo, siempre vas a encontrar "poderes".
-:::
-:::
 
 ```{python}
 #| echo: false
 #| output: asis
 labo.demo("monedas", n=40)
 ```
+:::
+:::
+
+::::
 
 ### El truco
+
+:::: {.diapo}
 
 En ciencia, un resultado se suele llamar "estadísticamente significativo" si tiene menos de 5% de chance de aparecer por casualidad (p < 0,05). El problema: si probás **20 cosas** donde no hay ningún efecto, en promedio una va a dar "significativa" igual. Si después mostrás solo esa, tenés un descubrimiento falso. Se llama **p-hacking**, o comparaciones múltiples. El cómic [xkcd 882](https://xkcd.com/882/) lo cuenta con gomitas de colores y acné.
 
 En las empresas se hace todo el tiempo con los **tests A/B**: se prueban muchas versiones de un aviso, de un precio o de un botón de la tienda online, y se festeja la que "funcionó".
 
+::::
+
 ### Hacelo vos
+
+:::: {.diapo .dos .ancha}
 
 Dulce Dato prueba 20 colores para el botón «Comprar» de su tienda online. Cada test compara un mes con el botón nuevo contra un mes con el de siempre. Ningún color cambia nada: las ventas salen del mismo sorteo con cualquier botón. Hacé el experimento varias veces.
 
@@ -594,6 +681,8 @@ labo.demo("p-hacking", colores=colores_boton, alfa=0.05, item="Botón",
 ::: {.charlalo data-minutos="1"}
 La agencia de publicidad le dice a Marta: "La campaña en Instagram aumentó las ventas un 12% (p = 0,04)". ¿Qué le preguntarían antes de pagarle la segunda campaña? (Pista: ¿cuántas campañas, métricas o períodos miraron?, ¿estaba planeado de antemano?, ¿se repitió?)
 :::
+
+::::
 
 ::: {.receta}
 ```{python}
@@ -644,6 +733,8 @@ debajo_s = int((plantilla.sueldo < media_s).sum())
 assert round(media_s, 1) == 2.1 and round(mediana_s, 2) == 1.39 and debajo_s == 21
 ```
 
+:::: {.diapo .dos}
+
 ::: {.gancho}
 [Reunión de Marta con el delegado de los trabajadores · inventada]{.medio}
 [En esta empresa el sueldo promedio es de `{python} labo.coma(media_s, 1)` millones. No se pueden quejar.]{.titular}
@@ -659,7 +750,11 @@ Si ordenás a las 24 personas de menor a mayor sueldo, ¿cuánto cobra la que qu
 :::
 :::
 
+::::
+
 ### El truco
+
+:::: {.diapo}
 
 "Promedio" puede querer decir varias cosas. La **media** suma todo y divide. La **mediana** es el valor del medio. Cuando la distribución es asimétrica (sueldos, ingresos, patrimonios, precios de casas, tiempos de espera), unos pocos valores enormes arrastran la media. Así, "el sueldo promedio subió" puede ser verdad aunque a la mayoría no le haya cambiado nada: alcanza con que se aumente la dueña. Es el viejo chiste: si Messi entra a esta aula, en promedio somos todos millonarios.
 
@@ -667,7 +762,11 @@ Y hay un tercer "promedio", la **moda**: el valor que más se repite. Con cinco 
 
 En la Argentina, como en casi todo el mundo, la distribución del ingreso es asimétrica: la media queda por encima de la mediana. Quien quiere mostrar que "estamos bien" elige la media. Quien quiere mostrar lo que le pasa a una persona típica, la mediana.
 
+::::
+
 ### Hacelo vos
+
+:::: {.diapo .dos .ancha}
 
 Cada barra es una persona de Dulce Dato. Mové lo que se paga Marta y mirá qué pasa con la media y con la mediana.
 
@@ -684,9 +783,15 @@ labo.demo("promedio", [{"quien": q, "sueldo": round(s * 1e6)} for q, s in planti
 ¿Cuánto se tiene que pagar Marta para que el "sueldo promedio" llegue a 3 millones? ¿Cuánto cambia la mediana mientras tanto?
 :::
 
+::::
+
+:::: {.diapo}
+
 ::: {.charlalo data-minutos="1"}
 "El salario promedio de los egresados de esta carrera es de X." ¿Qué preguntarían antes de creerlo? (Pista: media o mediana, de quiénes, quién contestó la encuesta.)
 :::
+
+::::
 
 ::: {.receta}
 ```{python}
@@ -713,6 +818,8 @@ print(f"sin la dueña -> media: {sin_duenia.mean():.2f} | mediana: {np.median(si
 
 ### ¿Subió 5% o 100%?
 
+:::: {.diapo .dos}
+
 ::: {.gancho}
 [Dos diarios, el mismo dato · inventado]{.medio}
 [La deserción escolar subió 5%]{.titular}
@@ -733,17 +840,29 @@ En un país, el porcentaje de chicos que abandona la secundaria pasó de 5% a 10
 :::
 :::
 
+::::
+
+:::: {.diapo .frase}
+
 Ahora cambiemos los números. Supongamos que la deserción pasa de **1 chico cada millón** a **2 cada millón**: de 0,0001% a 0,0002%. Son 0,0001 puntos. Pero también es verdad que "¡la deserción se duplicó!" (+100%), y ese titular suena a epidemia. Si en todo el país abandonaban 5 chicos y ahora abandonan 10, todavía no es una epidemia. Los porcentajes de cambio impresionan más cuanto más chiquita es la base.
 
 Pasa con cualquier tasa. Si la pobreza baja de 40% a 30%, bajó **10 puntos** y bajó **25%**. Los dos números son correctos. El que quiere que suene a mucho dice "25%"; el que quiere que suene a poco, "10 puntos".
 
+::::
+
 ### Relativo contra absoluto
+
+:::: {.diapo .dos}
+
+::: {.lado}
 
 Lo de la base chiquita parece un ejemplo de pizarrón, pero pasó de verdad, y con algo mucho más serio.
 
 ::: {.gancho}
 [Reino Unido, octubre de 1995]{.medio}
 [Advertencia oficial: los anticonceptivos de tercera generación duplican el riesgo de trombosis]{.titular}
+:::
+
 :::
 
 ::: {.pregunta data-correcta="3"}
@@ -758,6 +877,10 @@ Si estuvieras tomando esa píldora, ¿qué harías?
 :::
 :::
 
+::::
+
+:::: {.diapo .dos .ancha}
+
 ```{python}
 #| echo: false
 #| output: asis
@@ -769,7 +892,11 @@ labo.demo("riesgo", total=7000, antes=1, despues=2, figura=dict(
 
 "Duplica el riesgo", "reduce a la mitad", "+100%": los **riesgos relativos** suenan enormes cuando el riesgo de base es chiquito. En 2024, un diario británico tituló que las muertes por mordedura de tiburón en el mundo se habían duplicado en 2023. Era cierto: pasaron de 5 a 10. Para decidir hace falta el **riesgo absoluto**: cuántos casos cada 1.000 o cada 10.000 personas.
 
+::::
+
 ### Las cuentas de la pyme
+
+:::: {.diapo}
 
 ::: {.pregunta data-correcta="2" data-kicker="Pregunta rápida"}
 En enero, las ventas de Dulce Dato cayeron 50%. En febrero subieron 50%. ¿Volvieron a donde estaban?
@@ -783,6 +910,10 @@ En enero, las ventas de Dulce Dato cayeron 50%. En febrero subieron 50%. ¿Volvi
 :::
 :::
 
+::::
+
+:::: {.diapo}
+
 ::: {.pregunta data-correcta="3" data-kicker="Pregunta rápida"}
 A Marta un alfajor le cuesta \$1.000 y lo vende a \$1.500. ¿Qué margen tiene?
 
@@ -795,6 +926,8 @@ A Marta un alfajor le cuesta \$1.000 y lo vende a \$1.500. ¿Qué margen tiene?
 :::
 :::
 
+::::
+
 ### ⭐ Nominal contra real
 
 ```{python}
@@ -805,6 +938,8 @@ ipc_x = d_real.ipc.iloc[-1] / d_real.ipc.iloc[0]
 real_fin = 100 * nominal_x / ipc_x
 mes_fin = labo.mes(d_real.index[-1])
 ```
+
+:::: {.diapo .dos}
 
 ::: {.gancho}
 [Titular inventado · datos reales del INDEC]{.medio}
@@ -823,6 +958,10 @@ mes_fin = labo.mes(d_real.index[-1])
 :::
 :::
 
+::::
+
+:::: {.diapo .dos .ancha}
+
 ```{python}
 #| echo: false
 #| output: asis
@@ -833,6 +972,8 @@ labo.demo("real", [{"fecha": f.strftime("%Y-%m-%d"), "salarios": round(r.salario
 ```
 
 Con inflación, cualquier cosa medida en pesos "sube": salarios, ventas, recaudación, el precio de un alfajor. Un número **nominal** no dice nada hasta que lo comparás con los precios. El número **real** (deflactado) es el que importa. Si el gerente comercial festeja que las ventas de Dulce Dato crecieron 40% en pesos en un año en que los precios subieron 30%, en realidad crecieron menos de 8% (1,40 / 1,30 = 1,077). Y otra vez: el mes desde el que se compara también cambia la historia.
+
+::::
 
 ::: {.receta}
 ::: {.panel-tabset}
@@ -869,6 +1010,8 @@ plt.show()
 
 ## 7 · La máquina que acierta el 99% {#tasa-base}
 
+:::: {.diapo .dos}
+
 ::: {.gancho}
 [La máquina nueva de Dulce Dato · inventada]{.medio}
 [Nuestro detector de fallas acierta el 99%]{.titular}
@@ -884,7 +1027,11 @@ Marta compró una máquina que revisa cada alfajor y descarta los fallados: roto
 :::
 :::
 
+::::
+
 ### El truco
+
+:::: {.diapo}
 
 Confundir dos probabilidades que suenan parecidas:
 
@@ -893,15 +1040,23 @@ Confundir dos probabilidades que suenan parecidas:
 
 Para pasar de una a la otra hace falta la **tasa base**: qué tan común es la falla antes de mirar ningún alfajor. Es el mismo problema de un test médico que "acierta el 99%" con una enfermedad rara, o de un sistema antifraude que bloquea compras con tarjeta. Pasa en todos lados: hoy mueren más personas en choques que hace cien años, y no es que los autos sean más peligrosos. Hay muchísimos más autos y más gente. Ignorarla tiene nombre: **falacia de la tasa base**. En los tribunales se llama **falacia del fiscal**, y mandó gente inocente a la cárcel.
 
+::::
+
+:::: {.diapo}
+
 ::: {.charlalo data-minutos="2"}
 Los Ángeles, 1964. Una pareja (ella rubia con cola de caballo, él con barba, en un auto amarillo) roba una cartera. El fiscal calcula que la chance de que una pareja *inocente* tenga todas esas características es 1 en 12 millones, y el jurado condena a los Collins. ¿Qué está mal? Pista: ¿cuántas parejas así hay en una ciudad de millones de habitantes?
-:::
 
-::: {.respuesta .solo-lectura}
+::: {.respuesta}
 Que una pareja inocente coincida con la descripción tenga probabilidad 1 en 12 millones no significa que esta pareja tenga 1 en 12 millones de ser inocente. Si en la zona hay, digamos, 10 parejas que coinciden, la probabilidad de que esta sea la culpable es 1 en 10. Además el fiscal multiplicó probabilidades como si fueran independientes (barba y bigote no lo son). La Corte Suprema de California anuló la condena en 1968. En 1999, en Inglaterra, Sally Clark fue condenada por la muerte de sus dos bebés con un "1 en 73 millones" construido con los mismos dos errores. Fue liberada en 2003.
 :::
+:::
+
+::::
 
 ### Hacelo vos
+
+:::: {.diapo .dos .ancha}
 
 ```{python}
 #| echo: false
@@ -921,6 +1076,8 @@ labo.demo("tasa-base", prevalencia=1.0, sensibilidad=99.0, especificidad=99.0, t
 ::: {.desafio}
 Con la máquina al 99/99, ¿qué tan común tiene que ser la falla para que un alfajor descartado tenga 90% de chances de estar fallado? ¿Y qué pasa con una máquina "mala" (80/80) si sale fallado el 30%?
 :::
+
+::::
 
 ::: {.receta}
 ```{python}
@@ -955,6 +1112,8 @@ tasa_diego = 100 * visitas.a_si.sum() / visitas.a_n.sum()
 tasa_laura = 100 * visitas.b_si.sum() / visitas.b_n.sum()
 ```
 
+:::: {.diapo .dos}
+
 ::: {.gancho}
 [La planilla del gerente comercial · inventada]{.medio}
 [Diego cierra el `{python} labo.coma(tasa_diego, 0)`% de sus visitas y Laura, el `{python} labo.coma(tasa_laura, 0)`%. El premio al mejor vendedor es para Diego.]{.titular}
@@ -972,13 +1131,21 @@ tasa_laura = 100 * visitas.b_si.sum() / visitas.b_n.sum()
 :::
 :::
 
+::::
+
 ### El truco
+
+:::: {.diapo}
 
 Es la **paradoja de Simpson**: una tendencia que aparece en cada grupo se invierte (o desaparece) cuando juntás los grupos. Pasa cuando hay una tercera variable (acá, qué clientes le tocaron a cada uno) que está relacionada con las otras dos. Con los mismos datos se pueden escribir dos titulares opuestos, y los dos tienen números que los respaldan. Elegís uno y listo.
 
 **Pasó de verdad.** En el otoño de 1973, la Universidad de California en Berkeley admitió en el posgrado al 44% de los hombres y solo al 35% de las mujeres que se postularon. ¿Discriminaba? Un equipo de estadísticos (Bickel, Hammel y O'Connell, 1975) miró departamento por departamento: en la mayoría, las mujeres entraban en igual o **mayor** proporción que los hombres. Se postulaban más a los departamentos más difíciles, donde entraba poca gente de cualquier sexo.
 
+::::
+
 ### Hacelo vos
+
+:::: {.diapo .dos .ancha}
 
 ```{python}
 #| echo: false
@@ -997,6 +1164,8 @@ labo.demo("simpson", visitas.to_dict("records"), nombres=["Diego", "Laura"], tex
 ::: {.charlalo data-minutos="1"}
 Dos hospitales: en el A muere más gente que en el B. ¿Se van a atender al B? ¿Qué dato pedirían antes? (Pista: ¿a cuál van los casos más graves?)
 :::
+
+::::
 
 ::: {.receta}
 ```{python}
@@ -1035,6 +1204,8 @@ vigen = pd.DataFrame({
 r_vigen = vigen.aire.corr(vigen.goles)
 ```
 
+:::: {.diapo .dos}
+
 ::: {.gancho}
 [Spurious Correlations, de Tyler Vigen (CC BY 4.0)]{.medio}
 [Los goles de Messi con la Selección y la contaminación del aire en Gainesville, Florida]{.titular}
@@ -1061,18 +1232,31 @@ plt.show()
 :::
 :::
 
+::::
+
 ### El truco
+
+:::: {.diapo}
 
 Que dos cosas se muevan juntas no dice que una cause la otra. Hay al menos cuatro explicaciones alternativas:
 
 1. **Una tercera causa.** En Dulce Dato, los meses en que más se gasta en publicidad son los meses en que más se vende. ¿La publicidad funciona? Puede ser. Pero Marta pauta más en invierno, que es cuando más alfajores se compran: el frío mueve las dos cosas. Es lo mismo que pasa con las ventas de helado y los ataques de tiburones, que suben juntos en verano.
 2. **Causalidad al revés.** Los kioscos que tienen exhibidor de Dulce Dato venden más alfajores. ¿El exhibidor hace vender? Puede ser al revés: los vendedores dejan los exhibidores en los kioscos que ya venden mucho. (Hubo quienes creyeron que los piojos daban salud, porque los enfermos casi nunca tenían. En realidad, los piojos abandonan los cuerpos con fiebre.)
+
+::::
+
+:::: {.diapo}
+
 3. **Pura casualidad.** Si buscás entre miles de series, alguna va a coincidir (Messi y Gainesville).
 4. **Tendencias.** Dos series que crecen con el tiempo van a estar correlacionadas aunque no tengan nada que ver. Las ventas en pesos de Dulce Dato y el precio del dólar suben juntas: las dos arrastran la inflación. Para economistas, esta es la más peligrosa: se llama **regresión espuria**.
 
 Y una quinta, muy de gerentes y de campaña electoral: **atribuirle el resultado a quien estaba ahí**. "Cambiamos el envoltorio y las ventas subieron 30%": era mayo, y empezaba el frío. "Asumió fulano y se cayó la actividad." Que algo pase *después* no quiere decir que pase *por eso* (*post hoc, ergo propter hoc*). En 2009 cualquier opositor podía mostrar que con el gobierno de turno se habían perdido empleos y cerrado empresas, en medio de una crisis financiera mundial. Y vale al revés: el que gobierna culpa al contexto de todo lo malo y se adjudica todo lo bueno.
 
+::::
+
 ### Hacelo vos: fabricá tu correlación espuria
+
+:::: {.diapo .dos .ancha}
 
 ```{python}
 #| echo: false
@@ -1086,6 +1270,8 @@ labo.demo("espurias", largo=30, figura=dict(
 ::: {.desafio}
 Generen 10 pares de caminatas aleatorias. ¿Cuántos tienen |r| mayor a 0,5? Ahora cambien a ruido puro. ¿Qué cambió? (Si cursaron econometría: por eso con series de tiempo se trabaja con diferencias o se testea cointegración.)
 :::
+
+::::
 
 ::: {.receta}
 ```{python}
@@ -1128,6 +1314,8 @@ calif = pd.DataFrame({"nombre": ["Dulce Dato", "Marca A", "Marca B", "Marca C", 
                       "valor": [4.7, 4.5, 4.4, 4.6, 4.5]})
 ```
 
+:::: {.diapo .dos}
+
 ::: {.gancho}
 [Publicidad de Dulce Dato en Instagram · inventada]{.medio}
 [El alfajor que más les gusta a los clientes]{.titular}
@@ -1158,7 +1346,11 @@ Miren la barra de Dulce Dato y la de la Marca B. ¿Cuánto mejor calificado est�
 :::
 :::
 
+::::
+
 ### El truco
+
+:::: {.diapo}
 
 En un gráfico de barras, **la altura es el dato**. Si el eje no arranca en cero, le cortás el pie a todas las barras por igual. Las diferencias chicas se vuelven enormes. Edward Tufte le puso un número a la exageración, el *lie factor*:
 
@@ -1168,7 +1360,11 @@ $$
 
 Un gráfico honesto da 1. Con barras que arrancan en $y_0$, comparar una barra $A$ contra una $B$ da un lie factor de $B/(B-y_0)$: cuanto más cerca está el piso de la barra más baja, más se infla la diferencia.
 
+::::
+
 ### Hacelo vos
+
+:::: {.diapo .dos .ancha}
 
 Mové el control y mirá el *lie factor*. Arranca en la versión de la publicidad.
 
@@ -1186,7 +1382,13 @@ labo.demo("eje-y", calif.to_dict("records"), comparar=["Dulce Dato", "Marca B"],
 ¿Quién consigue el *lie factor* más alto? ¿Y a partir de qué número el gráfico **se nota** trucho? Prueben con el de al lado: uno arma el gráfico y el otro tiene que adivinar el lie factor.
 :::
 
+::::
+
+:::: {.diapo .frase}
+
 **Ojo, no siempre es trampa.** En un gráfico de **líneas** importa la forma de la curva, no la altura. Ahí hacer zoom puede ser lo honesto. Si graficás la temperatura de alguien con fiebre desde 0 grados, 36 y 39 se ven iguales, y no lo son. La pregunta es siempre la misma: *¿la diferencia que el zoom agranda importa de verdad?* Y la versión más burda del truco es directamente **no poner números en el eje**. Pasa más seguido de lo que se cree, incluso en presentaciones de empresas gigantes. Los noticieros también lo usan: acuérdense del gráfico de la inflación del módulo 3, con el eje desde 1,4%.
+
+::::
 
 ::: {.receta}
 ::: {.panel-tabset}
@@ -1240,6 +1442,8 @@ infl24 = pd.DataFrame({"mensual": (nivel24.pct_change() * 100)["2024"],
                        "acumulada": (nivel24["2024"] / nivel24["2023-12-01"] - 1) * 100})
 ```
 
+:::: {.diapo .dos}
+
 ::: {.gancho}
 [La presentación del gerente comercial · inventada]{.medio}
 [En 2026 ya vendimos `{python} labo.coma(acum26, 1)` millones de alfajores: las ventas no paran de crecer]{.titular}
@@ -1274,7 +1478,11 @@ Según este gráfico, durante 2026 las ventas de Dulce Dato…
 :::
 :::
 
+::::
+
 ### El truco
+
+:::: {.diapo}
 
 Casos totales de una enfermedad, deuda acumulada, usuarios registrados, clientes "desde que abrimos", ventas del año: todos los totales que se van sumando **solo pueden crecer**. Si querés que algo parezca que empeora (o que tu empresa vuela), graficá el total. Si querés saber qué está pasando, mirá cuánto cambia **en cada período**.
 
@@ -1282,7 +1490,11 @@ Con la inflación pasa lo mismo. En 2024 la acumulada "no paró de subir": de `{
 
 Si lo vieron en Análisis Matemático, es una idea conocida: el acumulado es la integral y lo que pasa cada mes es la derivada. La altura de la curva dice cuánto se juntó. Lo que importa es **la pendiente**.
 
+::::
+
 ### Hacelo vos
+
+:::: {.diapo .dos .ancha}
 
 ```{python}
 #| echo: false
@@ -1302,6 +1514,8 @@ labo.demo("acumulado", [
 ::: {.charlalo data-minutos="1"}
 ¿Qué otros acumulados se usan para asustar o para presumir? Piensen dos ejemplos (de la tele, de la política, de una empresa) y digan cuál sería el gráfico honesto.
 :::
+
+::::
 
 ::: {.receta}
 ::: {.panel-tabset}
@@ -1350,6 +1564,8 @@ torta_2025 = [17, 18, 20, 22, 23]
 torta_2026 = [23, 22, 20, 18, 17]
 ```
 
+:::: {.diapo .dos}
+
 ::: {.gancho}
 [El informe de ventas de Dulce Dato · inventado]{.medio}
 [¿Qué sabores se venden más? Así se repartieron las ventas en 2025 y en 2026]{.titular}
@@ -1379,13 +1595,21 @@ plt.show()
 :::
 :::
 
+::::
+
 ### El truco
+
+:::: {.diapo}
 
 No es tanto una mentira como una **forma de esconder**. El ojo compara muy bien largos sobre una misma base (barras) y bastante mal ángulos y áreas (porciones). Cuando las porciones son parecidas, o cuando son muchas, la torta se vuelve una adivinanza. Y si encima es en 3D, las porciones de adelante se ven más grandes que las de atrás.
 
 ¿Cuándo sirve una torta? Con dos o tres porciones bien distintas y **con los porcentajes escritos**. En cualquier otro caso, barras ordenadas.
 
+::::
+
 ### Hacelo vos
+
+:::: {.diapo}
 
 ```{python}
 #| echo: false
@@ -1395,6 +1619,10 @@ labo.demo("tortas", [{"titulo": "Ventas 2025", "valores": torta_2025}, {"titulo"
     bajada="Participación de cada sabor en las ventas de Dulce Dato (% de las unidades), 2025 y 2026.",
     fuente="datos inventados."))
 ```
+
+::::
+
+:::: {.diapo}
 
 ::: {.pregunta data-correcta="2" data-kicker="Pregunta rápida"}
 Marta encuestó a sus clientes: "¿Por qué elegís Dulce Dato?". El 61% marcó el precio, el 54% el sabor, el 38% que lo tiene su kiosco, el 22% el tamaño y el 9% el envoltorio. ¿Lo puede mostrar en una torta?
@@ -1408,6 +1636,8 @@ Marta encuestó a sus clientes: "¿Por qué elegís Dulce Dato?". El 61% marcó 
 :::
 :::
 
+::::
+
 ### ¿Y si encima es en 3D?
 
 ```{python}
@@ -1416,6 +1646,8 @@ mercado = pd.DataFrame({"nombre": ["Dulce Dato", "Marca A", "Marca B", "Marca C"
 torta3d_gancho = labo.torta_3d_svg(mercado.valor, [labo.AZUL, labo.LADRILLO, labo.VERDE, labo.DORADO],
                                    etiqueta="Torta en 3D de cuatro marcas: la porción azul, adelante, parece mucho más grande que la terracota, atrás.")
 ```
+
+:::: {.diapo .dos}
 
 ::: {.gancho}
 [La presentación de una agencia de publicidad · inventada]{.medio}
@@ -1444,6 +1676,10 @@ print('<div class="leyenda">' + "".join(f'<span class="ley-item"><i style="backg
 :::
 :::
 
+::::
+
+:::: {.diapo .dos .ancha}
+
 La torta 3D distorsiona justo lo único que una torta tenía que mostrar: el tamaño de cada porción. Girala y mirá cómo cambia cuánto "parece" tener cada marca.
 
 ```{python}
@@ -1458,6 +1694,8 @@ labo.demo("torta-3d", mercado.to_dict("records"), giro=54, inclinacion=26, colum
 ::: {.desafio}
 ¿Hasta dónde se puede girar la torta para que la Marca A parezca la líder? ¿Con qué inclinación de la cámara desaparece el engaño?
 :::
+
+::::
 
 ::: {.receta}
 ::: {.panel-tabset}
@@ -1504,6 +1742,8 @@ vendidos_2020, vendidos_2025 = 2.5, 4.8
 k_alfajor = vendidos_2025 / vendidos_2020
 ```
 
+:::: {.diapo .dos}
+
 ::: {.gancho}
 [El folleto institucional de Dulce Dato · inventado]{.medio}
 [En cinco años casi duplicamos las ventas]{.titular}
@@ -1535,13 +1775,21 @@ Dulce Dato pasó de vender 2,5 a 4,8 millones de alfajores por año: ×1,9. ¿Cu
 :::
 :::
 
+::::
+
 ### El truco
+
+:::: {.diapo}
 
 Una barra crece solo para arriba: si el dato se duplica, la barra mide el doble y ocupa el doble. Un dibujo, en cambio, se agranda **en alto y en ancho a la vez**: si lo duplicás, ocupa cuatro veces más. Si lo triplicás, nueve. Y si el dibujo parece tener volumen (un alfajor, una moneda, un barril), el ojo puede llegar a leer ×8 o ×27. Pasa mucho con las "personitas" que muestran cuántos empleados tiene una empresa: si la plantilla se triplica y la personita se dibuja el triple de alta, se ve nueve veces más grande.
 
 La solución es vieja: en los años 20, en Viena, Otto Neurath armó el sistema *Isotype*, que en vez de agrandar los íconos los **repite**. Un ícono = una cantidad fija.
 
+::::
+
 ### Hacelo vos
+
+:::: {.diapo .dos .ancha}
 
 ```{python}
 #| echo: false
@@ -1555,6 +1803,8 @@ labo.demo("pictogramas", k=round(k_alfajor, 2), boton="Las ventas de Dulce Dato"
 ::: {.desafio}
 ¿Con qué factor de crecimiento el alfajor agrandado se ve **×5** más grande? ¿Y ×9? Calculenlo antes de mover el control.
 :::
+
+::::
 
 ::: {.receta}
 ::: {.panel-tabset}
@@ -1606,6 +1856,8 @@ pct_pob_19 = 100 * prov.set_index("codigo").loc[menos_pobladas].poblacion_2022.s
 pct_sup_19 = 100 * prov.set_index("codigo").loc[menos_pobladas].superficie_km2.sum() / prov.superficie_km2.sum()
 ```
 
+:::: {.diapo .dos}
+
 ::: {.gancho}
 [El folleto de una empresa de distribución · inventado, con datos reales del Censo 2022]{.medio}
 [Con nosotros, tus alfajores llegan al `{python} labo.coma(pct_sup_19, 0)`% del país]{.titular}
@@ -1629,13 +1881,21 @@ El verde cubre casi tres cuartos del mapa. ¿Qué porcentaje de la **gente** viv
 :::
 :::
 
+::::
+
 ### El truco
+
+:::: {.diapo}
 
 Un mapa pinta **territorio**, pero casi todo lo que nos interesa (clientes, ventas, votos, casos, pobres) lo hace **gente**, y la gente no está repartida pareja. Pasa con cada elección en cualquier país: el mapa queda casi todo de un color y los votos dicen otra cosa, porque las provincias o estados grandes y vacíos ocupan mucho mapa.
 
 Las alternativas honestas: pintar con intensidad según la población, usar círculos de tamaño proporcional a la gente, cartogramas donde cada celda es la misma cantidad de personas o, directamente, barras.
 
+::::
+
 ### Hacelo vos
+
+:::: {.diapo .dos .ancha}
 
 ```{python}
 #| echo: false
@@ -1649,6 +1909,8 @@ labo.demo("mapa", prov.to_dict("records"), inicial=menos_pobladas, figura=dict(
 ::: {.desafio}
 ¿Con cuánto territorio llegan a pintar **la mitad de la gente** del país? ¿Y cuánto territorio necesitan para pintar apenas el 10%?
 :::
+
+::::
 
 ::: {.receta}
 ```{python}
@@ -1684,6 +1946,8 @@ Un extra para economistas: dos trucos que aparecen todos los días en informes, 
 
 ### Dos ejes, un cruce a medida
 
+:::: {.diapo .dos}
+
 ::: {.gancho}
 [Gráfico inventado · datos reales de INDEC y BCRA]{.medio}
 [¿Los salarios le ganaron al dólar?]{.titular}
@@ -1712,9 +1976,13 @@ Desde noviembre de 2023, ¿qué subió más: los salarios o el dólar?
 - Con este gráfico no se puede saber
 
 ::: {.respuesta}
-**Con este gráfico no se puede saber.** Cada línea tiene su propio eje, y quien arma el gráfico elige dónde empieza y dónde termina cada uno. Moviendo el eje derecho, la línea del dólar queda arriba o abajo de la de salarios a gusto del autor. Probalo abajo.
+**Con este gráfico no se puede saber.** Cada línea tiene su propio eje, y quien arma el gráfico elige dónde empieza y dónde termina cada uno. Moviendo el eje derecho, la línea del dólar queda arriba o abajo de la de salarios a gusto del autor. Probalo en el interactivo que sigue.
 :::
 :::
+
+::::
+
+:::: {.diapo .dos .ancha}
 
 ```{python}
 #| echo: false
@@ -1727,7 +1995,11 @@ labo.demo("doble-eje", [{"fecha": f.strftime("%Y-%m-%d"), "salarios": round(r.sa
 
 Para comparar dos series en unidades distintas hay una sola forma honesta: **llevar las dos a base 100** en el mismo mes y ponerlas en un solo eje. Ahí se ve cuánto subió cada una en porcentaje. Pero ojo: con base en noviembre de 2023 gana el dólar, y con base un mes después, ganan los salarios. El mes base también se elige: es el cherry picking del módulo 3.
 
+::::
+
 ### Lineal o logarítmica
+
+:::: {.diapo}
 
 ::: {.pregunta data-correcta="1"}
 ¿Cuándo se disparó más el dólar oficial: al salir de la convertibilidad, en 2002, o con la devaluación de diciembre de 2023?
@@ -1740,6 +2012,10 @@ Para comparar dos series en unidades distintas hay una sola forma honesta: **lle
 **En 2002.** Entre diciembre de 2001 y junio de 2002 pasó de \$1 a \$3,65: se multiplicó por 3,65 en seis meses. Entre noviembre de 2023 y febrero de 2024 pasó de \$353 a \$834: ×2,4. En un gráfico con escala lineal, 2002 ni se ve.
 :::
 :::
+
+::::
+
+:::: {.diapo .dos .ancha}
 
 ```{python}
 #| echo: false
@@ -1756,6 +2032,8 @@ labo.demo("escala-log", [{"fecha": f.strftime("%Y-%m-%d"), "dolar": round(v, 3)}
 ```
 
 En escala lineal, la misma distancia vertical es la misma cantidad de **pesos**. En escala logarítmica, es el mismo **porcentaje**. Para precios, el dólar o cualquier cosa que crece a tasa constante, la logarítmica es la que permite comparar épocas. La lineal no miente, pero hace parecer que antes "no pasaba nada".
+
+::::
 
 ::: {.receta}
 ::: {.panel-tabset}
@@ -1809,9 +2087,15 @@ Qué preguntar, qué mirar y, al final, ponerte del otro lado: armar vos los gr�
 
 ## El encandilamiento de los números {#encandilamiento}
 
+:::: {.diapo}
+
 Los números tienen prestigio: parecen objetivos, neutrales, caídos del cielo. "El 37,4% de los argentinos…" suena más serio que "más o menos un tercio". Pero entre el mundo y el número que leés hay una cadena de personas (el que diseñó la encuesta, el que la procesó, el que hizo el gráfico, el periodista, el editor, el que hizo el aviso) y cualquiera puede torcerlo, a propósito o sin darse cuenta.
 
 La conclusión **no** es que las estadísticas mienten. Sin estadísticas no sabríamos cuánta inflación hay, quién es pobre ni si un remedio funciona. La conclusión es no ser ni creyentes ciegos ni cínicos que descartan cualquier dato: ser **catadores**. Mirar con atención, saber qué preguntar y cambiar de opinión cuando el dato es bueno.
+
+::::
+
+:::: {.diapo}
 
 Darrell Huff cerraba su libro, en 1954, con cinco preguntas que siguen funcionando:
 
@@ -1821,14 +2105,22 @@ Darrell Huff cerraba su libro, en 1954, con cinco preguntas que siguen funcionan
 4. **¿Alguien cambió de tema?** ¿El dato habla de lo mismo que el titular?
 5. **¿Tiene sentido?** ¿Es creíble ese número?
 
+::::
+
 ## Tu checklist {#checklist-final}
+
+:::: {.diapo}
 
 Todos los antídotos de la clase, en una lista. Tildá los que ya te salen de memoria.
 
 ::: {#checklist}
 :::
 
+::::
+
 ## Sé el villano {#villano}
+
+:::: {.diapo}
 
 ::: {.desafio data-minutos="20" data-kicker="Ejercicio final · en grupos"}
 1. Armen grupos de 3 o 4. A cada grupo le toca una serie y dos clientes con intereses opuestos:
@@ -1839,6 +2131,14 @@ Todos los antídotos de la clase, en una lista. Tildá los que ya te salen de me
 2. Con el código de abajo (en Colab), hagan **dos gráficos de la misma serie con titulares opuestos**. Usen al menos dos trucos de la clase en cada uno.
 3. Intercambien los gráficos con otro grupo. Con el checklist en la mano, cada grupo tiene que encontrar los trucos del otro.
 4. Puntos: uno por cada truco descubierto. Los autores se llevan un punto por cada truco que nadie vio.
+:::
+
+::::
+
+:::: {.diapo .codigo}
+
+::: {.solo-charla}
+**El código, para copiar en Colab.** Cambien la letra de `grupo` por la de su grupo.
 :::
 
 ```{python}
@@ -1871,12 +2171,18 @@ serie.plot(ax=der, kind=tipo, title="Titular 2: ...")
 plt.show()
 ```
 
+::::
+
 ## Todos los gráficos {#todos-los-graficos}
+
+:::: {.diapo}
 
 Los gráficos interactivos de la clase, en orden. Cada uno se puede descargar como imagen o con sus datos en CSV.
 
 ::: {#indice-graficos}
 :::
+
+::::
 
 ## Recursos {#recursos}
 
@@ -1884,11 +2190,15 @@ Las fuentes de esta clase y otras para seguir. Los ejemplos y las ideas vienen d
 
 ### Los videos que inspiraron la clase
 
+:::: {.diapo}
+
 ::: {.recursos}
 [[Serie en Instagram]{.tipo} [Santi Fiorino · «Los datos no mienten, pero se puede mentir»]{.t} [Partes 1 a 8: el eje Y, los acumulados, las correlaciones, las tortas (y las tortas en 3D), los mapas, los pictogramas y el cherry picking.]{.d}](https://www.instagram.com/santifiorino.py/){.recurso}
 [[Video · 19 min]{.tipo} [Zach Star · This is How Easy It Is to Lie With Statistics]{.t} [Porcentajes y la deserción escolar, la píldora de 1995, causalidad, Berkeley y la falacia del fiscal.]{.d}](https://www.youtube.com/watch?v=bVG2OQp6jEQ){.recurso}
 [[Video · 33 min]{.tipo} [Unsolicited advice · How to Lie With Statistics (and get away with it)]{.t} [Definiciones, muestras, promedios, tasa base, proporciones y atribución.]{.d}](https://www.youtube.com/watch?v=f4yZJVdJCG4){.recurso}
 :::
+
+::::
 
 Los reels de Fiorino, uno por uno: [eje Y](https://www.instagram.com/reel/C-YxMXXPmRq/) · [acumulados](https://www.instagram.com/reel/C-jCdPRvOqJ/) · [correlaciones](https://www.instagram.com/reel/C-v5hBXvOKB/) · [tortas](https://www.instagram.com/reel/C_Jvc83vC8B/) · [mapas](https://www.instagram.com/reel/C_ePCJ9vmMa/) · [tortas en 3D](https://www.instagram.com/reel/DEIZf4ppEGE/) · [pictogramas](https://www.instagram.com/reel/DZgHjHzRt3K/) · [cherry picking](https://www.instagram.com/reel/DZ8crWBxjtK/).
 

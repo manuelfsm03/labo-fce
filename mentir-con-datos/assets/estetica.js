@@ -19,6 +19,8 @@
     '<path d="M20 20 C40 28 40 28 50 50 C28 40 28 40 20 20Z"/><path d="M80 80 C60 72 60 72 50 50 C72 60 72 60 80 80Z"/>' +
     '<path d="M80 20 C72 40 72 40 50 50 C60 28 60 28 80 20Z"/><path d="M20 80 C28 60 28 60 50 50 C40 72 40 72 20 80Z"/></g></svg>';
 
+  window.LaboAsterisco = ASTERISCO;   // lo usan las tapas del modo charla
+
   // ---------- Portada ----------
   var titulo = document.querySelector('#title-block-header .quarto-title');
   if (titulo) {
@@ -66,7 +68,8 @@
       var n = e.target;
       n.classList.add('visible');
       io.unobserve(n);
-      if (n.matches('figure.fig-atlas') && window.Labo) { setTimeout(function () { Labo.animarEntrada(n); }, 180); }
+      // En el modo charla las diapositivas animan sus gráficos al aparecer (charla.js)
+      if (n.matches('figure.fig-atlas') && window.Labo && !n.closest('#mazo')) { setTimeout(function () { Labo.animarEntrada(n); }, 180); }
     });
   }, { threshold: 0.08, rootMargin: '0px 0px -6% 0px' }) : null;
   function preparar(sel, clase) {

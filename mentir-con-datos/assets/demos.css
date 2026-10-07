@@ -105,6 +105,7 @@
 .demo-lectura .v { font: 500 1rem var(--fig-sans); color: var(--fig-tinta); }
 .demo-lectura .v.grande { font: 700 1.8rem/1.05 var(--fig-sans); font-variant-numeric: tabular-nums; }
 .demo-error { color: #B23B2E; font-weight: 600; }
+.respuesta .demo { margin: .9rem 0 0; }
 
 details.ver-datos { margin-top: .8rem; }
 details.ver-datos > summary { cursor: pointer; font: 600 .7rem var(--fig-sans); letter-spacing: .12em; text-transform: uppercase; color: var(--fig-tinta-2); }
@@ -190,12 +191,22 @@ svg.picto-gancho { display: block; width: 100%; max-width: 420px; height: auto; 
 .ig-titulo { font: 700 1.02rem/1.25 var(--fig-serif); }
 .ig-ver { margin-top: auto; font: 600 .82rem var(--fig-sans); color: var(--fig-acento); }
 
-/* Modo charla: figuras más grandes */
-body.charla .fig-atlas { padding: 2rem 2.2rem 1.4rem; }
-body.charla .fig-titulo { font-size: clamp(1.8rem, 3.2vw, 2.5rem); }
-body.charla .fig-bajada { font-size: 1.25rem; }
-body.charla .demo { font-size: 1.05rem; }
-body.charla .demo-lectura .v.grande { font-size: 2.3rem; }
+/* En las diapositivas del modo charla (medidas del lienzo de 1280 px): sin descargas ni tabla, la figura es lo que se ve */
+#mazo .fig-atlas { margin: 0; padding: 16px 20px 12px; scroll-margin-top: 0; }
+#mazo .fig-barra, #mazo details.ver-datos { display: none; }
+#mazo .fig-kicker { font-size: 11.5px; }
+#mazo .fig-titulo { font-size: 24px; line-height: 1.18; margin-top: 5px; }
+#mazo .fig-bajada { font-size: 15px; line-height: 1.38; margin-top: 4px; }
+#mazo .fig-regla { width: 46px; height: 3.5px; margin: 8px 0 10px; }
+#mazo .fig-pie { margin-top: 8px; padding-top: 6px; }
+#mazo .fig-fuente { font-size: 12px; }
+#mazo .fig-firma .f1 { font-size: 13px; }
+#mazo .fig-firma .f2 { font-size: 10.5px; }
+#mazo .demo-controles { margin-bottom: 6px; gap: 6px 18px; }
+#mazo .demo-lectura { margin-top: 6px; padding-top: 6px; }
+#mazo .riesgo-lienzo canvas { width: auto !important; max-width: 100%; max-height: 330px; }
+#mazo .demo { margin: 0; }
+#mazo .respuesta .demo { margin-top: 12px; }
 
 /* Torta 3D del gancho (la arma labo.torta_3d_svg en Python) */
 svg.torta-3d-gancho { display: block; width: 100%; max-width: 440px; height: auto; margin: .6rem auto .5rem; }

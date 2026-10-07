@@ -28,7 +28,7 @@ Labo.registrar('cherry', function (raiz, p) {
     var ventana = datos.slice(desde, hasta + 1), a = ventana[0], b = ventana[ventana.length - 1];
     var lo = d3.min(ventana, function (d) { return d.v; }), hi = d3.max(ventana, function (d) { return d.v; });
     var g1 = L.plot({
-      width: ancho, height: Math.max(220, Math.min(300, ancho * 0.42)), marginLeft: 44, marginBottom: 30,
+      width: ancho, height: L.alto(raiz, Math.max(220, Math.min(300, ancho * 0.42))), marginLeft: 44, marginBottom: 30,
       x: { label: null, tickFormat: mes, ticks: 6 },
       y: { domain: [lo - (hi - lo) * 0.08, hi + (hi - lo) * 0.15], label: null, grid: true, tickFormat: function (v) { return L.num(v, 1) + '%'; } },
       marks: L.franjas(p.periodos, a.fecha, b.fecha, ancho - 44, true).concat([
@@ -40,7 +40,7 @@ Labo.registrar('cherry', function (raiz, p) {
       ])
     });
     var g2 = L.plot({
-      width: ancho, height: 170, marginLeft: 44, marginBottom: 30,
+      width: ancho, height: L.alto(raiz, 170), marginLeft: 44, marginBottom: 30,
       x: { label: null, ticks: 8 },
       y: { type: 'log', domain: [0.9, 30], label: null, grid: true, ticks: [1, 3, 10, 25], tickFormat: function (v) { return L.num(v, 0) + '%'; } },
       marks: L.franjas(p.periodos, datos[0].fecha, datos[datos.length - 1].fecha, ancho - 44).concat([
