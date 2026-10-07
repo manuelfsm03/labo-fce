@@ -10,11 +10,11 @@
 
 | Minuto | Concepto | Módulo |
 |---|---|---|
-| 00:04 | Gráfico de un noticiero (TN) de la inflación mensual de mayo de 2025 a marzo de 2026, con el eje desde 1,5. | 1 y 12 |
-| 00:25 | El eje horizontal: 11 meses, ¿por qué no 12? | 12 |
-| 00:50 | Agregando los meses anteriores la subida desaparece; desde el comienzo del gobierno, la historia es la opuesta. | 12 |
-| 01:06 | Definición de cherry picking. | 12 |
-| 01:24 | Todos los gráficos son correctos; consultar varias fuentes y la fuente de los datos. | 12 |
+| 00:04 | Gráfico de un noticiero (TN) de la inflación mensual de mayo de 2025 a marzo de 2026, con el eje desde 1,5. | 10 y 3 |
+| 00:25 | El eje horizontal: 11 meses, ¿por qué no 12? | 3 |
+| 00:50 | Agregando los meses anteriores la subida desaparece; desde el comienzo del gobierno, la historia es la opuesta. | 3 |
+| 01:06 | Definición de cherry picking. | 3 |
+| 01:24 | Todos los gráficos son correctos; consultar varias fuentes y la fuente de los datos. | 3 |
 
 ## Qué muestra en pantalla
 

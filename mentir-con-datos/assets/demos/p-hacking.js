@@ -1,8 +1,10 @@
-/* Módulo 15 · p-hacking. 20 colores de gomitas, ninguno tiene efecto: aun así, con 20 tests al 5%,
-   en casi dos de cada tres experimentos aparece al menos un "hallazgo" (xkcd 882). */
+/* Módulo 4 · p-hacking. 20 variantes que no tienen ningún efecto: aun así, con 20 tests al 5%,
+   en casi dos de cada tres experimentos aparece al menos un "hallazgo" (xkcd 882).
+   Opciones: colores, alfa, item (rótulo de cada variante) y titular con {color} y {p}. */
 Labo.registrar('p-hacking', function (raiz, p) {
   var L = Labo, C = L.C, colores = p.colores, alfa = p.alfa || 0.05;
   var corridas = 0, conHallazgo = 0, actual = null;
+  var item = p.item || 'Gomitas', plantilla = p.titular || '«¡Las gomitas {color} causan acné! (p = {p})»';
   var controles = L.el('div', { 'class': 'demo-controles' });
   var lienzo = L.el('div', { 'class': 'demo-lienzo' });
   var lectura = L.el('div', { 'class': 'demo-lectura' });
@@ -28,12 +30,12 @@ Labo.registrar('p-hacking', function (raiz, p) {
       marks: [
         Plot.ruleY([alfa], { stroke: C.trampa, strokeWidth: 1.5 }),
         Plot.text([alfa], { y: function (d) { return d; }, frameAnchor: 'right', dy: -8, text: function () { return 'p = 0,05'; }, fill: C.trampa, fontWeight: 600 }),
-        Plot.dot(actual, { x: 'color', y: 'p', r: 6, fill: function (d) { return d.p < alfa ? C.ladrillo : C.gris; }, stroke: C.papel, strokeWidth: 1.5, title: function (d) { return 'Gomitas ' + d.color + ': p = ' + L.num(d.p, 3); }, tip: true })
+        Plot.dot(actual, { x: 'color', y: 'p', r: 6, fill: function (d) { return d.p < alfa ? C.ladrillo : C.gris; }, stroke: C.papel, strokeWidth: 1.5, title: function (d) { return item + ' ' + d.color + ': p = ' + L.num(d.p, 3); }, tip: true })
       ]
     });
     lienzo.textContent = ''; lienzo.appendChild(g);
     var sig = actual.filter(function (d) { return d.p < alfa; });
-    titular.textContent = sig.length ? '«¡Las gomitas ' + sig[0].color + ' causan acné! (p = ' + L.num(sig[0].p, 3) + ')»' : 'Nada "significativo" esta vez. Probá de nuevo.';
+    titular.textContent = sig.length ? plantilla.replace('{color}', sig[0].color).replace('{p}', L.num(sig[0].p, 3)) : 'Nada "significativo" esta vez. Probá de nuevo.';
     vCuenta.textContent = conHallazgo + ' de ' + corridas + ' (' + L.pct(100 * conHallazgo / corridas, 0) + '). La teoría dice 64%.';
     raiz.setAttribute('data-corridas', corridas);
   }

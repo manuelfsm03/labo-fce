@@ -27,10 +27,6 @@ IPC = {
 DOLAR = {"dolar": "175.1_DR_ESTANSE_0_0_20"}
 # Índice de salarios, empleo registrado (INDEC), base oct 2016 = 100
 SALARIOS = {"salarios_registrados": "149.1_TL_REGIADO_OCTU_0_16"}
-# EMAE (INDEC), base 2004: serie original y desestacionalizada
-EMAE = {"emae": "143.3_NO_PR_2004_A_21", "emae_desest": "143.3_NO_PR_2004_A_31"}
-# Producción anual de soja en toneladas (MAGyP). El año es el de inicio de la campaña (2022 = 2022/23).
-SOJA = {"soja_t": "AGRO_A_Soja_0003"}
 
 
 def serie(ids: dict, extra: str = "") -> pd.DataFrame:
@@ -49,8 +45,6 @@ def main():
     guardar(serie(IPC), "ipc_regiones.csv")
     guardar(serie(DOLAR, "&collapse=month&collapse_aggregation=avg"), "dolar_mensual.csv")
     guardar(serie(SALARIOS), "salarios.csv")
-    guardar(serie(EMAE), "emae.csv")
-    guardar(serie(SOJA), "soja.csv")
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-/* Módulo 14 · Definiciones. 100 personas (números inventados con proporciones parecidas a la EPH):
+/* Módulo 1 · Definiciones. 100 personas (números inventados con proporciones parecidas a la EPH):
    según a quién contemos como desocupado, la tasa de desocupación va de 7% a más de 20%. */
 Labo.registrar('definiciones', function (raiz, p) {
   var L = Labo, C = L.C, grupos = p.grupos;

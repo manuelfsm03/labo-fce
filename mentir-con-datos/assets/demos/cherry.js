@@ -1,4 +1,4 @@
-/* Módulo 12 · Cherry picking. La inflación mensual completa (INDEC) y una ventana elegible:
+/* Módulo 3 · Cherry picking. La inflación mensual completa (INDEC) y una ventana elegible:
    arriba, como la mostraría un noticiero (solo la ventana, eje ajustado); abajo, toda la serie. */
 Labo.registrar('cherry', function (raiz, p) {
   var L = Labo, C = L.C;

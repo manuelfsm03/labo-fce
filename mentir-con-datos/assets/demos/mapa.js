@@ -1,4 +1,4 @@
-/* Módulo 5 · Superficie no es gente. El mapa de celdas de Argentina de la home (una celda ≈ 90 km de lado):
+/* Módulo 14 · Superficie no es gente. El mapa de celdas de Argentina de la home (una celda ≈ 90 km de lado):
    el alumno pinta provincias y compara qué parte del territorio y qué parte de la población pintó. */
 Labo.registrar('mapa', function (raiz, p) {
   var L = Labo, C = L.C;

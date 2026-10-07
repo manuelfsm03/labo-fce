@@ -63,7 +63,7 @@ g.prov:focus-visible rect { stroke: #1B222A; stroke-width: 1.5; }
 @media (max-width: 560px) { .mapa-cuerpo { grid-template-columns: 1fr; } }
 
 /* Gancho de pictogramas */
-svg.bolsas-gancho { display: block; width: 100%; max-width: 420px; height: auto; margin: .4rem auto 0; font-family: "Inter", sans-serif; }
+svg.picto-gancho { display: block; width: 100%; max-width: 420px; height: auto; margin: .4rem auto 0; font-family: "Inter", sans-serif; }
 .ley-item i.linea { width: 16px; height: 2.5px; border-radius: 2px; }
 
 /* Controles apilados */

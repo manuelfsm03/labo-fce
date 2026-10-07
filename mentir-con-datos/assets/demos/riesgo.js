@@ -1,4 +1,4 @@
-/* Módulo 8a · Riesgo relativo vs absoluto. El susto de la píldora (Reino Unido, 1995): "duplica el riesgo"
+/* Módulo 6a · Riesgo relativo vs absoluto. El susto de la píldora (Reino Unido, 1995): "duplica el riesgo"
    era pasar de 1 a 2 casos cada 7.000 mujeres. 7.000 cuadraditos, uno o dos marcados. */
 Labo.registrar('riesgo', function (raiz, p) {
   var L = Labo, C = L.C, N = p.total, antes = p.antes, despues = p.despues;

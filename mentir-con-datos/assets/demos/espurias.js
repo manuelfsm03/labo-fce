@@ -1,4 +1,4 @@
-/* Módulo 11 · Correlaciones espurias de fábrica. Dos caminatas aleatorias independientes suelen tener
+/* Módulo 9 · Correlaciones espurias de fábrica. Dos caminatas aleatorias independientes suelen tener
    correlaciones altísimas (regresión espuria, Granger y Newbold 1974). Con ruido puro, casi nunca. */
 Labo.registrar('espurias', function (raiz, p) {
   var L = Labo, C = L.C, T = p.largo || 30;

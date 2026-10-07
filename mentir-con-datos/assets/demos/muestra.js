@@ -1,8 +1,10 @@
-/* Módulo 13 · Muestras. Una población de 10.000 personas (40% a favor de algo). La encuesta de Instagram
-   junta muchas respuestas pero contestan más los entusiastas; la muestra aleatoria es chica pero insesgada. */
+/* Módulo 2 · Muestras. Una población de 10.000 personas (40% a favor de algo). La encuesta de Instagram
+   junta muchas respuestas pero contestan más los entusiastas; la muestra aleatoria es chica pero insesgada.
+   Opciones: frase (lo que contesta la gente, «a favor» por defecto) y eje (rótulo del eje). */
 Labo.registrar('muestra', function (raiz, p) {
   var L = Labo, C = L.C, N = p.poblacion, verdad = p.verdad, nAleatoria = p.n_aleatoria;
   var qFavor = p.prob_responde_favor, qContra = p.prob_responde_contra;
+  var frase = p.frase || 'a favor', eje = p.eje || '% a favor en la encuesta';
   var resultados = [];
   var controles = L.el('div', { 'class': 'demo-controles' });
   var lienzo = L.el('div', { 'class': 'demo-lienzo' });
@@ -24,7 +26,7 @@ Labo.registrar('muestra', function (raiz, p) {
   }
   function agregar(r) {
     resultados.push(r);
-    vUltima.textContent = r.tipo + ': ' + L.pct(r.pct, 0) + ' a favor (' + L.num(r.n, 0) + ' respuestas). La verdad: ' + L.pct(verdad * 100, 0) + '.';
+    vUltima.textContent = r.tipo + ': ' + L.pct(r.pct, 0) + ' ' + frase + ' (' + L.num(r.n, 0) + ' respuestas). La verdad: ' + L.pct(verdad * 100, 0) + '.';
     raiz.setAttribute('data-n', resultados.length);
     dibujar();
   }
@@ -35,7 +37,7 @@ Labo.registrar('muestra', function (raiz, p) {
   function dibujar() {
     var g = L.plot({
       width: ancho, height: 190, marginLeft: 160, marginRight: 20, marginBottom: 40,
-      x: { domain: [0, 100], label: '% a favor en la encuesta', labelAnchor: 'center', labelArrow: 'none', grid: true, tickFormat: function (v) { return v + '%'; } },
+      x: { domain: [0, 100], label: eje, labelAnchor: 'center', labelArrow: 'none', grid: true, tickFormat: function (v) { return v + '%'; } },
       y: { domain: ['Encuesta en Instagram', 'Muestra aleatoria'], label: null, tickSize: 0 },
       marks: [
         Plot.ruleX([verdad * 100], { stroke: C.verde, strokeWidth: 2 }),

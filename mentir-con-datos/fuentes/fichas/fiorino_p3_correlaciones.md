@@ -10,9 +10,9 @@
 
 | Minuto | Concepto | Módulo |
 |---|---|---|
-| 00:04 | Ventas de helado y ataques de tiburones a lo largo del año en EE.UU. | 11 |
-| 00:24 | Correlación no implica causalidad; tercera variable: el calor del verano. | 11 |
-| 01:00 | Casualidad pura: ejemplos de Tyler Vigen — contaminación en Gainesville y goles de Messi (r = 0,972); divorcios en el Reino Unido y películas de Disney (r = 0,925); yogur helado y crímenes violentos (r = 0,947); energía solar en Argentina y búsquedas de MrBeast (r = 0,989). | 11 |
+| 00:04 | Ventas de helado y ataques de tiburones a lo largo del año en EE.UU. | 9 |
+| 00:24 | Correlación no implica causalidad; tercera variable: el calor del verano. | 9 |
+| 01:00 | Casualidad pura: ejemplos de Tyler Vigen — contaminación en Gainesville y goles de Messi (r = 0,972); divorcios en el Reino Unido y películas de Disney (r = 0,925); yogur helado y crímenes violentos (r = 0,947); energía solar en Argentina y búsquedas de MrBeast (r = 0,989). | 9 |
 
 ## Qué muestra en pantalla
 

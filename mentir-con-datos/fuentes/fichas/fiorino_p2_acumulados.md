@@ -10,10 +10,10 @@
 
 | Minuto | Concepto | Módulo |
 |---|---|---|
-| 00:04 | Casos totales de COVID en Argentina en febrero de 2022: de 8,5 a casi 9 millones (+400 mil), con el eje de 8,2 a 9,0. | 2 |
-| 00:25 | Un total acumulado solo puede subir o quedarse quieto. | 2 |
-| 00:42 | Casos por día en el mismo mes: bajaron de ~40.000 a ~3.000. | 2 |
-| 01:00 | Consejo: mirar a qué velocidad sube (por día), no el total. | 2 |
+| 00:04 | Casos totales de COVID en Argentina en febrero de 2022: de 8,5 a casi 9 millones (+400 mil), con el eje de 8,2 a 9,0. | 11 |
+| 00:25 | Un total acumulado solo puede subir o quedarse quieto. | 11 |
+| 00:42 | Casos por día en el mismo mes: bajaron de ~40.000 a ~3.000. | 11 |
+| 01:00 | Consejo: mirar a qué velocidad sube (por día), no el total. | 11 |
 
 ## Qué muestra en pantalla
 

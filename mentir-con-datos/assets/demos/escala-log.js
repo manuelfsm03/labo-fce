@@ -1,4 +1,4 @@
-/* Módulo 6b · Escala lineal vs logarítmica. El dólar oficial desde 1992: en escala lineal 2002 no existe;
+/* Módulo 15b · Escala lineal vs logarítmica. El dólar oficial desde 1992: en escala lineal 2002 no existe;
    en escala log, la misma distancia vertical es el mismo porcentaje y 2002 aparece como el salto más grande. */
 Labo.registrar('escala-log', function (raiz, p) {
   var L = Labo, C = L.C;

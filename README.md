@@ -6,6 +6,8 @@ Clases del **Laboratorio de Métodos Cuantitativos** (FCE-UBA).
 
 Una clase de unas 3 horas sobre cómo se manipulan los números para que cuenten lo que uno quiere, y cómo darse cuenta cuando nos lo hacen a nosotros. Está en [`mentir-con-datos/`](mentir-con-datos/).
 
+Sigue el camino de un número: primero lo que se **elige** (datos), después lo que se **calcula** (estadística) y al final lo que se **ve** (gráficos). Casi todos los ejemplos son de gestión, con una pyme inventada que cruza toda la clase (**Dulce Dato**, una fábrica de alfajores), y algunos son de economía, con datos argentinos reales.
+
 - **Para los alumnos:** `mentir-con-datos/mentir-con-datos.html`. Es un solo archivo que funciona sin internet: se abre con doble clic.
 - **Para proyectar:** el mismo archivo, con el botón **🎤 Modo charla** (abajo a la derecha). También se puede abrir directo en ese modo agregando `?modo=charla` al final de la dirección.
 
@@ -14,13 +16,13 @@ Una clase de unas 3 horas sobre cómo se manipulan los números para que cuenten
 | Bloque | Min | Qué pasa |
 |---|---|---|
 | Prólogo | 12 | Dos titulares con el mismo dato. Tabla de Anscombe → "¿cómo se imaginan los gráficos?" → se destapa el cuarteto y alguien pasa a arrastrar un punto |
-| Acto I · Gráficos (1–6) | 40 | Eje Y truncado (8) · acumulados (6) · tortas (5) · pictogramas (6) · mapas (7) · ⭐ doble eje y escala log (8) |
+| Acto I · Datos (1–4) | 32 | Se presenta Dulce Dato. Definiciones y los clientes de la pyme (8) · muestras, el alfajor de pistacho y los aviones de Wald (8) · cherry picking en equipos (8) · p-hacking con monedas y el botón de la tienda online (8) |
+| Acto II · Estadística (5–9) | 45 | Promedio y los sueldos de la pyme (7) · porcentajes: la deserción escolar, la píldora, margen y markup, y ⭐ nominal vs real (10) · tasa base y la máquina que acierta el 99% (8) · Simpson y el premio al mejor vendedor (8) · correlaciones espurias (12) |
 | Pausa | 10 | |
-| Acto II · Estadística (7–11) | 45 | Promedio y Messi (7) · porcentajes, la píldora y ⭐ nominal vs real (10) · tasa base y el caso Collins (8) · Simpson en Berkeley (8) · correlaciones espurias (12) |
-| Acto III · Datos (12–15) | 32 | Cherry picking en equipos (8) · muestras y los aviones de Wald (8) · ⭐ definiciones y el INDEC 2007-2015 (8) · p-hacking con monedas (8) |
+| Acto III · Gráficos (10–15) | 40 | Eje Y truncado (8) · acumulados (6) · tortas (5) · pictogramas (6) · mapas (7) · ⭐ doble eje y escala log (8) |
 | Epílogo | 33 | El encandilamiento de los números (5) · checklist (3) · **Sé el villano** en grupos (20) · cierre (5) |
 
-**Si falta tiempo**, los ⭐ son extras de economía y se pueden saltear (la página los deja para leer después). **Para preparar:** que traigan una moneda (o usen el celular) para el módulo 15, y que tengan Colab a mano para el ejercicio final.
+**Si falta tiempo**, los ⭐ son extras de economía y se pueden saltear (la página los deja para leer después). **Para preparar:** que traigan una moneda (o usen el celular) para el módulo 4, y que tengan Colab a mano para el ejercicio final.
 
 ### Cómo se arma la página
 

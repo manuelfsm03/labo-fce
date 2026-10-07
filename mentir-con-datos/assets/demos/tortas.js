@@ -1,4 +1,5 @@
-/* Módulo 3 · Tortas. Dos encuestas (inventadas) con los datos dados vuelta: en torta casi no se nota, en barras sí. */
+/* Módulo 12 · Tortas. Dos repartos (inventados) con los datos dados vuelta: en torta casi no se nota, en barras sí.
+   Opciones: categorias, columna (nombre de la categoría en la tabla). */
 Labo.registrar('tortas', function (raiz, p) {
   var L = Labo, C = L.C, cats = p.categorias, encuestas = p.datos;
   var colores = [C.azul, C.dorado, C.verde, C.ciruela, C.ladrillo];
@@ -40,14 +41,16 @@ Labo.registrar('tortas', function (raiz, p) {
     d3.select(svg).append('text').attr('x', 0).attr('y', 15).attr('font-weight', 600).attr('font-size', 14).attr('fill', C.tinta).text(titulo);
     return svg;
   }
+  // Margen izquierdo según el rótulo más largo (unos 7 px por letra)
+  var ml = Math.min(150, 14 + 7 * d3.max(cats, function (c) { return c.length; }));
   function barras(valores, titulo, w) {
     var filas = valores.map(function (v, i) { return { cat: cats[i], v: v, i: i }; });
     return L.plot({
-      width: w, height: 230, marginLeft: 92, marginRight: 36, marginTop: 30,
+      width: w, height: 230, marginLeft: ml, marginRight: 36, marginTop: 30,
       x: { domain: [0, 30], label: null, grid: true, ticks: 4, tickFormat: function (v) { return v + '%'; } },
       y: { domain: cats, label: null, tickSize: 0 },
       marks: [
-        Plot.text([titulo], { frameAnchor: 'top-left', dx: -88, dy: -24, fontWeight: 600, fontSize: 14, fill: C.tinta }),
+        Plot.text([titulo], { frameAnchor: 'top-left', dx: 4 - ml, dy: -24, fontWeight: 600, fontSize: 14, fill: C.tinta }),
         Plot.barX(filas, { y: 'cat', x: 'v', fill: function (d) { return colores[d.i]; }, insetTop: 4, insetBottom: 4, rx2: 4, title: function (d) { return d.cat + ': ' + d.v + '%'; }, tip: true }),
         Plot.text(filas, { y: 'cat', x: 'v', text: function (d) { return numeros ? d.v + '%' : ''; }, dx: 6, textAnchor: 'start', fill: C.tinta, fontWeight: 600 }),
         Plot.ruleX([0], { stroke: C.eje })
@@ -68,7 +71,7 @@ Labo.registrar('tortas', function (raiz, p) {
   }
   L.responsivo(lienzo, function (w) { ancho = w; dibujar(); });
   L.tabla(raiz, cats.map(function (c, i) { return { c: c, a: encuestas[0].valores[i], b: encuestas[1].valores[i] }; }), [
-    { titulo: 'Materia', valor: 'c' },
+    { titulo: p.columna || 'Categoría', valor: 'c' },
     { titulo: encuestas[0].titulo, valor: function (d) { return d.a + '%'; }, num: true },
     { titulo: encuestas[1].titulo, valor: function (d) { return d.b + '%'; }, num: true }
   ]);

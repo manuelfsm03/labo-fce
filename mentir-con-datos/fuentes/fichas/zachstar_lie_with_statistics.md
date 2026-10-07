@@ -11,15 +11,15 @@
 | Minuto | Concepto | Módulo |
 |---|---|---|
 | 00:00 | Target y la predicción de embarazos: el poder de la estadística (contexto, no se usa). | — |
-| 02:22 | Caso Collins (Los Ángeles, 1964): «1 en 12 millones», multiplicando probabilidades como si fueran independientes. | 9 |
-| 03:56 | Sally Clark: «1 en 73 millones». | 9 |
-| 04:44 | «El 80% de los dentistas recomienda Colgate» (Reino Unido, 2007): respuesta múltiple. | 3 |
-| 05:32 | Porcentaje vs puntos: deserción de 5% a 10% (+5 puntos o +100%); de 1 a 2 en un millón. | 8 |
-| 07:04 | Píldora de tercera generación, Reino Unido 1995: «duplica el riesgo» de trombosis (1 → 2 cada 7.000). | 8 |
-| 08:36 | Correlación o causalidad: piojos, molinos de viento, TV violenta, helados y golpes de calor, CO2 y obesidad, fumar y notas. | 11 |
-| 10:56 | Berkeley 1973: 44% de hombres y 35% de mujeres admitidos; por departamento se invierte (Simpson). | 10 |
-| 13:39 | Falacia del fiscal: P(A\|B) no es P(B\|A) (el perro y las cuatro patas). | 9 |
-| 16:48 | Ejes truncados reales: Fox News (impuestos de Bush), CNN (Terri Schiavo), Casa Blanca (graduación 2015), Drake. | 1 |
+| 02:22 | Caso Collins (Los Ángeles, 1964): «1 en 12 millones», multiplicando probabilidades como si fueran independientes. | 7 |
+| 03:56 | Sally Clark: «1 en 73 millones». | 7 |
+| 04:44 | «El 80% de los dentistas recomienda Colgate» (Reino Unido, 2007): respuesta múltiple. | 12 |
+| 05:54 | Porcentaje vs puntos: deserción de 5% a 10% (+5 puntos o +100%); de 1 a 2 en un millón. | 6 |
+| 07:27 | Píldora de tercera generación, Reino Unido 1995: «duplica el riesgo» de trombosis (1 → 2 cada 7.000). | 6 |
+| 08:36 | Correlación o causalidad: piojos, molinos de viento, TV violenta, helados y golpes de calor, CO2 y obesidad, fumar y notas. | 9 |
+| 10:56 | Berkeley 1973: 44% de hombres y 35% de mujeres admitidos; por departamento se invierte (Simpson). | 8 |
+| 13:39 | Falacia del fiscal: P(A\|B) no es P(B\|A) (el perro y las cuatro patas). | 7 |
+| 16:48 | Ejes truncados reales: Fox News (impuestos de Bush), CNN (Terri Schiavo), Casa Blanca (graduación 2015), Drake. | 10 |
 
 ## Qué muestra en pantalla
 

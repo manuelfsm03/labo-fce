@@ -10,11 +10,11 @@
 
 | Minuto | Concepto | Módulo |
 |---|---|---|
-| 00:14 | Empleados de una empresa: 10 en 2020, 30 en 2026 (×3). | 4 |
-| 00:23 | Con «personitas» agrandadas, la diferencia se ve mucho más grande. | 4 |
-| 00:40 | Pictograma de la altura promedio de mujeres por país (con eje truncado): la de India queda diminuta. | 4 |
-| 00:53 | Barras: el área es proporcional al dato. Figuras: ×2 de alto → ×4 de área; ×3 → ×9. | 4 |
-| 01:59 | Solución: apilar personitas en vez de agrandarlas. | 4 |
+| 00:14 | Empleados de una empresa: 10 en 2020, 30 en 2026 (×3). | 13 |
+| 00:23 | Con «personitas» agrandadas, la diferencia se ve mucho más grande. | 13 |
+| 00:40 | Pictograma de la altura promedio de mujeres por país (con eje truncado): la de India queda diminuta. | 13 |
+| 00:53 | Barras: el área es proporcional al dato. Figuras: ×2 de alto → ×4 de área; ×3 → ×9. | 13 |
+| 01:59 | Solución: apilar personitas en vez de agrandarlas. | 13 |
 
 ## Qué muestra en pantalla
 

@@ -1,4 +1,4 @@
-/* Módulo 6a · Doble eje. Salarios y dólar en un gráfico con dos ejes Y: moviendo el eje derecho, el alumno
+/* Módulo 15a · Doble eje. Salarios y dólar en un gráfico con dos ejes Y: moviendo el eje derecho, el alumno
    decide quién "gana". La versión honesta pone las dos series en base 100 sobre un solo eje. */
 Labo.registrar('doble-eje', function (raiz, p) {
   var L = Labo, C = L.C;

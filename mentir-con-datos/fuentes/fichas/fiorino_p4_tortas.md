@@ -10,11 +10,11 @@
 
 | Minuto | Concepto | Módulo |
 |---|---|---|
-| 00:07 | «La torta guárdensela para el postre». | 3 |
-| 00:13 | Los mismos datos (17, 18, 20, 22, 23) en barras y en torta: en la torta las porciones parecen iguales. | 3 |
-| 00:29 | Con los datos dados vuelta, las barras muestran el cambio y la torta casi no. | 3 |
-| 00:54 | Tortas con demasiadas porciones. | 3 |
-| 01:08 | Sirven con 2 o 3 porciones y los porcentajes escritos. | 3 |
+| 00:07 | «La torta guárdensela para el postre». | 12 |
+| 00:13 | Los mismos datos (17, 18, 20, 22, 23) en barras y en torta: en la torta las porciones parecen iguales. | 12 |
+| 00:29 | Con los datos dados vuelta, las barras muestran el cambio y la torta casi no. | 12 |
+| 00:54 | Tortas con demasiadas porciones. | 12 |
+| 01:08 | Sirven con 2 o 3 porciones y los porcentajes escritos. | 12 |
 
 ## Qué muestra en pantalla
 

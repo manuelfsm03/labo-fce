@@ -1,4 +1,4 @@
-/* Módulo 8b · Nominal vs real. El mismo salario en pesos corrientes y deflactado por el IPC. */
+/* Módulo 6b · Nominal vs real. El mismo salario en pesos corrientes y deflactado por el IPC. */
 Labo.registrar('real', function (raiz, p) {
   var L = Labo, C = L.C;
   var meses = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];

@@ -18,6 +18,8 @@ labo.estilo()
 labo.cache_api()
 ipc_reg = pd.read_csv("datos/ipc_regiones.csv", parse_dates=["fecha"]).set_index("fecha")
 var_ipc = ipc_reg.pct_change() * 100
+sal = pd.read_csv("datos/salarios.csv", parse_dates=["fecha"]).set_index("fecha")["salarios_registrados"]
+dol = pd.read_csv("datos/dolar_mensual.csv", parse_dates=["fecha"]).set_index("fecha")["dolar"]
 ```
 
 ::: {.uso .solo-lectura}
@@ -71,34 +73,34 @@ plt.show()
 
 Hoy vamos a aprender a mentir con datos. En serio: vamos a hacer gráficos tramposos a propósito, con Python, para entender cómo funcionan. Pero la idea es el revés: **que no te lo hagan a vos.**
 
-La clase va al revés del camino que recorre un dato. Primero alguien *elige* qué medir y a quién. Después *calcula* un resumen. Al final lo *dibuja*. Nosotros arrancamos por el final, por lo que se ve, y vamos subiendo. Cuanto más arriba en la cadena, más difícil de detectar.
+La clase sigue el camino que recorre un número. Primero alguien *elige* qué medir, a quién preguntarle y qué período mirar. Después *calcula* un resumen. Al final lo *dibuja*. En cada paso se puede hacer trampa, y cuanto más cerca del origen, más difícil es verla. Vamos a recorrerlo en orden, desde que nace el dato hasta que llega al titular.
 
 ::: {.rio}
 ::: {.tramo}
-[Acto III]{.n}
+[Acto I]{.n}
 
 #### Lo que se elige {.unnumbered .unlisted}
 
-Qué se mide, a quién se le pregunta, qué período se muestra.
+Qué se mide, a quién se le pregunta, qué período se muestra, cuántas veces se probó.
 :::
 ::: {.tramo}
 [Acto II]{.n}
 
 #### Lo que se calcula {.unnumbered .unlisted}
 
-Promedios, porcentajes, correlaciones.
+Promedios, porcentajes, probabilidades, correlaciones.
 :::
 ::: {.tramo}
-[Acto I]{.n}
+[Acto III]{.n}
 
 #### Lo que se ve {.unnumbered .unlisted}
 
-Ejes, tortas, áreas, mapas.
+Ejes, tortas, dibujos, mapas.
 :::
 :::
 
 ```{=html}
-<div class="rio-flecha" aria-hidden="true"><span>más difícil de detectar</span><span class="linea"></span><span>la clase arranca acá</span></div>
+<div class="rio-flecha" aria-hidden="true"><span>nace el dato: la clase arranca acá</span><span class="linea"></span><span>llega al titular</span></div>
 ```
 
 ### Mismos números, cuatro historias
@@ -206,46 +208,899 @@ g.apply(lambda d: d.x.corr(d.y)).round(3)       # las cuatro dan 0,816
 **Pedí ver los datos, no solo el resumen.** Un promedio, una correlación o una recta comprimen todo en un número, y en el camino se pierde la forma. Antes de creerle a un resumen, graficá.
 :::
 
-# Acto I · Mentir con gráficos {.unnumbered}
+# Acto I · Mentir con datos {.unnumbered}
 
-Lo que se ve. Son los trucos más fáciles de hacer y, por suerte, los más fáciles de detectar si sabés dónde mirar.
+Lo que se elige. Arrancamos por el nacimiento del dato: qué se cuenta como qué, a quién se le pregunta, qué período se muestra y cuántas veces se probó. Acá el gráfico puede ser impecable y la cuenta perfecta: la trampa ya estaba hecha antes. Por eso es la más difícil de ver.
 
-## 1 · El eje que no arranca en cero {#eje-y}
+::: {.pyme}
+```{=html}
+<svg viewBox="0 0 40 28" role="img" aria-label="Un alfajor">
+  <path d="M1,10 L1,19 A19,7 0 0 0 39,19 L39,10 Z" fill="#5C3A21"/>
+  <path d="M1,13.5 A19,7 0 0 0 39,13.5 L39,16 A19,7 0 0 1 1,16 Z" fill="#BD871C"/>
+  <ellipse cx="20" cy="10" rx="19" ry="7" fill="#7A4B2A"/>
+  <ellipse cx="14" cy="8.2" rx="7" ry="2.2" fill="#96643C"/>
+</svg>
+```
+
+::: {.pyme-texto}
+[La pyme de esta clase · inventada]{.medio}
+[Dulce Dato S.R.L.]{.pyme-nombre}
+
+Una fábrica de alfajores de Lanús. Son 24 personas: 22 empleados, el gerente comercial y Marta, la dueña. Venden unos 400 mil alfajores por mes a kioscos, almacenes y algunos supermercados, y tienen tienda online.
+
+Marta toma decisiones con números todos los días. A veces se los presentan bien, a veces no, y a veces es ella la que quiere convencer a alguien: al banco, a un cliente, a sus empleados. La vamos a ver de los dos lados.
+:::
+:::
+
+## 1 · ¿Qué estás midiendo? {#definiciones}
+
+::: {.gancho}
+[La reunión de los lunes en Dulce Dato · inventada]{.medio}
+[Tenemos 4.800 clientes]{.titular}
+
+Marta le pregunta al gerente comercial cuántos clientes tiene la empresa. El gerente cobra un bono según el tamaño de su cartera.
+:::
+
+::: {.pregunta data-correcta="4"}
+¿Cuántos clientes tiene Dulce Dato?
+
+- 4.800
+- 1.240
+- 610
+- Depende de qué cuente como "cliente"
+
+::: {.respuesta}
+**Depende de qué cuente como "cliente".** Los 4.800 son todos los que compraron *alguna vez* desde que abrió la fábrica, en 2014. Los que compraron en el último año son 1.240, y en el último mes, 610. Los tres números son verdad y salen de la misma planilla. El gerente eligió el que más le convenía: no mintió con ningún número, mintió con la definición.
+:::
+:::
+
+### El truco
+
+Antes de calcular nada, alguien decide **qué cuenta como qué**. "Cliente", "venta", "empleado", "pobre", "desocupado": cada palabra esconde una definición, y moviéndola un poco el número cambia muchísimo. ¿Una venta es cuando se factura, cuando se entrega o cuando se cobra? ¿El que trabaja por agencia cuenta en la dotación? ¿El kiosco que compró una sola vez, hace cinco años, sigue siendo cliente?
+
+Es el mismo truco del estudio que "descubre" que el 90% de los perros tiene tendencias violentas: contó como violento a cualquier perro que alguna vez mordió algo, aunque fuera de cachorro. Nadie mintió. La definición estaba en la página 34 del informe; el titular, en todos los diarios.
+
+::: {.receta}
+Con pandas, la definición es un parámetro más: los mismos datos dan números distintos.
+
+```{python}
+import pandas as pd
+
+compras = pd.DataFrame({
+    "cliente": ["Kiosco Ana", "Almacén Lito", "Kiosco Ana", "Maxikiosco 24", "Almacén Lito", "Kiosco El Pibe"],
+    "fecha": pd.to_datetime(["2026-09-28", "2026-09-10", "2025-12-01", "2025-11-15", "2024-03-02", "2019-07-19"]),
+})
+hoy = pd.Timestamp("2026-09-30")
+ultima = compras.groupby("cliente").fecha.max()                       # <1>
+
+for definicion, dias in [("compraron en el último mes", 30), ("compraron en el último año", 365), ("compraron alguna vez", None)]:
+    activos = ultima if dias is None else ultima[hoy - ultima <= pd.Timedelta(days=dias)]   # <2>
+    print(f"Clientes que {definicion}: {len(activos)}")
+```
+1. La última compra de cada cliente.
+2. Cambiar `dias` es cambiar la definición de "cliente". Los datos son siempre los mismos.
+:::
+
+En economía pasa todo el tiempo. Pobreza, desempleo, informalidad, inflación: cada una tiene una definición técnica, a veces distinta de la del habla cotidiana, y a veces distinta entre países o entre años.
+
+::: {.pregunta data-correcta="2"}
+Una persona trabajó **una hora** la semana pasada, cortando el pasto de un vecino por plata. Para el INDEC, ¿está desocupada?
+
+- Sí: una hora no es un trabajo
+- No: cuenta como ocupada
+- Depende de si busca otro trabajo
+
+::: {.respuesta}
+**No: cuenta como ocupada.** Siguiendo las normas internacionales (OIT), la Encuesta Permanente de Hogares considera ocupado a quien trabajó al menos una hora en la semana de referencia. Si quiere trabajar más horas, es un ocupado *subocupado*. Y quien quiere trabajar pero no salió a buscar no cuenta como desocupado: es *inactivo*. Ninguna de estas reglas es tramposa en sí. Pero hay que conocerlas antes de comparar números.
+:::
+:::
+
+### Hacelo vos
+
+```{python}
+#| echo: false
+#| output: asis
+grupos_ocupacion = [
+    {"nombre": "Ocupados plenos", "n": 56, "estado": "ocupado"},
+    {"nombre": "Trabajaron solo unas horas", "n": 6, "regla": "pocas_horas"},
+    {"nombre": "Plan social con contraprestación", "n": 3, "regla": "plan"},
+    {"nombre": "Desocupados (buscaron trabajo)", "n": 5, "estado": "desocupado"},
+    {"nombre": "Desalentados (quieren trabajar, no buscaron)", "n": 3, "regla": "desalentado"},
+    {"nombre": "Inactivos (estudian, jubilados, cuidan a alguien)", "n": 27, "estado": "inactivo"},
+]
+labo.demo("definiciones", grupos=grupos_ocupacion)
+```
+
+Son 100 personas inventadas, con proporciones parecidas a las de la EPH. Con las mismas personas, la "tasa de desocupación" puede ir de 7% a más de 20% según a quién cuentes como desocupado. Lo honesto es usar la definición estándar y, si querés mostrar otra cosa, mostrarla aparte con su nombre: la tasa de subocupación, la de desocupación más desalentados, etc.
+
+Un aviso más, de otro estudio real. Cuando a los varones de Estados Unidos les preguntan su altura, aparecen muy pocos que miden 1,80 y demasiados que miden 1,83 (seis pies). No hay ningún gen raro: muchos redondean para arriba. Un dato **declarado** no es lo mismo que un dato **medido**. En una empresa, igual: no es lo mismo lo que el vendedor dice que vendió que lo que figura en la facturación.
+
+### ⭐ Cuando el que miente es el que mide
+
+::: {.pregunta data-correcta="3"}
+¿Cuánta inflación hubo en la Argentina en 2010?
+
+- 10,9%, como informó el INDEC
+- Alrededor de 25%
+- No lo sabemos con certeza
+
+::: {.respuesta}
+**No lo sabemos con certeza.** El INDEC informó 10,9%. Pero en 2007 el organismo había sido intervenido y su índice de precios dejó de ser creíble. Las consultoras privadas y varias provincias medían más del doble. Un estudio con precios de supermercados online (Cavallo, 2013) encontró que entre 2007 y 2011 la inflación fue casi el triple de la oficial. En 2013 el FMI emitió una declaración de censura contra la Argentina por la calidad de sus estadísticas. En 2016 se declaró la emergencia estadística y el propio INDEC advirtió que las series publicadas desde 2007 debían tomarse con reservas.
+:::
+:::
+
+Es el truco más grave de todos, porque arruina el dato en el origen y para siempre: no hay gráfico honesto que arregle un número inventado. Por eso importan tanto las estadísticas públicas independientes y que publiquen sus métodos.
+
+::: {.antidoto data-truco="Definiciones" data-pregunta="¿Cómo se definió lo que se mide? ¿Quién lo midió y con qué método?"}
+**Leé la definición.** Antes de comparar números, fijate qué cuenta como qué, si el dato es medido o declarado, y quién lo produjo. Un número sin su definición es un titular, no un dato.
+:::
+
+## 2 · ¿A quién le preguntaste? {#muestras}
+
+::: {.gancho}
+[Encuesta en el Instagram de Dulce Dato · inventada]{.medio}
+[Al 71% le encanta el nuevo alfajor de pistacho, según una encuesta con más de 1.500 respuestas]{.titular}
+
+Marta tiene que decidir si lo fabrica para todos los kioscos o si lo deja como prueba.
+:::
+
+::: {.pregunta data-correcta="3"}
+¿Lo lanzarían en todos los kioscos?
+
+- Sí: 1.500 respuestas es un montón
+- Sí, si el margen de error es chico
+- Todavía no: importa más quién contestó que cuántos
+
+::: {.respuesta}
+**Todavía no.** Contestaron los que siguen a la marca y además tuvieron ganas de contestar: los fans. No se parecen al cliente de un kiosco cualquiera. Juntar más respuestas no arregla eso, solo hace que el error sea más preciso. En 1936, la revista *Literary Digest* juntó más de dos millones de respuestas por correo y pronosticó que Roosevelt perdía. Ganó por paliza. George Gallup, con una muestra mucho más chica pero bien elegida, acertó.
+:::
+:::
+
+### El truco
+
+Casi nunca se mide a toda la población: se toma una **muestra**. Ahí se puede mentir (o equivocarse) de dos formas:
+
+- **Muestras sesgadas.** Encuestas online, gente que se ofrece para un estudio, "le pregunté a los vendedores", "le pregunté a mis amigos". Es lo mismo que hacemos todos cuando generalizamos desde nuestra experiencia: nuestra muestra de "la gente" son los que conocemos.
+- **Muestras chiquitas.** "El 66% de los hombres dice que su prioridad es la plata" (preguntaron a 15). Un libro clásico cuenta que "un tercio de las mujeres que fueron a la universidad se casó con un profesor": eran tres mujeres, y una se casó con un profesor.
+
+### Hacelo vos
+
+```{python}
+#| echo: false
+#| output: asis
+labo.demo("muestra", poblacion=10_000, verdad=0.40, n_aleatoria=400, prob_responde_favor=0.30, prob_responde_contra=0.08,
+          frase="dice que le encanta", eje="% de las respuestas que dicen que les encanta")
+```
+
+::: {.charlalo data-minutos="1"}
+Hagan clic varias veces en cada botón. ¿Cuál le erra más? ¿Cuál tiene más respuestas? ¿Por qué la de Instagram le erra siempre para el mismo lado?
+:::
+
+### Los que no volvieron
+
+::: {.pregunta data-correcta="2"}
+Segunda Guerra Mundial. Los aviones que vuelven de combate llegan con agujeros de bala como en el dibujo. Hay que agregar blindaje, pero pesa: solo se puede reforzar una parte. ¿Dónde lo ponen?
+
+```{=html}
+<svg class="avion" viewBox="0 0 400 360" role="img" aria-label="Avión visto desde arriba con agujeros de bala en alas, fuselaje y cola, y ninguno en motores ni cabina.">
+  <g fill="#C9C4B6">
+    <path d="M200,20 C212,20 216,40 216,70 L216,300 C216,320 208,340 200,345 C192,340 184,320 184,300 L184,70 C184,40 188,20 200,20 Z"/>
+    <path d="M184,130 L40,175 L40,195 L184,178 Z"/><path d="M216,130 L360,175 L360,195 L216,178 Z"/>
+    <path d="M186,290 L130,315 L130,328 L186,316 Z"/><path d="M214,290 L270,315 L270,328 L214,316 Z"/>
+  </g>
+  <g fill="#8C8A82"><ellipse cx="110" cy="168" rx="10" ry="24"/><ellipse cx="290" cy="168" rx="10" ry="24"/><ellipse cx="200" cy="48" rx="8" ry="13"/></g>
+  <g fill="#BD432F">
+    <circle cx="60" cy="183" r="3.5"/><circle cx="76" cy="179" r="3.5"/><circle cx="88" cy="188" r="3.5"/><circle cx="134" cy="167" r="3.5"/><circle cx="144" cy="179" r="3.5"/>
+    <circle cx="152" cy="160" r="3.5"/><circle cx="166" cy="172" r="3.5"/><circle cx="172" cy="152" r="3.5"/><circle cx="236" cy="153" r="3.5"/><circle cx="252" cy="170" r="3.5"/>
+    <circle cx="266" cy="158" r="3.5"/><circle cx="318" cy="183" r="3.5"/><circle cx="332" cy="187" r="3.5"/><circle cx="345" cy="181" r="3.5"/><circle cx="230" cy="172" r="3.5"/>
+    <circle cx="196" cy="110" r="3.5"/><circle cx="205" cy="140" r="3.5"/><circle cx="197" cy="192" r="3.5"/><circle cx="206" cy="216" r="3.5"/><circle cx="194" cy="240" r="3.5"/>
+    <circle cx="203" cy="263" r="3.5"/><circle cx="197" cy="286" r="3.5"/><circle cx="150" cy="318" r="3.5"/><circle cx="162" cy="313" r="3.5"/><circle cx="242" cy="313" r="3.5"/><circle cx="256" cy="320" r="3.5"/>
+  </g>
+</svg>
+```
+
+- En las alas, el fuselaje y la cola, donde hay más agujeros
+- En los motores y la cabina, donde no hay agujeros
+
+::: {.respuesta}
+**En los motores y la cabina.** El estadístico Abraham Wald se dio cuenta de que la muestra solo tenía los aviones *que volvieron*. Los que recibían balazos en el motor o en la cabina no volvían a contarlo. Los agujeros muestran dónde un avión puede recibir un tiro y sobrevivir. Es el **sesgo de supervivencia**, y está en todos lados: la encuesta de satisfacción de una empresa (los clientes que se fueron enojados no la contestan), los fondos de inversión que "siempre ganaron" (los que perdieron cerraron y no aparecen en la lista), los emprendedores exitosos que "dejaron la facultad", los edificios viejos que "se hacían mejor antes" (los malos ya se cayeron).
+:::
+:::
+
+::: {.receta}
+```{python}
+import numpy as np
+
+rng = np.random.default_rng(1)
+le_encanta = rng.random(10_000) < 0.40                 # 10.000 clientes: al 40% le encanta el pistacho (la verdad)
+
+# Instagram: contesta el 30% de los fans y el 8% de los que no
+contesta = rng.random(10_000) < np.where(le_encanta, 0.30, 0.08)         # <1>
+print(f"Instagram: {le_encanta[contesta].mean():.0%} dice que le encanta, con {contesta.sum()} respuestas")
+
+aleatoria = rng.choice(le_encanta, size=400, replace=False)              # <2>
+print(f"Aleatoria: {aleatoria.mean():.0%} dice que le encanta, con 400 respuestas")
+```
+1. Quién contesta depende de lo que piensa: la muestra está sesgada, por más grande que sea.
+2. Una muestra aleatoria chica le pega mucho más cerca.
+:::
+
+::: {.antidoto data-truco="Muestras" data-pregunta="¿A quién le preguntaron, cuántos eran y quiénes quedaron afuera?"}
+**Preguntá a quién le preguntaron.** Cuántos eran, cómo se eligieron y quiénes no aparecen (los que no contestaron, los que no sobrevivieron). Muchas respuestas de las personas equivocadas no valen más que pocas de las correctas.
+:::
+
+## 3 · Elegí la ventana, elegí la historia {#cherry-picking}
 
 ```{python}
 #| include: false
-agosto = var_ipc.loc["2026-08-01"].drop("nacional").round(1)
-nombres = {"gba": "GBA", "pampeana": "Pampeana", "noreste": "Noreste", "noroeste": "Noroeste", "cuyo": "Cuyo", "patagonia": "Patagonia"}
-regiones = pd.DataFrame({"region": [nombres[k] for k in agosto.index], "valor": agosto.values})
+inflacion = (ipc_reg["nacional"].pct_change() * 100).dropna()
+ventana_tv = inflacion["2025-05-01":"2026-03-01"]
+```
+
+::: {.gancho}
+[Un noticiero argentino, en vivo · datos del INDEC]{.medio}
+[«La inflación no para de subir: así evolucionó mes a mes»]{.titular}
+
+```{python}
+#| echo: false
+#| fig-alt: "Inflación mensual de mayo de 2025 a marzo de 2026 con el eje desde 1,5%: una subida constante."
+fig, ax = plt.subplots(figsize=(7, 3))
+ax.fill_between(ventana_tv.index, 1.4, ventana_tv.values, color=VERDE, alpha=0.18, lw=0)
+ax.plot(ventana_tv.index, ventana_tv.values, color=VERDE, marker="o", markersize=4)
+for f, v in ventana_tv.items():
+    ax.annotate(labo.coma(v, 1) + "%", (f, v), textcoords="offset points", xytext=(0, 7), ha="center", fontsize=8.5, fontweight=600)
+ax.set_ylim(1.4, ventana_tv.max() + 0.35)
+ax.yaxis.set_major_formatter(lambda y, _: labo.coma(y, 1) + "%")
+ax.set_xticks(ventana_tv.index, [labo.mes(f, False) for f in ventana_tv.index], fontsize=8.5)
+ax.set_title("Evolución mensual de la inflación", loc="left")
+plt.show()
+```
+:::
+
+::: {.pregunta data-correcta="3"}
+Mayo de 2025 a marzo de 2026. ¿La inflación estaba subiendo?
+
+- Sí, mes a mes
+- No, estaba bajando
+- Depende de desde cuándo mires
+
+::: {.respuesta}
+**Depende de desde cuándo mires.** Miren el eje horizontal: son 11 meses, una cantidad rara. ¿Por qué no un año? Si agregamos abril de 2025 (2,8%) y marzo de 2025 (3,7%), ya no es una subida constante. Y si vamos hasta diciembre de 2023 (25,5%), la historia es la opuesta: una caída enorme. Los datos son los mismos y todos los gráficos son correctos. Lo que cambia es **la ventana**. (Y de paso: el eje vertical arranca en 1,4%. A ese truco volvemos en el Acto III.)
+:::
+:::
+
+### El truco
+
+Se llama **cherry picking**: quedarse con la parte de los datos que sirve para defender una posición y dejar afuera la que la contradice. No hace falta inventar nada. Alcanza con elegir dónde empieza y dónde termina el gráfico, qué países se comparan, qué años, qué mes base.
+
+En una empresa pasa todos los días: el gerente que muestra las ventas "desde que llegó", la dueña que le lleva al banco solo los meses buenos, el proveedor que compara su precio con el de la competencia justo en el mes en que el otro estaba más caro.
+
+### Hacelo vos
+
+```{python}
+#| echo: false
+#| output: asis
+labo.demo("cherry", [{"fecha": f.strftime("%Y-%m-%d"), "v": round(v, 2)} for f, v in inflacion.items()],
+          inicial={"desde": "2025-05-01", "hasta": "2026-03-01"},
+          presets=[
+              {"nombre": "El noticiero", "desde": "2025-05-01", "hasta": "2026-03-01"},
+              {"nombre": "Desde dic 23", "desde": "2023-12-01", "hasta": inflacion.index[-1].strftime("%Y-%m-%d")},
+              {"nombre": "Últimos 6 meses", "desde": inflacion.index[-6].strftime("%Y-%m-%d"), "hasta": inflacion.index[-1].strftime("%Y-%m-%d")},
+              {"nombre": "Toda la serie", "desde": inflacion.index[0].strftime("%Y-%m-%d"), "hasta": inflacion.index[-1].strftime("%Y-%m-%d")},
+          ])
+```
+
+::: {.desafio data-minutos="2"}
+**Dos equipos, la misma serie.** El equipo A tiene que encontrar la ventana más honesta posible en la que "la inflación se disparó". El equipo B, una en la que "se desplomó". Gana el titular más dramático que el otro equipo no pueda desmentir *sin cambiar la ventana*.
+:::
+
+El consejo es el de siempre: no quedarse con un solo gráfico de un solo medio, por más prolijo que sea. Mirar la serie completa, comparar fuentes y, cuando se puede, ir directo a la fuente de los datos. En este caso el INDEC publica la serie entera, gratis.
+
+::: {.receta}
+```{python}
+# ¿En cuántas ventanas de al menos 6 meses la inflación "sube" y en cuántas "baja"?
+url = "https://apis.datos.gob.ar/series/api/series/?ids=148.3_INIVELNAL_DICI_M_26&format=csv&limit=5000"
+nivel = pd.read_csv(url, index_col=0, parse_dates=True,
+                    storage_options={"User-Agent": "Mozilla/5.0"}).iloc[:, 0]   # <1>
+inflacion = nivel.pct_change().dropna() * 100                   # variación mensual
+sube = baja = 0
+for i in range(len(inflacion)):
+    for j in range(i + 6, len(inflacion)):                       # <2>
+        if inflacion.iloc[j] > inflacion.iloc[i]:
+            sube += 1
+        else:
+            baja += 1
+print(f"Ventanas donde 'sube': {sube} · donde 'baja': {baja}")  # <3>
+```
+1. La API de datos.gob.ar rechaza el "User-Agent" que manda Python por defecto (error 403). Con mandar cualquier otro, alcanza.
+2. Todas las ventanas posibles de 6 meses o más: cada una es un titular posible.
+3. Hay miles de ventanas para cada historia. Elegir una no es mentir con los números: es mentir con la selección.
+:::
+
+::: {.antidoto data-truco="Cherry picking" data-pregunta="¿Por qué el gráfico empieza y termina justo ahí? ¿Qué pasa si agrando la ventana?"}
+**Preguntá por qué empieza y termina ahí.** Pedí la serie completa. Si la conclusión se da vuelta al mover un par de meses, no era una conclusión: era una elección.
+:::
+
+## 4 · Si torturás los datos, confiesan {#p-hacking}
+
+::: {.gancho data-kicker="Experimento en vivo"}
+Saquen una moneda (o usen el celular). Tírenla **10 veces** y anoten cuántas caras salieron. ¿Alguien sacó 8 o más? Que pase al frente: **tiene poderes**.
+:::
+
+::: {.desafio data-minutos="2" data-kicker="Todos a tirar la moneda"}
+Diez tiradas cada uno. Levanten la mano los que sacaron 8, 9 o 10 caras.
+:::
+
+::: {.pregunta data-correcta="2"}
+¿La persona que sacó 9 caras tiene poderes?
+
+- Sí, la chance de sacar 9 caras es bajísima
+- No: en un aula de 40, lo raro sería que *nadie* lo logre
+
+::: {.respuesta}
+**No.** Para una persona, sacar 8 o más caras de 10 tiene una chance de 5,5%. Pero acá lo intentaron 40 personas a la vez. La chance de que *al menos una* lo logre es de casi 90%. Si mirás muchos resultados y te quedás con el más llamativo, siempre vas a encontrar "poderes".
+:::
+:::
+
+```{python}
+#| echo: false
+#| output: asis
+labo.demo("monedas", n=40)
+```
+
+### El truco
+
+En ciencia, un resultado se suele llamar "estadísticamente significativo" si tiene menos de 5% de chance de aparecer por casualidad (p < 0,05). El problema: si probás **20 cosas** donde no hay ningún efecto, en promedio una va a dar "significativa" igual. Si después mostrás solo esa, tenés un descubrimiento falso. Se llama **p-hacking**, o comparaciones múltiples. El cómic [xkcd 882](https://xkcd.com/882/) lo cuenta con gomitas de colores y acné.
+
+En las empresas se hace todo el tiempo con los **tests A/B**: se prueban muchas versiones de un aviso, de un precio o de un botón de la tienda online, y se festeja la que "funcionó".
+
+### Hacelo vos
+
+Dulce Dato prueba 20 colores para el botón «Comprar» de su tienda online. Cada test compara un mes con el botón nuevo contra un mes con el de siempre. Ningún color cambia nada: las ventas salen del mismo sorteo con cualquier botón. Hacé el experimento varias veces.
+
+```{python}
+#| echo: false
+#| output: asis
+colores_boton = ["violeta", "marrón", "rosa", "azul", "turquesa", "salmón", "rojo", "celeste", "fucsia", "amarillo",
+                 "gris", "beige", "cian", "verde", "malva", "crema", "lila", "negro", "durazno", "naranja"]
+labo.demo("p-hacking", colores=colores_boton, alfa=0.05, item="Botón",
+          titular="«¡El botón {color} hace vender más! (p = {p})»")
+```
+
+::: {.charlalo data-minutos="1"}
+La agencia de publicidad le dice a Marta: "La campaña en Instagram aumentó las ventas un 12% (p = 0,04)". ¿Qué le preguntarían antes de pagarle la segunda campaña? (Pista: ¿cuántas campañas, métricas o períodos miraron?, ¿estaba planeado de antemano?, ¿se repitió?)
+:::
+
+::: {.receta}
+```{python}
+import numpy as np
+from statsmodels.stats.weightstats import ttest_ind
+
+colores = ["violeta", "marrón", "rosa", "azul", "turquesa", "salmón", "rojo", "celeste", "fucsia", "amarillo",
+           "gris", "beige", "cian", "verde", "malva", "crema", "lila", "negro", "durazno", "naranja"]
+rng = np.random.default_rng(2026)
+for color in colores:                              # 20 tests A/B
+    con_boton = rng.normal(100, 15, 30)            # ventas de 30 días con el botón de ese color
+    sin_boton = rng.normal(100, 15, 30)            # y con el de siempre: ¡la misma distribución!
+    _, p, _ = ttest_ind(con_boton, sin_boton)
+    if p < 0.05:                                                   # <1>
+        print(f"«Descubrimiento»: el botón {color} (p = {p:.3f})")
+```
+1. No hay ningún efecto real, pero con 20 tests al 5% lo esperable es encontrar alguno. La solución: decidir de antemano qué se va a testear y corregir por la cantidad de tests (por ejemplo, Bonferroni: usar 0,05 / 20).
+:::
+
+::: {.antidoto data-truco="p-hacking" data-pregunta="¿Cuántas cosas probaron antes de encontrar esta? ¿Alguien lo replicó?"}
+**Preguntá cuántas cosas probaron.** Un resultado "significativo" entre muchos intentos puede ser pura suerte. Desconfiá de los hallazgos sorprendentes que nadie replicó.
+:::
+
+# Acto II · Mentir con estadística {.unnumbered}
+
+Lo que se calcula. El dato ya está juntado y nadie lo toca: los números están bien calculados. El truco está en **qué número** se elige para resumir y en **contra qué** se compara.
+
+## 5 · El promedio que nadie gana {#promedio}
+
+```{python}
+#| include: false
+# Los 24 sueldos de Dulce Dato, en millones de pesos por mes (inventados)
+plantilla = pd.DataFrame(
+    [(f"Operario {i + 1}", s) for i, s in enumerate([1.18, 1.20, 1.22, 1.24, 1.25, 1.26, 1.28, 1.30, 1.31, 1.33, 1.35, 1.38, 1.40, 1.45])]
+    + [("Administración 1", 1.42), ("Administración 2", 1.50), ("Administración 3", 1.62),
+       ("Logística 1", 1.48), ("Logística 2", 1.55), ("Laura (ventas)", 1.85), ("Diego (ventas)", 1.95),
+       ("Encargado de planta", 2.30), ("Gerente comercial", 4.50), ("Marta (dueña)", 14.00)],
+    columns=["quien", "sueldo"],
+)
+media_s, mediana_s = plantilla.sueldo.mean(), plantilla.sueldo.median()
+debajo_s = int((plantilla.sueldo < media_s).sum())
+assert round(media_s, 1) == 2.1 and round(mediana_s, 2) == 1.39 and debajo_s == 21
+```
+
+::: {.gancho}
+[Reunión de Marta con el delegado de los trabajadores · inventada]{.medio}
+[En esta empresa el sueldo promedio es de `{python} labo.coma(media_s, 1)` millones. No se pueden quejar.]{.titular}
+
+Marta no mintió: sumó los 24 sueldos de Dulce Dato y dividió por 24.
+:::
+
+::: {.adivina data-respuesta="1390000" data-min="0" data-max="3000000" data-paso="10000" data-inicial="2100000" data-formato="$"}
+Si ordenás a las 24 personas de menor a mayor sueldo, ¿cuánto cobra la que queda en el medio?
+
+::: {.respuesta}
+**Unos \$`{python} labo.coma(mediana_s * 1e6, 0)`**, un tercio menos que el "promedio". De las 24 personas, `{python} debajo_s` cobran menos que el promedio. Lo que lo tira para arriba es el sueldo del gerente comercial (4,5 millones) y, sobre todo, lo que retira Marta: 14 millones por mes. El valor del medio se llama **mediana**, y es lo que cobra un empleado típico de Dulce Dato.
+:::
+:::
+
+### El truco
+
+"Promedio" puede querer decir varias cosas. La **media** suma todo y divide. La **mediana** es el valor del medio. Cuando la distribución es asimétrica (sueldos, ingresos, patrimonios, precios de casas, tiempos de espera), unos pocos valores enormes arrastran la media. Así, "el sueldo promedio subió" puede ser verdad aunque a la mayoría no le haya cambiado nada: alcanza con que se aumente la dueña. Es el viejo chiste: si Messi entra a esta aula, en promedio somos todos millonarios.
+
+Y hay un tercer "promedio", la **moda**: el valor que más se repite. Con cinco personas que ganan 5, 5, 15, 20 y 500 mil por año, la moda es 5, la mediana es 15 y la media es 109. Las tres son "el promedio". Por eso tampoco existe la persona promedio: nadie tiene 1,96 hijos.
+
+En la Argentina, como en casi todo el mundo, la distribución del ingreso es asimétrica: la media queda por encima de la mediana. Quien quiere mostrar que "estamos bien" elige la media. Quien quiere mostrar lo que le pasa a una persona típica, la mediana.
+
+### Hacelo vos
+
+Cada barra es una persona de Dulce Dato. Mové lo que se paga Marta y mirá qué pasa con la media y con la mediana.
+
+```{python}
+#| echo: false
+#| output: asis
+labo.demo("promedio", [{"quien": q, "sueldo": round(s * 1e6)} for q, s in plantilla.itertuples(index=False)], duenia="Marta (dueña)")
+```
+
+::: {.desafio}
+¿Cuánto se tiene que pagar Marta para que el "sueldo promedio" llegue a 3 millones? ¿Cuánto cambia la mediana mientras tanto?
+:::
+
+::: {.charlalo data-minutos="1"}
+"El salario promedio de los egresados de esta carrera es de X." ¿Qué preguntarían antes de creerlo? (Pista: media o mediana, de quiénes, quién contestó la encuesta.)
+:::
+
+::: {.receta}
+```{python}
+import numpy as np
+
+sueldos = np.array([1.18, 1.20, 1.22, 1.24, 1.25, 1.26, 1.28, 1.30, 1.31, 1.33, 1.35, 1.38, 1.40, 1.45,  # operarios
+                    1.42, 1.50, 1.62, 1.48, 1.55, 1.85, 1.95, 2.30,                                    # el resto del personal
+                    4.50, 14.00])                                                                       # gerente y dueña
+print(f"media: {sueldos.mean():.2f} | mediana: {np.median(sueldos):.2f}   (millones de pesos)")
+print("cobran menos que la media:", (sueldos < sueldos.mean()).sum(), "de", len(sueldos))          # <1>
+
+sin_duenia = sueldos[:-1]
+print(f"sin la dueña -> media: {sin_duenia.mean():.2f} | mediana: {np.median(sin_duenia):.2f}")    # <2>
+```
+1. Con datos asimétricos, la mayoría queda por debajo de la media.
+2. Un solo valor extremo mueve mucho la media y casi nada la mediana.
+:::
+
+::: {.antidoto data-truco="Promedios" data-pregunta="¿Es media o mediana? ¿La distribución es asimétrica?"}
+**Preguntá qué promedio es.** Con datos asimétricos (sueldos, ingresos, patrimonio, precios), la media la tiran los de arriba. La mediana cuenta qué le pasa a la persona del medio.
+:::
+
+## 6 · Porcentajes que asustan {#porcentajes}
+
+### ¿Subió 5% o 100%?
+
+::: {.gancho}
+[Dos diarios, el mismo dato · inventado]{.medio}
+[La deserción escolar subió 5%]{.titular}
+[La deserción escolar se duplicó]{.titular}
+
+En un país, el porcentaje de chicos que abandona la secundaria pasó de 5% a 10% en un año.
+:::
+
+::: {.pregunta data-correcta="3"}
+¿Cuánto subió la deserción?
+
+- 5 puntos porcentuales
+- 100%
+- Las dos cosas, según cómo lo digas
+
+::: {.respuesta}
+**Las dos, y conviene decirlo bien.** Subió **5 puntos porcentuales**: de 5 a 10. Y la cantidad de chicos que abandona se duplicó: subió **100%**. Si alguien dice "subió 5%", está confundiendo puntos con porcentaje, y de paso lo hace sonar a poco. ¿Cuál de los dos titulares pinta mejor lo que pasó? Ahí se puede discutir, y vale la pena hacerlo en voz alta.
+:::
+:::
+
+Ahora cambiemos los números. Supongamos que la deserción pasa de **1 chico cada millón** a **2 cada millón**: de 0,0001% a 0,0002%. Son 0,0001 puntos. Pero también es verdad que "¡la deserción se duplicó!" (+100%), y ese titular suena a epidemia. Si en todo el país abandonaban 5 chicos y ahora abandonan 10, todavía no es una epidemia. Los porcentajes de cambio impresionan más cuanto más chiquita es la base.
+
+Pasa con cualquier tasa. Si la pobreza baja de 40% a 30%, bajó **10 puntos** y bajó **25%**. Los dos números son correctos. El que quiere que suene a mucho dice "25%"; el que quiere que suene a poco, "10 puntos".
+
+### Relativo contra absoluto
+
+Lo de la base chiquita parece un ejemplo de pizarrón, pero pasó de verdad, y con algo mucho más serio.
+
+::: {.gancho}
+[Reino Unido, octubre de 1995]{.medio}
+[Advertencia oficial: los anticonceptivos de tercera generación duplican el riesgo de trombosis]{.titular}
+:::
+
+::: {.pregunta data-correcta="3"}
+Si estuvieras tomando esa píldora, ¿qué harías?
+
+- La dejo ya
+- Consulto al médico pero sigo tomándola
+- Antes de decidir, pregunto: ¿el doble de cuánto?
+
+::: {.respuesta}
+**¿El doble de cuánto?** Con la píldora vieja, 1 de cada 7.000 mujeres tenía una trombosis. Con la nueva, 2 de cada 7.000. Es verdad que el riesgo se duplicó (+100%), pero el aumento absoluto fue de 1 caso cada 7.000 mujeres. Muchas dejaron la píldora de golpe. Se estima que al año siguiente hubo unos 13.000 abortos más en Inglaterra y Gales, y el embarazo tiene un riesgo de trombosis mayor que el de cualquier píldora.
+:::
+:::
+
+```{python}
+#| echo: false
+#| output: asis
+labo.demo("riesgo", total=7000, antes=1, despues=2)
+```
+
+"Duplica el riesgo", "reduce a la mitad", "+100%": los **riesgos relativos** suenan enormes cuando el riesgo de base es chiquito. En 2024, un diario británico tituló que las muertes por mordedura de tiburón en el mundo se habían duplicado en 2023. Era cierto: pasaron de 5 a 10. Para decidir hace falta el **riesgo absoluto**: cuántos casos cada 1.000 o cada 10.000 personas.
+
+### Las cuentas de la pyme
+
+::: {.pregunta data-correcta="2" data-kicker="Pregunta rápida"}
+En enero, las ventas de Dulce Dato cayeron 50%. En febrero subieron 50%. ¿Volvieron a donde estaban?
+
+- Sí
+- No: quedaron 25% abajo
+- No: quedaron 25% arriba
+
+::: {.respuesta}
+**Quedaron 25% abajo.** Si vendían 100, bajaron a 50. Y el 50% de 50 es 25: subieron a 75. Cada porcentaje se calcula sobre una base distinta. Por eso, después de una caída, "crecimos 50%" puede ser una pésima noticia.
+:::
+:::
+
+::: {.pregunta data-correcta="3" data-kicker="Pregunta rápida"}
+A Marta un alfajor le cuesta \$1.000 y lo vende a \$1.500. ¿Qué margen tiene?
+
+- 50%
+- 33%
+- Las dos cosas, según sobre qué lo calcules
+
+::: {.respuesta}
+**Las dos.** Gana \$500 por alfajor: es un 50% **sobre el costo** (lo que en el comercio se llama *markup*) y un 33% **sobre el precio** (el margen). Cuando un proveedor dice "te dejo un 50% de margen", conviene preguntar sobre qué. Otra parecida: dos descuentos de 20% seguidos no son 40%, son 36%, porque pagás el 80% del 80%.
+:::
+:::
+
+### ⭐ Nominal contra real
+
+```{python}
+#| include: false
+d_real = pd.DataFrame({"salarios": sal, "ipc": ipc_reg["nacional"]}).dropna()["2023-11-01":]
+nominal_x = d_real.salarios.iloc[-1] / d_real.salarios.iloc[0]
+ipc_x = d_real.ipc.iloc[-1] / d_real.ipc.iloc[0]
+real_fin = 100 * nominal_x / ipc_x
+mes_fin = labo.mes(d_real.index[-1])
 ```
 
 ::: {.gancho}
 [Titular inventado · datos reales del INDEC]{.medio}
-[En agosto, los precios en la Patagonia subieron el triple que en el GBA]{.titular}
+[Los salarios registrados subieron `{python} labo.coma(100 * (nominal_x - 1), 0)`% desde noviembre de 2023]{.titular}
+:::
+
+::: {.pregunta data-correcta="3"}
+¿Pueden comprar más cosas hoy que en noviembre de 2023 con su sueldo?
+
+- Sí, muchas más
+- Un poco más
+- No se puede saber con ese dato
+
+::: {.respuesta}
+**Con ese dato, no se puede saber.** Hay que compararlo con cuánto subieron los precios. En el mismo período el IPC se multiplicó por `{python} labo.coma(ipc_x, 2)` y el salario por `{python} labo.coma(nominal_x, 2)`. Descontada la inflación, el salario registrado de `{python} mes_fin` compra un `{python} labo.coma(100 - real_fin, 0)`% *menos* que el de noviembre de 2023.
+:::
+:::
 
 ```{python}
 #| echo: false
-#| fig-alt: "Barras de la inflación de agosto de 2026 por región con el eje Y empezando en 1,5%: la Patagonia parece el triple que el GBA."
+#| output: asis
+labo.demo("real", [{"fecha": f.strftime("%Y-%m-%d"), "salarios": round(r.salarios, 3), "ipc": round(r.ipc, 3)} for f, r in d_real.iterrows()])
+```
+
+Con inflación, cualquier cosa medida en pesos "sube": salarios, ventas, recaudación, el precio de un alfajor. Un número **nominal** no dice nada hasta que lo comparás con los precios. El número **real** (deflactado) es el que importa. Si el gerente comercial festeja que las ventas de Dulce Dato crecieron 40% en pesos en un año en que los precios subieron 30%, en realidad crecieron menos de 8% (1,40 / 1,30 = 1,077). Y otra vez: el mes desde el que se compara también cambia la historia.
+
+::: {.receta}
+::: {.panel-tabset}
+## Tramposo
+
+```{python}
+#| fig-alt: "Versión tramposa: salario nominal en base 100, que se multiplica casi por cuatro."
+nominal = d_real.salarios / d_real.salarios.iloc[0] * 100
+fig, ax = plt.subplots()
+ax.plot(nominal.index, nominal)
+ax.set_title("Salarios: ¡casi se cuadruplicaron!")               # <1>
+plt.show()
+```
+1. Pesos de cada mes: con 4 veces más precios, que el salario se multiplique por 4 no dice nada.
+
+## Honesto
+
+```{python}
+#| fig-alt: "Versión honesta: salario real en base 100, que cae a 84 y termina en 92."
+real = (d_real.salarios / d_real.ipc) / (d_real.salarios.iloc[0] / d_real.ipc.iloc[0]) * 100   # <1>
+fig, ax = plt.subplots()
+ax.plot(real.index, real, color="C2")
+ax.axhline(100, color="0.7", lw=1)
+ax.set_title("Salario real (nov 2023 = 100)")
+plt.show()
+```
+1. Salario dividido por el nivel de precios: cuántas "canastas" compra.
+:::
+:::
+
+::: {.antidoto data-truco="Porcentajes" data-pregunta="¿Relativo o absoluto? ¿% o puntos? ¿Porcentaje de qué? ¿Nominal o real?"}
+**Pedí la base.** "El doble" de 1 en 7.000 sigue siendo poquísimo: pedí el riesgo absoluto. Distinguí porcentaje de puntos porcentuales y preguntá sobre qué se calcula cada porcentaje. Y con inflación, cualquier monto en pesos tiene que venir deflactado.
+:::
+
+## 7 · La máquina que acierta el 99% {#tasa-base}
+
+::: {.gancho}
+[La máquina nueva de Dulce Dato · inventada]{.medio}
+[Nuestro detector de fallas acierta el 99%]{.titular}
+
+Marta compró una máquina que revisa cada alfajor y descarta los fallados: rotos, mal bañados, sin dulce. Sale fallado 1 de cada 100. La máquina descarta al 99% de los fallados y deja pasar al 99% de los buenos. Un alfajor sale descartado.
+:::
+
+::: {.adivina data-respuesta="50" data-min="0" data-max="100" data-paso="1" data-inicial="90" data-formato="%"}
+¿Qué probabilidad hay de que esté fallado de verdad?
+
+::: {.respuesta}
+**50%.** Imaginá 1.000 alfajores. 10 están fallados y la máquina descarta a casi todos: 10 descartes justos. Pero de los 990 buenos, el 1% también se descarta: otros 10. De los 20 descartados, la mitad estaba bien. Cuando la falla es rara, hasta una máquina buenísima tira a la basura un montón de alfajores sanos.
+:::
+:::
+
+### El truco
+
+Confundir dos probabilidades que suenan parecidas:
+
+- P(descartado | fallado): qué tan bien detecta la máquina. Es el 99% del folleto.
+- P(fallado | descartado): lo que a Marta le importa.
+
+Para pasar de una a la otra hace falta la **tasa base**: qué tan común es la falla antes de mirar ningún alfajor. Es el mismo problema de un test médico que "acierta el 99%" con una enfermedad rara, o de un sistema antifraude que bloquea compras con tarjeta. Pasa en todos lados: hoy mueren más personas en choques que hace cien años, y no es que los autos sean más peligrosos. Hay muchísimos más autos y más gente. Ignorarla tiene nombre: **falacia de la tasa base**. En los tribunales se llama **falacia del fiscal**, y mandó gente inocente a la cárcel.
+
+::: {.charlalo data-minutos="2"}
+Los Ángeles, 1964. Una pareja (ella rubia con cola de caballo, él con barba, en un auto amarillo) roba una cartera. El fiscal calcula que la chance de que una pareja *inocente* tenga todas esas características es 1 en 12 millones, y el jurado condena a los Collins. ¿Qué está mal? Pista: ¿cuántas parejas así hay en una ciudad de millones de habitantes?
+:::
+
+::: {.respuesta .solo-lectura}
+Que una pareja inocente coincida con la descripción tenga probabilidad 1 en 12 millones no significa que esta pareja tenga 1 en 12 millones de ser inocente. Si en la zona hay, digamos, 10 parejas que coinciden, la probabilidad de que esta sea la culpable es 1 en 10. Además el fiscal multiplicó probabilidades como si fueran independientes (barba y bigote no lo son). La Corte Suprema de California anuló la condena en 1968. En 1999, en Inglaterra, Sally Clark fue condenada por la muerte de sus dos bebés con un "1 en 73 millones" construido con los mismos dos errores. Fue liberada en 2003.
+:::
+
+### Hacelo vos
+
+```{python}
+#| echo: false
+#| output: asis
+labo.demo("tasa-base", prevalencia=1.0, sensibilidad=99.0, especificidad=99.0, textos={
+    "rotulos": ["Alfajores que salen fallados", "La máquina descarta a los fallados", "La máquina deja pasar a los buenos"],
+    "grupos": ["Fallados descartados", "Buenos descartados (falsa alarma)", "Fallados que pasan", "Buenos que pasan"],
+    "kpi": "Si la máquina descarta uno, chance de que esté fallado",
+    "cuenta": "De 1.000 alfajores: la máquina descarta {pos} y solo {vp} de ellos están fallados.",
+    "aria": "Mil alfajores según lo que hizo la máquina",
+})
+```
+
+::: {.desafio}
+Con la máquina al 99/99, ¿qué tan común tiene que ser la falla para que un alfajor descartado tenga 90% de chances de estar fallado? ¿Y qué pasa con una máquina "mala" (80/80) si sale fallado el 30%?
+:::
+
+::: {.receta}
+```{python}
+def prob_fallado_si_descarta(tasa_falla, detecta, deja_pasar):
+    justos = tasa_falla * detecta                                  # <1>
+    falsas_alarmas = (1 - tasa_falla) * (1 - deja_pasar)           # <2>
+    return justos / (justos + falsas_alarmas)                      # <3>
+
+for falla in [0.001, 0.01, 0.1, 0.3]:
+    print(f"falla {falla:>5.1%}  ->  P(fallado | descartado) = {prob_fallado_si_descarta(falla, 0.99, 0.99):.1%}")
+```
+1. Alfajores fallados que la máquina descarta.
+2. Alfajores buenos que descarta igual (falsas alarmas).
+3. Teorema de Bayes: de todos los descartados, qué parte estaba fallada.
+:::
+
+::: {.antidoto data-truco="Tasa base" data-pregunta="¿Qué tan común era esto antes de mirar la evidencia?"}
+**Preguntá por la tasa base.** "Acierta el 99%" no dice nada sin saber cuán común es lo que se busca. Y no confundas P(evidencia | inocente) con P(inocente | evidencia).
+:::
+
+## 8 · Juntos dicen una cosa, separados otra {#simpson}
+
+```{python}
+#| include: false
+# Visitas y ventas cerradas de los dos vendedores de Dulce Dato en septiembre (inventadas)
+visitas = pd.DataFrame({
+    "cat": ["Kioscos", "Almacenes", "Supermercados"],
+    "a_n": [120, 60, 20], "a_si": [90, 33, 3],      # Diego
+    "b_n": [20, 60, 120], "b_si": [16, 36, 24],     # Laura
+})
+tasa_diego = 100 * visitas.a_si.sum() / visitas.a_n.sum()
+tasa_laura = 100 * visitas.b_si.sum() / visitas.b_n.sum()
+```
+
+::: {.gancho}
+[La planilla del gerente comercial · inventada]{.medio}
+[Diego cierra el `{python} labo.coma(tasa_diego, 0)`% de sus visitas y Laura, el `{python} labo.coma(tasa_laura, 0)`%. El premio al mejor vendedor es para Diego.]{.titular}
+:::
+
+::: {.pregunta data-correcta="3"}
+¿Le darían el premio a Diego?
+
+- Sí, está clarísimo
+- No: es casualidad
+- Depende de a qué clientes visitó cada uno
+
+::: {.respuesta}
+**Depende de a qué clientes visitó cada uno.** Si se separan por tipo de cliente, Laura cierra más ventas que Diego **en los tres**: en kioscos, en almacenes y en supermercados. ¿Cómo puede ser? A Diego le tocaron casi todos kioscos, donde vender es fácil. A Laura le tocaron los supermercados, donde cualquier vendedor cierra pocas ventas.
+:::
+:::
+
+### El truco
+
+Es la **paradoja de Simpson**: una tendencia que aparece en cada grupo se invierte (o desaparece) cuando juntás los grupos. Pasa cuando hay una tercera variable (acá, qué clientes le tocaron a cada uno) que está relacionada con las otras dos. Con los mismos datos se pueden escribir dos titulares opuestos, y los dos tienen números que los respaldan. Elegís uno y listo.
+
+**Pasó de verdad.** En el otoño de 1973, la Universidad de California en Berkeley admitió en el posgrado al 44% de los hombres y solo al 35% de las mujeres que se postularon. ¿Discriminaba? Un equipo de estadísticos (Bickel, Hammel y O'Connell, 1975) miró departamento por departamento: en la mayoría, las mujeres entraban en igual o **mayor** proporción que los hombres. Se postulaban más a los departamentos más difíciles, donde entraba poca gente de cualquier sexo.
+
+### Hacelo vos
+
+```{python}
+#| echo: false
+#| output: asis
+labo.demo("simpson", visitas.to_dict("records"), nombres=["Diego", "Laura"], textos={
+    "medida": "Porcentaje de visitas que terminan en venta",
+    "intentos": "visitas", "exitos": "ventas", "categoria": "Tipo de cliente",
+    "total": "{a} cierra el {ta} de sus visitas y {b}, el {tb}. Parece que {a} vende mejor.",
+    "porcat": "En {k} de {n} tipos de cliente, {b} cierra más que {a}. El tamaño de cada punto es la cantidad de visitas: a {b} le tocaron los clientes difíciles.",
+})
+```
+
+::: {.charlalo data-minutos="1"}
+Dos hospitales: en el A muere más gente que en el B. ¿Se van a atender al B? ¿Qué dato pedirían antes? (Pista: ¿a cuál van los casos más graves?)
+:::
+
+::: {.receta}
+```{python}
+import pandas as pd
+
+visitas = pd.DataFrame({
+    "cliente": ["Kioscos", "Almacenes", "Supermercados"],
+    "diego_visitas": [120, 60, 20], "diego_ventas": [90, 33, 3],
+    "laura_visitas": [20, 60, 120], "laura_ventas": [16, 36, 24],
+})
+total_diego = visitas.diego_ventas.sum() / visitas.diego_visitas.sum()      # <1>
+total_laura = visitas.laura_ventas.sum() / visitas.laura_visitas.sum()
+print(f"Todo junto: Diego {total_diego:.0%}, Laura {total_laura:.0%}")
+
+visitas["diego"] = visitas.diego_ventas / visitas.diego_visitas
+visitas["laura"] = visitas.laura_ventas / visitas.laura_visitas
+print(visitas[["cliente", "diego", "laura"]].round(2))                       # <2>
+```
+1. Todo junto: gana Diego.
+2. Por tipo de cliente: Laura gana en los tres.
+:::
+
+::: {.antidoto data-truco="Simpson" data-pregunta="¿Cambia la conclusión si separo por grupos?"}
+**Pedí los datos por grupo.** Cuando un total compara grupos que son muy distintos por dentro, la conclusión puede darse vuelta al separarlos. Preguntá qué tercera variable puede estar mezclando todo.
+:::
+
+## 9 · Correlación no es causalidad {#correlacion}
+
+```{python}
+#| include: false
+vigen = pd.DataFrame({
+    "anio": range(2006, 2013),
+    "aire": [0, 0.273973, 0, 0, 0, 0, 0.550964],   # % de días con aire "insalubre" en Gainesville, Florida (EPA)
+    "goles": [2, 6, 2, 3, 2, 4, 12],                # goles de Messi con la selección (Wikipedia)
+})
+r_vigen = vigen.aire.corr(vigen.goles)
+```
+
+::: {.gancho}
+[Spurious Correlations, de Tyler Vigen (CC BY 4.0)]{.medio}
+[Los goles de Messi con la Selección y la contaminación del aire en Gainesville, Florida]{.titular}
+
+```{python}
+#| echo: false
+#| fig-alt: "Dos líneas que suben y bajan juntas entre 2006 y 2012: goles de Messi y días con aire contaminado en Gainesville."
+fig, ax = plt.subplots(figsize=(7, 3))
+ax.plot(vigen.anio, vigen.goles, color=AZUL, marker="o", label="Goles de Messi con Argentina")
+ax2 = ax.twinx()
+ax2.plot(vigen.anio, vigen.aire, color=DORADO, marker="o", label="Días con aire insalubre en Gainesville (%)")
+ax2.grid(False); ax2.spines["right"].set_visible(True)
+ax2.yaxis.set_major_formatter(lambda y, _: labo.coma(y, 1) + "%")
+fig.legend(loc="upper left", bbox_to_anchor=(0.08, 0.98), fontsize=9)
+plt.show()
+```
+:::
+
+::: {.adivina data-respuesta="0.97" data-min="-1" data-max="1" data-paso="0.01" data-inicial="0" data-formato="r"}
+¿Cuánto da la correlación entre las dos series?
+
+::: {.respuesta}
+**r = `{python} labo.coma(r_vigen, 2)`.** Casi perfecta. Y obviamente no hay ninguna relación. Miren los datos: son solo 7 años, y la "contaminación" son uno o dos días malos por año. Con tan pocos puntos y cruzando miles de series, siempre aparece alguna que coincide: Vigen cruzó más de 25.000 variables. (Y miren el gráfico: tiene dos ejes. A eso volvemos en el módulo 15.)
+:::
+:::
+
+### El truco
+
+Que dos cosas se muevan juntas no dice que una cause la otra. Hay al menos cuatro explicaciones alternativas:
+
+1. **Una tercera causa.** En Dulce Dato, los meses en que más se gasta en publicidad son los meses en que más se vende. ¿La publicidad funciona? Puede ser. Pero Marta pauta más en invierno, que es cuando más alfajores se compran: el frío mueve las dos cosas. Es lo mismo que pasa con las ventas de helado y los ataques de tiburones, que suben juntos en verano.
+2. **Causalidad al revés.** Los kioscos que tienen exhibidor de Dulce Dato venden más alfajores. ¿El exhibidor hace vender? Puede ser al revés: los vendedores dejan los exhibidores en los kioscos que ya venden mucho. (Hubo quienes creyeron que los piojos daban salud, porque los enfermos casi nunca tenían. En realidad, los piojos abandonan los cuerpos con fiebre.)
+3. **Pura casualidad.** Si buscás entre miles de series, alguna va a coincidir (Messi y Gainesville).
+4. **Tendencias.** Dos series que crecen con el tiempo van a estar correlacionadas aunque no tengan nada que ver. Las ventas en pesos de Dulce Dato y el precio del dólar suben juntas: las dos arrastran la inflación. Para economistas, esta es la más peligrosa: se llama **regresión espuria**.
+
+Y una quinta, muy de gerentes y de campaña electoral: **atribuirle el resultado a quien estaba ahí**. "Cambiamos el envoltorio y las ventas subieron 30%": era mayo, y empezaba el frío. "Asumió fulano y se cayó la actividad." Que algo pase *después* no quiere decir que pase *por eso* (*post hoc, ergo propter hoc*). En 2009 cualquier opositor podía mostrar que con el gobierno de turno se habían perdido empleos y cerrado empresas, en medio de una crisis financiera mundial. Y vale al revés: el que gobierna culpa al contexto de todo lo malo y se adjudica todo lo bueno.
+
+### Hacelo vos: fabricá tu correlación espuria
+
+```{python}
+#| echo: false
+#| output: asis
+labo.demo("espurias", largo=30)
+```
+
+::: {.desafio}
+Generen 10 pares de caminatas aleatorias. ¿Cuántos tienen |r| mayor a 0,5? Ahora cambien a ruido puro. ¿Qué cambió? (Si cursaron econometría: por eso con series de tiempo se trabaja con diferencias o se testea cointegración.)
+:::
+
+::: {.receta}
+```{python}
+import numpy as np
+
+rng = np.random.default_rng(42)
+r_caminatas, r_ruido = [], []
+for _ in range(1000):
+    a, b = rng.normal(size=(2, 30))
+    r_ruido.append(np.corrcoef(a, b)[0, 1])                        # <1>
+    r_caminatas.append(np.corrcoef(a.cumsum(), b.cumsum())[0, 1])  # <2>
+
+print("pares con |r| > 0,5 (ruido):     ", np.mean(np.abs(r_ruido) > 0.5))
+print("pares con |r| > 0,5 (caminatas): ", np.mean(np.abs(r_caminatas) > 0.5))
+```
+1. Ruido puro: dos series sin relación casi nunca superan |r| = 0,5.
+2. Caminatas aleatorias (suma acumulada del ruido): series igual de independientes, pero que deambulan. Casi 4 de cada 10 pasan |r| = 0,5.
+:::
+
+::: {.antidoto data-truco="Correlaciones" data-pregunta="¿Hay una tercera causa? ¿Puede ser al revés? ¿Cuántas cosas probaron? ¿Las dos tienen tendencia?"}
+**Ante una correlación, buscá otra explicación.** Tercera causa, causalidad al revés, casualidad o tendencias comunes. Y desconfiá de las correlaciones "encontradas" entre miles de series.
+:::
+
+# Acto III · Mentir con gráficos {.unnumbered}
+
+Lo que se ve. Último paso del camino: el dato ya está elegido y calculado, y alguien lo dibuja. Son los trucos más fáciles de hacer y, por suerte, los más fáciles de detectar si sabés dónde mirar.
+
+## 10 · El eje que no arranca en cero {#eje-y}
+
+```{python}
+#| include: false
+# Calificación promedio que les ponen los clientes a cinco marcas de alfajores, de 1 a 5 estrellas (inventada)
+calif = pd.DataFrame({"nombre": ["Dulce Dato", "Marca A", "Marca B", "Marca C", "Marca D"],
+                      "valor": [4.7, 4.5, 4.4, 4.6, 4.5]})
+```
+
+::: {.gancho}
+[Publicidad de Dulce Dato en Instagram · inventada]{.medio}
+[El alfajor que más les gusta a los clientes]{.titular}
+
+```{python}
+#| echo: false
+#| fig-alt: "Barras de la calificación de cinco marcas de alfajores con el eje Y empezando en 4,3 estrellas: Dulce Dato parece cuatro veces más alta que la Marca B."
 fig, ax = plt.subplots(figsize=(7, 3.2))
-colores = [AZUL if r in ("Patagonia", "GBA") else GRIS for r in regiones.region]
-ax.bar(regiones.region, regiones.valor, color=colores, width=0.55)
-ax.set_ylim(1.5, 1.85)
-ax.yaxis.set_major_formatter(lambda y, _: labo.coma(y, 2) + "%")
-ax.set_title("Inflación de agosto de 2026, por región", loc="left")
+colores = [AZUL if m in ("Dulce Dato", "Marca B") else GRIS for m in calif.nombre]
+ax.bar(calif.nombre, calif.valor, color=colores, width=0.55)
+ax.set_ylim(4.3, 4.75)
+ax.yaxis.set_major_formatter(lambda y, _: labo.coma(y, 2))
+ax.set_title("Calificación de los clientes (estrellas)", loc="left")
 plt.show()
 ```
 :::
 
 ::: {.pregunta data-correcta="1"}
-Miren la barra de la Patagonia y la del GBA. ¿Cuánto más subieron los precios en la Patagonia?
+Miren la barra de Dulce Dato y la de la Marca B. ¿Cuánto mejor calificado está Dulce Dato?
 
-- Más o menos lo mismo
+- Casi igual
 - Un 50% más
 - El doble
-- El triple
+- Cuatro veces más
 
 ::: {.respuesta}
-**Más o menos lo mismo:** 1,8% contra 1,6%. La Patagonia está un 12% arriba, no un 200%. El truco está en el eje vertical, que arranca en 1,5%: cada barra muestra solo lo que sobra por encima de 1,5, y ahí 0,3 parece el triple de 0,1.
+**Casi igual:** 4,7 estrellas contra 4,4. Dulce Dato está un 7% arriba, no un 300%. El truco está en el eje vertical, que arranca en 4,3: cada barra muestra solo lo que sobra por encima de 4,3, y ahí 0,4 parece cuatro veces 0,1.
 :::
 :::
 
@@ -261,46 +1116,47 @@ Un gráfico honesto da 1. Con barras que arrancan en $y_0$, comparar una barra $
 
 ### Hacelo vos
 
-Mové el control y mirá el *lie factor*. Arranca en la versión del noticiero.
+Mové el control y mirá el *lie factor*. Arranca en la versión de la publicidad.
 
 ```{python}
 #| echo: false
 #| output: asis
-labo.demo("eje-y", regiones.to_dict("records"), comparar=["Patagonia", "GBA"], y0=1.5, mes="agosto de 2026")
+labo.demo("eje-y", calif.to_dict("records"), comparar=["Dulce Dato", "Marca B"], y0=4.3,
+          eje="Calificación de los clientes (estrellas)", sufijo=" ★", columna="Marca")
 ```
 
 ::: {.desafio}
 ¿Quién consigue el *lie factor* más alto? ¿Y a partir de qué número el gráfico **se nota** trucho? Prueben con el de al lado: uno arma el gráfico y el otro tiene que adivinar el lie factor.
 :::
 
-**Ojo, no siempre es trampa.** En un gráfico de **líneas** importa la forma de la curva, no la altura. Ahí hacer zoom puede ser lo honesto. Si graficás la temperatura de alguien con fiebre desde 0 grados, 36 y 39 se ven iguales, y no lo son. La pregunta es siempre la misma: *¿la diferencia que el zoom agranda importa de verdad?* Y la versión más burda del truco es directamente **no poner números en el eje**. Pasa más seguido de lo que se cree, incluso en presentaciones de empresas gigantes.
+**Ojo, no siempre es trampa.** En un gráfico de **líneas** importa la forma de la curva, no la altura. Ahí hacer zoom puede ser lo honesto. Si graficás la temperatura de alguien con fiebre desde 0 grados, 36 y 39 se ven iguales, y no lo son. La pregunta es siempre la misma: *¿la diferencia que el zoom agranda importa de verdad?* Y la versión más burda del truco es directamente **no poner números en el eje**. Pasa más seguido de lo que se cree, incluso en presentaciones de empresas gigantes. Los noticieros también lo usan: acuérdense del gráfico de la inflación del módulo 3, con el eje desde 1,4%.
 
 ::: {.receta}
 ::: {.panel-tabset}
 ## Tramposo
 
 ```{python}
-#| fig-alt: "Versión tramposa: barras con el eje desde 1,5%."
+#| fig-alt: "Versión tramposa: barras con el eje desde 4,3 estrellas."
 import matplotlib.pyplot as plt
 
-regiones = ["GBA", "Pampeana", "Noreste", "Noroeste", "Cuyo", "Patagonia"]
-inflacion = [1.6, 1.6, 1.8, 1.8, 1.7, 1.8]   # agosto 2026, INDEC
+marcas = ["Dulce Dato", "Marca A", "Marca B", "Marca C", "Marca D"]
+estrellas = [4.7, 4.5, 4.4, 4.6, 4.5]          # calificación promedio de los clientes (inventada)
 
 fig, ax = plt.subplots()
-ax.bar(regiones, inflacion)
-ax.set_ylim(1.5, 1.85)                        # <1>
+ax.bar(marcas, estrellas)
+ax.set_ylim(4.3, 4.75)                           # <1>
 plt.show()
 ```
-1. Acá está la trampa: el eje arranca en 1,5. Las barras muestran solo lo que sobra por encima.
+1. Acá está la trampa: el eje arranca en 4,3. Las barras muestran solo lo que sobra por encima.
 
 ## Honesto
 
 ```{python}
 #| fig-alt: "Versión honesta: las mismas barras con el eje desde cero."
 fig, ax = plt.subplots()
-ax.bar(regiones, inflacion)
-ax.set_ylim(0, 2)                              # <1>
-ax.set_title("Inflación de agosto de 2026 por región (%)")
+ax.bar(marcas, estrellas)
+ax.set_ylim(0, 5)                                # <1>
+ax.set_title("Calificación de los clientes (de 1 a 5 estrellas)")
 plt.show()
 ```
 1. Las barras arrancan en cero: la altura vuelve a ser proporcional al dato.
@@ -311,52 +1167,61 @@ plt.show()
 **Mirá dónde arranca el eje.** En barras, la altura *es* el dato: tienen que arrancar en cero. En líneas se puede hacer zoom, siempre que la diferencia que se agranda importe de verdad. Y si el eje no tiene números, desconfiá.
 :::
 
-## 2 · Lo que se acumula siempre sube {#acumulados}
+## 11 · Lo que se acumula siempre sube {#acumulados}
 
 ```{python}
 #| include: false
-nivel_ipc = ipc_reg["nacional"]
-ipc24 = pd.DataFrame({
-    "mensual": (nivel_ipc.pct_change() * 100)["2024"],
-    "acumulada": (nivel_ipc["2024"] / nivel_ipc["2023-12-01"] - 1) * 100,
-})
+# Ventas de Dulce Dato en 2026, en miles de alfajores por mes (inventadas). En abril se perdió a una cadena de supermercados.
+ventas26 = pd.DataFrame({"fecha": pd.date_range("2026-01-01", "2026-09-01", freq="MS"),
+                         "mensual": [480, 465, 470, 410, 395, 390, 385, 360, 345]})
+ventas26["acumulada"] = ventas26.mensual.cumsum()
+acum26 = ventas26.acumulada.iloc[-1] / 1000
+caida26 = 100 * (1 - ventas26.mensual.iloc[-1] / ventas26.mensual.iloc[0])
+# La inflación de 2024 (INDEC), para el ejemplo de la economía
+nivel24 = ipc_reg["nacional"]
+infl24 = pd.DataFrame({"mensual": (nivel24.pct_change() * 100)["2024"],
+                       "acumulada": (nivel24["2024"] / nivel24["2023-12-01"] - 1) * 100})
 ```
 
 ::: {.gancho}
-[Titular inventado · datos reales del INDEC]{.medio}
-[La inflación no paró de subir en todo 2024: arrancó en 20,6% y terminó en 117,8%]{.titular}
+[La presentación del gerente comercial · inventada]{.medio}
+[En 2026 ya vendimos `{python} labo.coma(acum26, 1)` millones de alfajores: las ventas no paran de crecer]{.titular}
 
 ```{python}
 #| echo: false
-#| fig-alt: "Línea de la inflación acumulada en 2024, que sube todos los meses de 20,6% a 117,8%."
+#| fig-alt: "Área de las ventas acumuladas de Dulce Dato en 2026, que suben todos los meses de 480 mil a 3,7 millones de alfajores."
 fig, ax = plt.subplots(figsize=(7, 3))
-ax.fill_between(ipc24.index, ipc24.acumulada, color=AZUL, alpha=0.1, lw=0)
-ax.plot(ipc24.index, ipc24.acumulada, color=AZUL)
-for f in (ipc24.index[0], ipc24.index[-1]):
-    ax.annotate(labo.coma(ipc24.acumulada[f], 1) + "%", (f, ipc24.acumulada[f]), textcoords="offset points", xytext=(0, 8), ha="center", fontweight=600)
-ax.set_ylim(0, 135)
-ax.yaxis.set_major_formatter(lambda y, _: f"{y:.0f}%")
-ax.set_xticks(ipc24.index[::2], [labo.mes(f, False) for f in ipc24.index[::2]])
-ax.set_title("Inflación acumulada en 2024", loc="left")
+ax.fill_between(ventas26.fecha, ventas26.acumulada, color=AZUL, alpha=0.1, lw=0)
+ax.plot(ventas26.fecha, ventas26.acumulada, color=AZUL)
+for i in (0, len(ventas26) - 1):
+    f, v = ventas26.fecha.iloc[i], ventas26.acumulada.iloc[i]
+    ax.annotate(labo.coma(v, 0) + " mil" if v < 1000 else labo.coma(v / 1000, 1) + " millones", (f, v),
+                textcoords="offset points", xytext=(0, 8), ha="center", fontweight=600)
+ax.set_ylim(0, 4300)
+ax.yaxis.set_major_formatter(lambda y, _: labo.coma(y, 0))
+ax.set_xticks(ventas26.fecha, [labo.mes(f, False) for f in ventas26.fecha])
+ax.set_title("Ventas acumuladas en 2026 (miles de alfajores)", loc="left")
 plt.show()
 ```
 :::
 
 ::: {.pregunta data-correcta="2"}
-Según este gráfico, durante 2024 la inflación…
+Según este gráfico, durante 2026 las ventas de Dulce Dato…
 
-- Empeoró
-- Mejoró
-- Se mantuvo igual
+- Crecieron
+- Cayeron
+- Se mantuvieron
 
 ::: {.respuesta}
-**Mejoró, y mucho.** El gráfico muestra la inflación *acumulada*: cuánto subieron los precios desde diciembre de 2023. Un acumulado solo puede subir (o, como mucho, quedarse quieto). La pregunta interesante es *a qué velocidad* sube. En enero los precios subieron 20,6% en un mes. En diciembre, 2,7%.
+**Cayeron, y bastante.** El gráfico muestra las ventas *acumuladas*: todo lo vendido desde enero. Un acumulado solo puede subir (o, como mucho, quedarse quieto). La pregunta interesante es *a qué velocidad* sube. En enero se vendieron 480 mil alfajores; en septiembre, 345 mil: un `{python} labo.coma(caida26, 0)`% menos. En abril Dulce Dato perdió a su mejor cliente, una cadena de supermercados, y el gráfico del gerente no lo muestra.
 :::
 :::
 
 ### El truco
 
-Casos totales de una enfermedad, deuda acumulada, usuarios registrados, ventas desde que abrió el local: todos los totales que se van sumando **solo pueden crecer**. Si querés que algo parezca que empeora (o que tu empresa vuela), graficá el total. Si querés saber qué está pasando, mirá cuánto cambia **en cada período**.
+Casos totales de una enfermedad, deuda acumulada, usuarios registrados, clientes "desde que abrimos", ventas del año: todos los totales que se van sumando **solo pueden crecer**. Si querés que algo parezca que empeora (o que tu empresa vuela), graficá el total. Si querés saber qué está pasando, mirá cuánto cambia **en cada período**.
+
+Con la inflación pasa lo mismo. En 2024 la acumulada "no paró de subir": de `{python} labo.coma(infl24.acumulada.iloc[0], 1)`% en enero a `{python} labo.coma(infl24.acumulada.iloc[-1], 1)`% en diciembre. Mientras tanto, la de cada mes bajaba de `{python} labo.coma(infl24.mensual.iloc[0], 1)`% a `{python} labo.coma(infl24.mensual.iloc[-1], 1)`%. Las dos cosas son verdad; solo una dice hacia dónde iban los precios.
 
 Si lo vieron en Análisis Matemático, es una idea conocida: el acumulado es la integral y lo que pasa cada mes es la derivada. La altura de la curva dice cuánto se juntó. Lo que importa es **la pendiente**.
 
@@ -366,9 +1231,12 @@ Si lo vieron en Análisis Matemático, es una idea conocida: el acumulado es la 
 #| echo: false
 #| output: asis
 labo.demo("acumulado", [
-    {"fecha": f.strftime("%Y-%m-%d"), "mensual": round(r.mensual, 1), "acumulada": round(r.acumulada, 1)}
-    for f, r in ipc24.iterrows()
-])
+    {"fecha": f.strftime("%Y-%m-%d"), "mensual": int(m), "acumulada": int(a)}
+    for f, m, a in ventas26[["fecha", "mensual", "acumulada"]].itertuples(index=False)
+], anio="2026", formato="miles",
+   ejes={"acumulada": "Ventas acumuladas en el año (miles de alfajores)", "mensual": "Ventas del mes (miles de alfajores)"},
+   titulares={"acumulada": "«Dulce Dato no para de crecer: ya vendió {a1} de alfajores en 2026»",
+              "mensual": "«Las ventas de Dulce Dato cayeron todo el año: de {m0} alfajores en enero a {m1} en septiembre»"})
 ```
 
 ::: {.charlalo data-minutos="1"}
@@ -380,39 +1248,31 @@ labo.demo("acumulado", [
 ## Tramposo
 
 ```{python}
-#| fig-alt: "Versión tramposa: área de la inflación acumulada."
+#| fig-alt: "Versión tramposa: área de las ventas acumuladas."
 import pandas as pd
 import matplotlib.pyplot as plt
 
-url = ("https://apis.datos.gob.ar/series/api/series/?ids=148.3_INIVELNAL_DICI_M_26"
-       "&start_date=2023-12-01&end_date=2024-12-01&format=csv")
-ipc = pd.read_csv(url, index_col=0, parse_dates=True,
-                  storage_options={"User-Agent": "Mozilla/5.0"})   # <1>
-nivel = ipc.iloc[:, 0]
+meses = pd.date_range("2026-01-01", "2026-09-01", freq="MS")
+ventas = pd.Series([480, 465, 470, 410, 395, 390, 385, 360, 345], index=meses)   # miles de alfajores por mes
 
-acumulada = (nivel / nivel.iloc[0] - 1) * 100                      # <2>
-acumulada = acumulada.iloc[1:]
-
+acumuladas = ventas.cumsum()                                           # <1>
 fig, ax = plt.subplots()
-ax.fill_between(acumulada.index, acumulada)
-ax.set_title("La inflación no para de subir")
+ax.fill_between(acumuladas.index, acumuladas)
+ax.set_title("Ventas 2026: ¡no paran de crecer!")
 plt.show()
 ```
-1. La API de datos.gob.ar rechaza el "User-Agent" que manda Python por defecto (error 403). Con mandar cualquier otro, alcanza.
-2. La trampa: cuánto subió desde diciembre. Es un acumulado: nunca baja.
+1. La trampa: `cumsum()` suma todo lo anterior. Un acumulado nunca baja.
 
 ## Honesto
 
 ```{python}
-#| fig-alt: "Versión honesta: barras de la inflación de cada mes, que bajan durante 2024."
-mensual = nivel.pct_change().iloc[1:] * 100                        # <1>
-
+#| fig-alt: "Versión honesta: barras con las ventas de cada mes, que bajan desde abril."
 fig, ax = plt.subplots()
-ax.bar(mensual.index, mensual, width=20)
-ax.set_title("Inflación de cada mes de 2024 (%)")
+ax.bar(ventas.index, ventas, width=20)                                 # <1>
+ax.set_title("Ventas de cada mes de 2026 (miles de alfajores)")
 plt.show()
 ```
-1. La variación de cada mes respecto del anterior: la "velocidad" a la que suben los precios.
+1. Lo que se vendió en cada mes: ahí se ve la caída desde abril.
 :::
 :::
 
@@ -420,18 +1280,19 @@ plt.show()
 **Preguntá si es un acumulado.** Un total acumulado solo sube. Para saber si algo mejora o empeora, mirá cuánto cambia por período: la pendiente, no la altura.
 :::
 
-## 3 · La torta, para el postre {#tortas}
+## 12 · La torta, para el postre {#tortas}
 
 ```{python}
 #| include: false
-materias = ["Contabilidad", "Microeconomía", "Estadística", "Álgebra", "Análisis Matemático"]
+# Cómo se repartieron las ventas de Dulce Dato entre sus cinco sabores (% de las unidades, inventado)
+sabores = ["Dulce de leche", "Chocolate negro", "Chocolate blanco", "Maicena", "Frutos rojos"]
 torta_2025 = [17, 18, 20, 22, 23]
 torta_2026 = [23, 22, 20, 18, 17]
 ```
 
 ::: {.gancho}
-[Encuesta inventada para esta clase]{.medio}
-[¿Qué materia les cuesta más? Así votaron en 2025 y en 2026]{.titular}
+[El informe de ventas de Dulce Dato · inventado]{.medio}
+[¿Qué sabores se venden más? Así se repartieron las ventas en 2025 y en 2026]{.titular}
 
 ```{python}
 #| echo: false
@@ -441,7 +1302,7 @@ for ax, valores, anio in [(ejes[0], torta_2025, "2025"), (ejes[1], torta_2026, "
     ax.pie(valores, colors=labo.SERIES, startangle=90, counterclock=False,
            wedgeprops={"linewidth": 2, "edgecolor": labo.PAPEL})
     ax.set_title(anio, loc="center", fontsize=13)
-fig.legend(materias, loc="lower center", ncol=3, fontsize=9, bbox_to_anchor=(0.5, -0.12))
+fig.legend(sabores, loc="lower center", ncol=3, fontsize=9, bbox_to_anchor=(0.5, -0.12))
 plt.show()
 ```
 :::
@@ -450,17 +1311,17 @@ plt.show()
 ¿Qué cambió de un año al otro?
 
 - Casi nada
-- Subió un poco Análisis Matemático
+- Se vendió un poco más de frutos rojos
 - Se dio vuelta todo el ranking
 
 ::: {.respuesta}
-**Se dio vuelta todo el ranking.** En 2025 la más votada era Análisis Matemático (23%) y la menos votada, Contabilidad (17%). En 2026, exactamente al revés. En la torta casi no se nota. En barras salta a la vista.
+**Se dio vuelta todo el ranking.** En 2025 el que más se vendía era el de frutos rojos (23%) y el que menos, el de dulce de leche (17%). En 2026, exactamente al revés. En la torta casi no se nota. En barras salta a la vista. Y es justo lo que Marta necesita saber para decidir qué sabor fabricar más.
 :::
 :::
 
 ### El truco
 
-No es tanto una mentira como una **forma de esconder**. El ojo compara muy bien largos sobre una misma base (barras) y bastante mal ángulos y áreas (porciones). Cuando las porciones son parecidas, o cuando son muchas, la torta se vuelve un adivinanza. Y si encima es en 3D, las porciones de adelante se ven más grandes que las de atrás.
+No es tanto una mentira como una **forma de esconder**. El ojo compara muy bien largos sobre una misma base (barras) y bastante mal ángulos y áreas (porciones). Cuando las porciones son parecidas, o cuando son muchas, la torta se vuelve una adivinanza. Y si encima es en 3D, las porciones de adelante se ven más grandes que las de atrás.
 
 ¿Cuándo sirve una torta? Con dos o tres porciones bien distintas y **con los porcentajes escritos**. En cualquier otro caso, barras ordenadas.
 
@@ -469,18 +1330,18 @@ No es tanto una mentira como una **forma de esconder**. El ojo compara muy bien 
 ```{python}
 #| echo: false
 #| output: asis
-labo.demo("tortas", [{"titulo": "Encuesta 2025", "valores": torta_2025}, {"titulo": "Encuesta 2026", "valores": torta_2026}], categorias=materias)
+labo.demo("tortas", [{"titulo": "Ventas 2025", "valores": torta_2025}, {"titulo": "Ventas 2026", "valores": torta_2026}], categorias=sabores, columna="Sabor")
 ```
 
 ::: {.pregunta data-correcta="2" data-kicker="Pregunta rápida"}
-¿Puede una torta sumar 130%?
+Marta encuestó a sus clientes: "¿Por qué elegís Dulce Dato?". El 61% marcó el precio, el 54% el sabor, el 38% que lo tiene su kiosco, el 22% el tamaño y el 9% el envoltorio. ¿Lo puede mostrar en una torta?
 
-- Sí, si la encuesta es grande
-- No: entonces no es una torta
-- Depende del redondeo
+- Sí, con una porción por respuesta
+- No: suma 184%
+- Sí, si redondea
 
 ::: {.respuesta}
-**No.** Una torta muestra las partes de un todo. Pero muchas encuestas dejan elegir más de una respuesta, y ahí los porcentajes suman más de 100. En 2007, en el Reino Unido, Colgate tuvo que retirar el aviso "el 80% de los dentistas recomienda Colgate": cada dentista podía nombrar varias marcas, y otras salían tan bien o mejor. Era verdad, y era engañoso.
+**No.** Una torta muestra las partes de un todo, y estas respuestas suman 184%: cada cliente podía marcar varias razones. Una torta con eso es directamente un error. Y hay otra trampa escondida: "el 61% nos elige por el precio" es verdad, pero no quiere decir que al resto no le importe. En 2007, en el Reino Unido, Colgate tuvo que retirar el aviso "el 80% de los dentistas recomienda Colgate": cada dentista podía nombrar varias marcas, y otras salían tan bien o mejor. Era verdad, y era engañoso.
 :::
 :::
 
@@ -490,11 +1351,11 @@ labo.demo("tortas", [{"titulo": "Encuesta 2025", "valores": torta_2025}, {"titul
 
 ```{python}
 #| fig-alt: "Versión tramposa: una torta de cinco porciones parecidas."
-materias = ["Contabilidad", "Microeconomía", "Estadística", "Álgebra", "Análisis Matemático"]
-votos = [23, 22, 20, 18, 17]
+sabores = ["Dulce de leche", "Chocolate negro", "Chocolate blanco", "Maicena", "Frutos rojos"]
+ventas = [23, 22, 20, 18, 17]                                  # % de las unidades vendidas en 2026
 
 fig, ax = plt.subplots()
-ax.pie(votos, labels=materias)                                 # <1>
+ax.pie(ventas, labels=sabores)                                 # <1>
 plt.show()
 ```
 1. Cinco porciones de entre 17% y 23%, sin números: imposible compararlas.
@@ -503,12 +1364,12 @@ plt.show()
 
 ```{python}
 #| fig-alt: "Versión honesta: barras horizontales ordenadas con los porcentajes escritos."
-orden = sorted(zip(votos, materias))                           # <1>
+orden = sorted(zip(ventas, sabores))                           # <1>
 fig, ax = plt.subplots()
 ax.barh([m for _, m in orden], [v for v, _ in orden])
 for i, (v, _) in enumerate(orden):
     ax.text(v + 0.3, i, f"{v}%", va="center")                  # <2>
-ax.set_title("¿Qué materia les cuesta más? (2026, % de votos)")
+ax.set_title("Ventas de Dulce Dato por sabor (2026, % de las unidades)")
 plt.show()
 ```
 1. Barras horizontales y ordenadas de menor a mayor: el ranking se lee solo.
@@ -520,49 +1381,49 @@ plt.show()
 **Pasá la torta a barras en tu cabeza.** Si las porciones son parecidas o son más de tres, la torta esconde las diferencias. Y si las partes no suman 100%, no es una torta: alguien contó respuestas múltiples.
 :::
 
-## 4 · Dibujitos que crecen al cuadrado {#pictogramas}
+## 13 · Dibujitos que crecen al cuadrado {#pictogramas}
 
 ```{python}
 #| include: false
-soja = pd.read_csv("datos/soja.csv", parse_dates=["fecha"]).set_index("fecha")["soja_t"]
-soja_a, soja_b = soja["2022-01-01"] / 1e6, soja["2023-01-01"] / 1e6
-k_soja = soja_b / soja_a
+# Alfajores vendidos por Dulce Dato en un año, en millones (inventados)
+vendidos_2020, vendidos_2025 = 2.5, 4.8
+k_alfajor = vendidos_2025 / vendidos_2020
 ```
 
 ::: {.gancho}
-[Titular inventado · datos reales del Ministerio de Agricultura]{.medio}
-[Después de la sequía, la cosecha de soja casi se duplicó]{.titular}
+[El folleto institucional de Dulce Dato · inventado]{.medio}
+[En cinco años casi duplicamos las ventas]{.titular}
 
 ```{=html}
-<svg class="bolsas-gancho" viewBox="0 0 360 200" role="img" aria-label="Dos bolsas de soja: la de 2023/24 dibujada casi el doble de alta y de ancha que la de 2022/23.">
+<svg class="picto-gancho" viewBox="0 0 360 200" role="img" aria-label="Dos alfajores: el de 2025 dibujado casi el doble de alto y de ancho que el de 2020.">
   <defs>
-    <g id="bolsa-soja">
-      <path d="M9,15 C4,21 2,31 4,40 C6,46 13,48 20,48 C27,48 34,46 36,40 C38,31 36,21 31,15 Z" fill="#BD871C"/>
-      <path d="M13,6 L27,6 L31,15 L9,15 Z" fill="#9C6F17"/>
-      <rect x="10" y="12.5" width="20" height="3" rx="1.5" fill="#6E4F10"/>
-      <ellipse cx="15" cy="30" rx="2.6" ry="2" fill="#F3E3B8"/><ellipse cx="24" cy="27" rx="2.6" ry="2" fill="#F3E3B8"/><ellipse cx="20" cy="37" rx="2.6" ry="2" fill="#F3E3B8"/>
+    <g id="alfajor-icono">
+      <path d="M1,10 L1,19 A19,7 0 0 0 39,19 L39,10 Z" fill="#5C3A21"/>
+      <path d="M1,13.5 A19,7 0 0 0 39,13.5 L39,16 A19,7 0 0 1 1,16 Z" fill="#BD871C"/>
+      <ellipse cx="20" cy="10" rx="19" ry="7" fill="#7A4B2A"/>
+      <ellipse cx="14" cy="8.2" rx="7" ry="2.2" fill="#96643C"/>
     </g>
   </defs>
   <line x1="10" x2="350" y1="172" y2="172" stroke="#C9C4B6"/>
-  <use href="#bolsa-soja" transform="translate(52,100) scale(1.5)"/>
-  <use href="#bolsa-soja" transform="translate(160,33.4) scale(2.888)"/>
-  <text x="82" y="190" text-anchor="middle" font-size="12" fill="#5B6470">2022/23 · 25 Mt</text>
-  <text x="218" y="190" text-anchor="middle" font-size="12" fill="#5B6470">2023/24 · 48 Mt</text>
+  <use href="#alfajor-icono" transform="translate(40,125.2) scale(1.8)"/>
+  <use href="#alfajor-icono" transform="translate(170,82.1) scale(3.456)"/>
+  <text x="76" y="190" text-anchor="middle" font-size="12" fill="#5B6470">2020 · 2,5 millones</text>
+  <text x="239" y="190" text-anchor="middle" font-size="12" fill="#5B6470">2025 · 4,8 millones</text>
 </svg>
 ```
 :::
 
 ::: {.adivina data-respuesta="3.7" data-min="1" data-max="5" data-paso="0.1" data-inicial="2" data-formato="x"}
-La cosecha pasó de 25 a 48 millones de toneladas: ×1,9. ¿Cuántas veces más grande **se ve** la bolsa nueva?
+Dulce Dato pasó de vender 2,5 a 4,8 millones de alfajores por año: ×1,9. ¿Cuántas veces más grande **se ve** el alfajor nuevo?
 
 ::: {.respuesta}
-**Casi ×3,7.** La bolsa se agrandó ×1,9 de alto *y* ×1,9 de ancho, así que su superficie creció 1,9 × 1,9 ≈ 3,7 veces. El dato se duplicó, el dibujo casi se cuadruplicó.
+**Casi ×3,7.** El alfajor se agrandó ×1,9 de alto *y* ×1,9 de ancho, así que su superficie creció 1,9 × 1,9 ≈ 3,7 veces. Las ventas casi se duplicaron; el dibujo casi se cuadruplicó.
 :::
 :::
 
 ### El truco
 
-Una barra crece solo para arriba: si el dato se duplica, la barra mide el doble y ocupa el doble. Un dibujo, en cambio, se agranda **en alto y en ancho a la vez**: si lo duplicás, ocupa cuatro veces más. Si lo triplicás, nueve. Y si el dibujo parece tener volumen (una bolsa, una moneda, un barril), el ojo puede llegar a leer ×8 o ×27.
+Una barra crece solo para arriba: si el dato se duplica, la barra mide el doble y ocupa el doble. Un dibujo, en cambio, se agranda **en alto y en ancho a la vez**: si lo duplicás, ocupa cuatro veces más. Si lo triplicás, nueve. Y si el dibujo parece tener volumen (un alfajor, una moneda, un barril), el ojo puede llegar a leer ×8 o ×27. Pasa mucho con las "personitas" que muestran cuántos empleados tiene una empresa: si la plantilla se triplica y la personita se dibuja el triple de alta, se ve nueve veces más grande.
 
 La solución es vieja: en los años 20, en Viena, Otto Neurath armó el sistema *Isotype*, que en vez de agrandar los íconos los **repite**. Un ícono = una cantidad fija.
 
@@ -571,11 +1432,11 @@ La solución es vieja: en los años 20, en Viena, Otto Neurath armó el sistema 
 ```{python}
 #| echo: false
 #| output: asis
-labo.demo("pictogramas", k=round(k_soja, 2))
+labo.demo("pictogramas", k=round(k_alfajor, 2), boton="Las ventas de Dulce Dato")
 ```
 
 ::: {.desafio}
-¿Con qué factor de crecimiento la bolsa agrandada se ve **×5** más grande? ¿Y ×9? Calculenlo antes de mover el control.
+¿Con qué factor de crecimiento el alfajor agrandado se ve **×5** más grande? ¿Y ×9? Calculenlo antes de mover el control.
 :::
 
 ::: {.receta}
@@ -586,7 +1447,7 @@ labo.demo("pictogramas", k=round(k_soja, 2))
 #| fig-alt: "Versión tramposa: dos cuadrados, el segundo con el doble de lado."
 from matplotlib.patches import Rectangle
 
-antes, despues = 25, 48
+antes, despues = 2.5, 4.8                     # millones de alfajores vendidos en 2020 y en 2025
 k = despues / antes
 
 fig, ax = plt.subplots()
@@ -618,7 +1479,7 @@ plt.show()
 **Desconfiá de los dibujos que se agrandan.** Si un ícono crece en alto y en ancho, su área crece al cuadrado. Lo honesto es repetir el mismo ícono, no agrandarlo.
 :::
 
-## 5 · Más superficie no es más gente {#mapas}
+## 14 · Más superficie no es más gente {#mapas}
 
 ```{python}
 #| include: false
@@ -629,8 +1490,10 @@ pct_sup_19 = 100 * prov.set_index("codigo").loc[menos_pobladas].superficie_km2.s
 ```
 
 ::: {.gancho}
-[Las 24 jurisdicciones · Censo 2022]{.medio}
-[Así se ve la Argentina pintada de verde]{.titular}
+[El folleto de una empresa de distribución · inventado, con datos reales del Censo 2022]{.medio}
+[Con nosotros, tus alfajores llegan al `{python} labo.coma(pct_sup_19, 0)`% del país]{.titular}
+
+La distribuidora le ofrece a Marta llevar Dulce Dato a las 19 provincias pintadas de verde.
 
 ```{python}
 #| echo: false
@@ -645,13 +1508,13 @@ plt.show()
 El verde cubre casi tres cuartos del mapa. ¿Qué porcentaje de la **gente** vive en las provincias verdes?
 
 ::: {.respuesta}
-**`{python} labo.coma(pct_pob_19, 0)`%.** Las 19 provincias verdes ocupan el `{python} labo.coma(pct_sup_19, 0)`% del territorio, pero ahí vive apenas un tercio de la población. Las 5 grises (Buenos Aires, CABA, Córdoba, Santa Fe y Mendoza) juntan casi dos de cada tres personas. Santa Cruz sola es el 9% del mapa y el 0,7% de la gente.
+**`{python} labo.coma(pct_pob_19, 0)`%.** Las 19 provincias verdes ocupan el `{python} labo.coma(pct_sup_19, 0)`% del territorio, pero ahí vive apenas un tercio de la población. Las 5 grises (Buenos Aires, CABA, Córdoba, Santa Fe y Mendoza) juntan casi dos de cada tres personas. Santa Cruz sola es el 9% del mapa y el 0,7% de la gente. Para Dulce Dato, lo que importa no es cuántos kilómetros cuadrados recorre el camión, sino cuántos clientes posibles hay debajo del color.
 :::
 :::
 
 ### El truco
 
-Un mapa pinta **territorio**, pero casi todo lo que nos interesa (votos, consumo, casos, pobres) lo hace **gente**, y la gente no está repartida pareja. Pasa con cada elección en cualquier país: el mapa queda casi todo de un color y los votos dicen otra cosa, porque las provincias o estados grandes y vacíos ocupan mucho mapa.
+Un mapa pinta **territorio**, pero casi todo lo que nos interesa (clientes, ventas, votos, casos, pobres) lo hace **gente**, y la gente no está repartida pareja. Pasa con cada elección en cualquier país: el mapa queda casi todo de un color y los votos dicen otra cosa, porque las provincias o estados grandes y vacíos ocupan mucho mapa.
 
 Las alternativas honestas: pintar con intensidad según la población, usar círculos de tamaño proporcional a la gente, cartogramas donde cada celda es la misma cantidad de personas o, directamente, barras.
 
@@ -690,16 +1553,14 @@ plt.show()
 **En un mapa, preguntá cuánta gente hay debajo del color.** El territorio no vota, no consume y no se enferma. Para hablar de personas, usá mapas por población o directamente barras.
 :::
 
-## 6 · ⭐ Dos ejes y una escala a medida {#doble-eje}
+## 15 · ⭐ Dos ejes y una escala a medida {#doble-eje}
 
 ```{python}
 #| include: false
-sal = pd.read_csv("datos/salarios.csv", parse_dates=["fecha"]).set_index("fecha")["salarios_registrados"]
-dol = pd.read_csv("datos/dolar_mensual.csv", parse_dates=["fecha"]).set_index("fecha")["dolar"]
 sd = pd.DataFrame({"salarios": sal, "dolar": dol}).dropna()["2023-11-01":]
 ```
 
-Un extra para economistas: dos trucos que aparecen todos los días en informes y diarios.
+Un extra para economistas: dos trucos que aparecen todos los días en informes, diarios y presentaciones de empresas.
 
 ### Dos ejes, un cruce a medida
 
@@ -741,7 +1602,7 @@ Desde noviembre de 2023, ¿qué subió más: los salarios o el dólar?
 labo.demo("doble-eje", [{"fecha": f.strftime("%Y-%m-%d"), "salarios": round(r.salarios, 2), "dolar": round(r.dolar, 2)} for f, r in sd.iterrows()])
 ```
 
-Para comparar dos series en unidades distintas hay una sola forma honesta: **llevar las dos a base 100** en el mismo mes y ponerlas en un solo eje. Ahí se ve cuánto subió cada una en porcentaje. Pero ojo: con base en noviembre de 2023 gana el dólar, y con base un mes después, ganan los salarios. El mes base también se elige (lo retomamos en el Acto III).
+Para comparar dos series en unidades distintas hay una sola forma honesta: **llevar las dos a base 100** en el mismo mes y ponerlas en un solo eje. Ahí se ve cuánto subió cada una en porcentaje. Pero ojo: con base en noviembre de 2023 gana el dólar, y con base un mes después, ganan los salarios. El mes base también se elige: es el cherry picking del módulo 3.
 
 ### Lineal o logarítmica
 
@@ -810,720 +1671,6 @@ plt.show()
 **Con dos ejes, el cruce lo eligió alguien.** Pedí las series en base 100 sobre un solo eje, y preguntá por qué ese mes base. Con series que crecen exponencialmente (precios, el dólar), la escala logarítmica muestra las tasas. La lineal solo muestra el último tramo.
 :::
 
-# Acto II · Mentir con estadística {.unnumbered}
-
-Lo que se calcula. Acá no hay ningún dibujo tramposo: los números están bien calculados. El truco está en **qué número** se elige para resumir y en **contra qué** se compara.
-
-## 7 · El promedio que nadie gana {#promedio}
-
-```{python}
-#| include: false
-rng = np.random.default_rng(2026)
-ingresos_aula = np.round(rng.lognormal(np.log(650), 0.55, 40), -1)
-MESSI = 10_000_000
-media_aula, mediana_aula = ingresos_aula.mean(), np.median(ingresos_aula)
-media_con = (ingresos_aula.sum() + MESSI) / (len(ingresos_aula) + 1)
-mediana_con = np.median(np.append(ingresos_aula, MESSI))
-```
-
-::: {.gancho}
-[Un aula de 40 personas · ingresos inventados]{.medio}
-[El ingreso promedio de este curso es de `{python} labo.coma(media_aula, 0)` dólares por mes]{.titular}
-
-Ahora entra Messi al aula. Supongamos que gana unos 10 millones de dólares por mes.
-:::
-
-::: {.adivina data-respuesta="244625" data-min="0" data-max="1000000" data-paso="5000" data-inicial="5000" data-formato=""}
-¿A cuánto sube el ingreso **promedio** del aula (en dólares por mes)?
-
-::: {.respuesta}
-**A unos `{python} labo.coma(media_con, 0)` dólares por mes.** Con una sola persona más, el promedio se multiplica por `{python} labo.coma(media_con / media_aula, 0)`. Y sin embargo nadie en el aula, salvo Messi, cobra un peso más. La mediana (el ingreso de la persona del medio, cuando los ordenás) pasa de `{python} labo.coma(mediana_aula, 0)` a `{python} labo.coma(mediana_con, 0)`: casi ni se mueve.
-:::
-:::
-
-### El truco
-
-"Promedio" puede querer decir varias cosas. La **media** suma todo y divide. La **mediana** es el valor del medio. Cuando la distribución es asimétrica (ingresos, patrimonios, precios de casas, tiempos de espera), unos pocos valores enormes arrastran la media. Así, "el ingreso promedio subió" puede ser verdad aunque a la mayoría le haya ido peor.
-
-Y hay un tercer "promedio", la **moda**: el valor que más se repite. Con cinco personas que ganan 5, 5, 15, 20 y 500 mil por año, la moda es 5, la mediana es 15 y la media es 109. Las tres son "el promedio". Por eso tampoco existe la persona promedio: nadie tiene 1,96 hijos.
-
-En Argentina, como en casi todo el mundo, la distribución del ingreso es asimétrica: la media queda por encima de la mediana. Quien quiere mostrar que "estamos bien" elige la media. Quien quiere mostrar lo que le pasa a una persona típica, la mediana.
-
-### Hacelo vos
-
-```{python}
-#| echo: false
-#| output: asis
-labo.demo("promedio", [float(v) for v in ingresos_aula], messi=MESSI)
-```
-
-::: {.charlalo data-minutos="1"}
-"El salario promedio de los egresados de esta carrera es de X." ¿Qué preguntarían antes de creerlo? (Pista: media o mediana, de quiénes, quién contestó la encuesta.)
-:::
-
-::: {.receta}
-```{python}
-import numpy as np
-
-ingresos = np.array([520, 610, 480, 950, 700, 640, 1300, 560])   # dólares por mes
-print("media:", ingresos.mean(), "| mediana:", np.median(ingresos))
-
-con_messi = np.append(ingresos, 10_000_000)                       # <1>
-print("media:", con_messi.mean().round(), "| mediana:", np.median(con_messi))
-```
-1. Un solo valor extremo mueve muchísimo la media y casi nada la mediana.
-:::
-
-::: {.antidoto data-truco="Promedios" data-pregunta="¿Es media o mediana? ¿La distribución es asimétrica?"}
-**Preguntá qué promedio es.** Con datos asimétricos (ingresos, patrimonio, precios), la media la tiran los de arriba. La mediana cuenta qué le pasa a la persona del medio.
-:::
-
-## 8 · Porcentajes que asustan {#porcentajes}
-
-### Relativo contra absoluto
-
-::: {.gancho}
-[Reino Unido, octubre de 1995]{.medio}
-[Advertencia oficial: los anticonceptivos de tercera generación duplican el riesgo de trombosis]{.titular}
-:::
-
-::: {.pregunta data-correcta="3"}
-Si estuvieras tomando esa píldora, ¿qué harías?
-
-- La dejo ya
-- Consulto al médico pero sigo tomándola
-- Antes de decidir, pregunto: ¿el doble de cuánto?
-
-::: {.respuesta}
-**¿El doble de cuánto?** Con la píldora vieja, 1 de cada 7.000 mujeres tenía una trombosis. Con la nueva, 2 de cada 7.000. Es verdad que el riesgo se duplicó (+100%), pero el aumento absoluto fue de 1 caso cada 7.000 mujeres. Muchas dejaron la píldora de golpe. Se estima que al año siguiente hubo unos 13.000 abortos más en Inglaterra y Gales, y el embarazo tiene un riesgo de trombosis mayor que el de cualquier píldora.
-:::
-:::
-
-```{python}
-#| echo: false
-#| output: asis
-labo.demo("riesgo", total=7000, antes=1, despues=2)
-```
-
-"Duplica el riesgo", "reduce a la mitad", "+100%": los **riesgos relativos** suenan enormes cuando el riesgo de base es chiquito. En 2024, un diario británico tituló que las muertes por mordedura de tiburón en el mundo se habían duplicado en 2023. Era cierto: pasaron de 5 a 10. Para decidir hace falta el **riesgo absoluto**: cuántos casos cada 1.000 o cada 10.000 personas.
-
-### Puntos porcentuales
-
-::: {.pregunta data-correcta="3" data-kicker="Pregunta rápida"}
-La pobreza pasa de 40% a 30%. ¿Cuánto bajó?
-
-- 10%
-- 25%
-- Las dos cosas, según cómo lo digas
-
-::: {.respuesta}
-**Las dos.** Bajó **10 puntos porcentuales** (de 40 a 30) y bajó **25%** (30 es un 25% menos que 40). Los dos números son correctos. El que quiere que suene a mucho dice "25%"; el que quiere que suene a poco dice "10 puntos". Lo mismo al revés: si sube de 2% a 4%, son "2 puntos" o "+100%".
-:::
-:::
-
-### ⭐ Nominal contra real
-
-```{python}
-#| include: false
-d_real = pd.DataFrame({"salarios": sal, "ipc": ipc_reg["nacional"]}).dropna()["2023-11-01":]
-nominal_x = d_real.salarios.iloc[-1] / d_real.salarios.iloc[0]
-ipc_x = d_real.ipc.iloc[-1] / d_real.ipc.iloc[0]
-real_fin = 100 * nominal_x / ipc_x
-mes_fin = labo.mes(d_real.index[-1])
-```
-
-::: {.gancho}
-[Titular inventado · datos reales del INDEC]{.medio}
-[Los salarios registrados subieron `{python} labo.coma(100 * (nominal_x - 1), 0)`% desde noviembre de 2023]{.titular}
-:::
-
-::: {.pregunta data-correcta="3"}
-¿Pueden comprar más cosas hoy que en noviembre de 2023 con su sueldo?
-
-- Sí, muchas más
-- Un poco más
-- No se puede saber con ese dato
-
-::: {.respuesta}
-**Con ese dato, no se puede saber.** Hay que compararlo con cuánto subieron los precios. En el mismo período el IPC se multiplicó por `{python} labo.coma(ipc_x, 2)` y el salario por `{python} labo.coma(nominal_x, 2)`. Descontada la inflación, el salario registrado de `{python} mes_fin` compra un `{python} labo.coma(100 - real_fin, 0)`% *menos* que el de noviembre de 2023.
-:::
-:::
-
-```{python}
-#| echo: false
-#| output: asis
-labo.demo("real", [{"fecha": f.strftime("%Y-%m-%d"), "salarios": round(r.salarios, 3), "ipc": round(r.ipc, 3)} for f, r in d_real.iterrows()])
-```
-
-Con inflación, cualquier cosa medida en pesos "sube": salarios, ventas, recaudación, el precio de un alfajor. Un número **nominal** no dice nada hasta que lo comparás con los precios. El número **real** (deflactado) es el que importa. Y otra vez: el mes desde el que se compara también cambia la historia.
-
-::: {.receta}
-::: {.panel-tabset}
-## Tramposo
-
-```{python}
-#| fig-alt: "Versión tramposa: salario nominal en base 100, que se multiplica casi por cuatro."
-nominal = d_real.salarios / d_real.salarios.iloc[0] * 100
-fig, ax = plt.subplots()
-ax.plot(nominal.index, nominal)
-ax.set_title("Salarios: ¡casi se cuadruplicaron!")               # <1>
-plt.show()
-```
-1. Pesos de cada mes: con 4 veces más precios, que el salario se multiplique por 4 no dice nada.
-
-## Honesto
-
-```{python}
-#| fig-alt: "Versión honesta: salario real en base 100, que cae a 84 y termina en 92."
-real = (d_real.salarios / d_real.ipc) / (d_real.salarios.iloc[0] / d_real.ipc.iloc[0]) * 100   # <1>
-fig, ax = plt.subplots()
-ax.plot(real.index, real, color="C2")
-ax.axhline(100, color="0.7", lw=1)
-ax.set_title("Salario real (nov 2023 = 100)")
-plt.show()
-```
-1. Salario dividido por el nivel de precios: cuántas "canastas" compra.
-:::
-:::
-
-::: {.antidoto data-truco="Porcentajes" data-pregunta="¿Relativo o absoluto? ¿% o puntos? ¿Nominal o real?"}
-**Pedí la base.** "El doble" de 1 en 7.000 sigue siendo poquísimo: pedí el riesgo absoluto. Distinguí porcentaje de puntos porcentuales. Y con inflación, cualquier monto en pesos tiene que venir deflactado.
-:::
-
-## 9 · El test que acierta el 99% {#tasa-base}
-
-::: {.gancho}
-[Un clásico de los exámenes médicos]{.medio}
-[Un test detecta una enfermedad con 99% de precisión. Te hacés el test y da positivo.]{.titular}
-
-La enfermedad la tiene 1 de cada 100 personas. El test detecta al 99% de los enfermos y le da negativo al 99% de los sanos.
-:::
-
-::: {.adivina data-respuesta="50" data-min="0" data-max="100" data-paso="1" data-inicial="90" data-formato="%"}
-¿Qué probabilidad hay de que estés enfermo?
-
-::: {.respuesta}
-**50%.** Imaginá 1.000 personas. 10 están enfermas y el test detecta a casi todas: 10 positivos verdaderos. Pero de las 990 sanas, el 1% también da positivo: otros 10. De los 20 positivos, la mitad está sana. Cuando la enfermedad es rara, hasta un test buenísimo genera muchas falsas alarmas.
-:::
-:::
-
-### El truco
-
-Confundir dos probabilidades que suenan parecidas:
-
-- P(positivo | enfermo): qué tan bien detecta el test. Es el 99% que te venden.
-- P(enfermo | positivo): lo que a vos te importa.
-
-Para pasar de una a la otra hace falta la **tasa base**: cuánta gente tiene la enfermedad antes de hacer ningún test. Pasa en todos lados: hoy mueren más personas en choques que hace cien años, y no es que los autos sean más peligrosos. Hay muchísimos más autos y más gente. Ignorarla tiene nombre: **falacia de la tasa base**. En los tribunales se llama **falacia del fiscal**, y mandó gente inocente a la cárcel.
-
-::: {.charlalo data-minutos="2"}
-Los Ángeles, 1964. Una pareja (ella rubia con cola de caballo, él con barba, en un auto amarillo) roba una cartera. El fiscal calcula que la chance de que una pareja *inocente* tenga todas esas características es 1 en 12 millones, y el jurado condena a los Collins. ¿Qué está mal? Pista: ¿cuántas parejas así hay en una ciudad de millones de habitantes?
-:::
-
-::: {.respuesta .solo-lectura}
-Que una pareja inocente coincida con la descripción tenga probabilidad 1 en 12 millones no significa que esta pareja tenga 1 en 12 millones de ser inocente. Si en la zona hay, digamos, 10 parejas que coinciden, la probabilidad de que esta sea la culpable es 1 en 10. Además el fiscal multiplicó probabilidades como si fueran independientes (barba y bigote no lo son). La Corte Suprema de California anuló la condena en 1968. En 1999, en Inglaterra, Sally Clark fue condenada por la muerte de sus dos bebés con un "1 en 73 millones" construido con los mismos dos errores. Fue liberada en 2003.
-:::
-
-### Hacelo vos
-
-```{python}
-#| echo: false
-#| output: asis
-labo.demo("tasa-base", prevalencia=1.0, sensibilidad=99.0, especificidad=99.0)
-```
-
-::: {.desafio}
-Con el test al 99/99, ¿qué tan común tiene que ser la enfermedad para que un positivo signifique 90% de chances de estar enfermo? ¿Y qué pasa con un test "malo" (80/80) si la enfermedad la tiene el 30%?
-:::
-
-::: {.receta}
-```{python}
-def prob_enfermo_dado_positivo(prevalencia, sensibilidad, especificidad):
-    verdaderos = prevalencia * sensibilidad                        # <1>
-    falsos = (1 - prevalencia) * (1 - especificidad)               # <2>
-    return verdaderos / (verdaderos + falsos)                      # <3>
-
-for p in [0.001, 0.01, 0.1, 0.3]:
-    print(f"prevalencia {p:>5.1%}  ->  P(enfermo | positivo) = {prob_enfermo_dado_positivo(p, 0.99, 0.99):.1%}")
-```
-1. Enfermos que dan positivo.
-2. Sanos que dan positivo igual (falsas alarmas).
-3. Teorema de Bayes: de todos los positivos, qué parte está enferma.
-:::
-
-::: {.antidoto data-truco="Tasa base" data-pregunta="¿Qué tan común era esto antes de mirar la evidencia?"}
-**Preguntá por la tasa base.** "Acierta el 99%" no dice nada sin saber cuán común es lo que se busca. Y no confundas P(evidencia | inocente) con P(inocente | evidencia).
-:::
-
-## 10 · Juntos dicen una cosa, separados otra {#simpson}
-
-```{python}
-#| include: false
-berkeley = pd.DataFrame({
-    "depto": list("ABCDEF"),
-    "h_post": [825, 560, 325, 417, 191, 373], "h_adm": [512, 353, 120, 138, 53, 22],
-    "m_post": [108, 25, 593, 375, 393, 341], "m_adm": [89, 17, 202, 131, 94, 24],
-})
-```
-
-::: {.gancho}
-[Universidad de California en Berkeley, otoño de 1973 · datos reales]{.medio}
-[Berkeley admite al 44% de los hombres que se postulan al posgrado y solo al 35% de las mujeres]{.titular}
-:::
-
-::: {.pregunta data-correcta="3"}
-¿Berkeley discriminaba a las mujeres?
-
-- Sí, está clarísimo
-- No, es casualidad
-- Depende de cómo mires los datos
-
-::: {.respuesta}
-**Depende de cómo mires los datos.** La universidad se preocupó y un equipo de estadísticos (Bickel, Hammel y O'Connell, 1975) miró departamento por departamento. En la mayoría, las mujeres entraban en igual o **mayor** proporción que los hombres. ¿Cómo puede ser? Las mujeres se postulaban más a los departamentos más difíciles, donde entraba poca gente de cualquier sexo.
-:::
-:::
-
-### El truco
-
-Es la **paradoja de Simpson**: una tendencia que aparece en cada grupo se invierte (o desaparece) cuando juntás los grupos. Pasa cuando hay una tercera variable (acá, a qué departamento te postulás) que está relacionada con las otras dos. Con los mismos datos se pueden escribir dos titulares opuestos, y los dos tienen números que los respaldan. Elegís uno y listo.
-
-### Hacelo vos
-
-```{python}
-#| echo: false
-#| output: asis
-labo.demo("simpson", berkeley.to_dict("records"))
-```
-
-::: {.charlalo data-minutos="1"}
-Dos hospitales: en el A muere más gente que en el B. ¿Se van a atender al B? ¿Qué dato pedirían antes? (Pista: ¿a cuál van los casos más graves?)
-:::
-
-::: {.receta}
-```{python}
-berkeley["h_tasa"] = berkeley.h_adm / berkeley.h_post
-berkeley["m_tasa"] = berkeley.m_adm / berkeley.m_post
-
-total_h = berkeley.h_adm.sum() / berkeley.h_post.sum()            # <1>
-total_m = berkeley.m_adm.sum() / berkeley.m_post.sum()
-print(f"Todo junto: hombres {total_h:.0%}, mujeres {total_m:.0%}")
-print(berkeley[["depto", "h_tasa", "m_tasa"]].round(2))            # <2>
-```
-1. Agregado: los hombres entran más.
-2. Por departamento: en A, B, D y F las mujeres entran igual o más.
-:::
-
-::: {.antidoto data-truco="Simpson" data-pregunta="¿Cambia la conclusión si separo por grupos?"}
-**Pedí los datos por grupo.** Cuando un total compara grupos que son muy distintos por dentro, la conclusión puede darse vuelta al separarlos. Preguntá qué tercera variable puede estar mezclando todo.
-:::
-
-## 11 · Correlación no es causalidad {#correlacion}
-
-```{python}
-#| include: false
-vigen = pd.DataFrame({
-    "anio": range(2006, 2013),
-    "aire": [0, 0.273973, 0, 0, 0, 0, 0.550964],   # % de días con aire "insalubre" en Gainesville, Florida (EPA)
-    "goles": [2, 6, 2, 3, 2, 4, 12],                # goles de Messi con la selección (Wikipedia)
-})
-r_vigen = vigen.aire.corr(vigen.goles)
-```
-
-::: {.gancho}
-[Spurious Correlations, de Tyler Vigen (CC BY 4.0)]{.medio}
-[Los goles de Messi con la Selección y la contaminación del aire en Gainesville, Florida]{.titular}
-
-```{python}
-#| echo: false
-#| fig-alt: "Dos líneas que suben y bajan juntas entre 2006 y 2012: goles de Messi y días con aire contaminado en Gainesville."
-fig, ax = plt.subplots(figsize=(7, 3))
-ax.plot(vigen.anio, vigen.goles, color=AZUL, marker="o", label="Goles de Messi con Argentina")
-ax2 = ax.twinx()
-ax2.plot(vigen.anio, vigen.aire, color=DORADO, marker="o", label="Días con aire insalubre en Gainesville (%)")
-ax2.grid(False); ax2.spines["right"].set_visible(True)
-ax2.yaxis.set_major_formatter(lambda y, _: labo.coma(y, 1) + "%")
-fig.legend(loc="upper left", bbox_to_anchor=(0.08, 0.98), fontsize=9)
-plt.show()
-```
-:::
-
-::: {.adivina data-respuesta="0.97" data-min="-1" data-max="1" data-paso="0.01" data-inicial="0" data-formato="r"}
-¿Cuánto da la correlación entre las dos series?
-
-::: {.respuesta}
-**r = `{python} labo.coma(r_vigen, 2)`.** Casi perfecta. Y obviamente no hay ninguna relación. Miren los datos: son solo 7 años, y la "contaminación" son uno o dos días malos por año. Con tan pocos puntos y cruzando miles de series, siempre aparece alguna que coincide: Vigen cruzó más de 25.000 variables. (Y miren el gráfico: dos ejes, módulo 6.)
-:::
-:::
-
-### El truco
-
-Que dos cosas se muevan juntas no dice que una cause la otra. Hay al menos cuatro explicaciones alternativas:
-
-1. **Una tercera causa.** Las ventas de helado y los ataques de tiburones suben juntos en verano: el calor causa las dos.
-2. **Causalidad al revés.** Hubo quienes creyeron que los piojos daban salud, porque los enfermos casi nunca tenían. En realidad, los piojos abandonan los cuerpos con fiebre.
-3. **Pura casualidad.** Si buscás entre miles de series, alguna va a coincidir (Messi y Gainesville).
-4. **Tendencias.** Dos series que crecen con el tiempo (precios, población, PBI) van a estar correlacionadas aunque no tengan nada que ver. Para economistas, esta es la más peligrosa: se llama **regresión espuria**.
-
-Y una quinta, muy de economistas y de campaña electoral: **atribuirle el resultado a quien estaba ahí**. "Asumió fulano y se cayó la actividad." Que algo pase *después* no quiere decir que pase *por eso* (*post hoc, ergo propter hoc*). En 2009 cualquier opositor podía mostrar que con el gobierno de turno se habían perdido empleos y cerrado empresas, en medio de una crisis financiera mundial. Y vale al revés: el que gobierna culpa al contexto de todo lo malo y se adjudica todo lo bueno.
-
-### Hacelo vos: fabricá tu correlación espuria
-
-```{python}
-#| echo: false
-#| output: asis
-labo.demo("espurias", largo=30)
-```
-
-::: {.desafio}
-Generen 10 pares de caminatas aleatorias. ¿Cuántos tienen |r| mayor a 0,5? Ahora cambien a ruido puro. ¿Qué cambió? (Si cursaron econometría: por eso con series de tiempo se trabaja con diferencias o se testea cointegración.)
-:::
-
-::: {.receta}
-```{python}
-import numpy as np
-
-rng = np.random.default_rng(42)
-r_caminatas, r_ruido = [], []
-for _ in range(1000):
-    a, b = rng.normal(size=(2, 30))
-    r_ruido.append(np.corrcoef(a, b)[0, 1])                        # <1>
-    r_caminatas.append(np.corrcoef(a.cumsum(), b.cumsum())[0, 1])  # <2>
-
-print("pares con |r| > 0,5 (ruido):     ", np.mean(np.abs(r_ruido) > 0.5))
-print("pares con |r| > 0,5 (caminatas): ", np.mean(np.abs(r_caminatas) > 0.5))
-```
-1. Ruido puro: dos series sin relación casi nunca superan |r| = 0,5.
-2. Caminatas aleatorias (suma acumulada del ruido): series igual de independientes, pero que deambulan. Casi 4 de cada 10 pasan |r| = 0,5.
-:::
-
-::: {.antidoto data-truco="Correlaciones" data-pregunta="¿Hay una tercera causa? ¿Puede ser al revés? ¿Cuántas cosas probaron? ¿Las dos tienen tendencia?"}
-**Ante una correlación, buscá otra explicación.** Tercera causa, causalidad al revés, casualidad o tendencias comunes. Y desconfiá de las correlaciones "encontradas" entre miles de series.
-:::
-
-# Acto III · Mentir con datos {.unnumbered}
-
-Lo que se elige. Llegamos al nacimiento del dato: qué período se muestra, a quién se le pregunta, qué se cuenta como qué y cuántas veces se probó. Acá el gráfico puede ser impecable y la cuenta perfecta. La trampa ya estaba hecha antes.
-
-## 12 · Elegí la ventana, elegí la historia {#cherry-picking}
-
-```{python}
-#| include: false
-inflacion = (ipc_reg["nacional"].pct_change() * 100).dropna()
-ventana_tv = inflacion["2025-05-01":"2026-03-01"]
-```
-
-::: {.gancho}
-[Un noticiero argentino, en vivo · datos del INDEC]{.medio}
-[«La inflación no para de subir: así evolucionó mes a mes»]{.titular}
-
-```{python}
-#| echo: false
-#| fig-alt: "Inflación mensual de mayo de 2025 a marzo de 2026 con el eje desde 1,5%: una subida constante."
-fig, ax = plt.subplots(figsize=(7, 3))
-ax.fill_between(ventana_tv.index, 1.4, ventana_tv.values, color=VERDE, alpha=0.18, lw=0)
-ax.plot(ventana_tv.index, ventana_tv.values, color=VERDE, marker="o", markersize=4)
-for f, v in ventana_tv.items():
-    ax.annotate(labo.coma(v, 1) + "%", (f, v), textcoords="offset points", xytext=(0, 7), ha="center", fontsize=8.5, fontweight=600)
-ax.set_ylim(1.4, ventana_tv.max() + 0.35)
-ax.yaxis.set_major_formatter(lambda y, _: labo.coma(y, 1) + "%")
-ax.set_xticks(ventana_tv.index, [labo.mes(f, False) for f in ventana_tv.index], fontsize=8.5)
-ax.set_title("Evolución mensual de la inflación", loc="left")
-plt.show()
-```
-:::
-
-::: {.pregunta data-correcta="3"}
-Mayo de 2025 a marzo de 2026. ¿La inflación estaba subiendo?
-
-- Sí, mes a mes
-- No, estaba bajando
-- Depende de desde cuándo mires
-
-::: {.respuesta}
-**Depende de desde cuándo mires.** Ya vimos lo del eje (arranca en 1,4%). Pero miren el eje horizontal: son 11 meses, una cantidad rara. ¿Por qué no un año? Si agregamos abril de 2025 (2,8%) y marzo de 2025 (3,7%), ya no es una subida constante. Y si vamos hasta diciembre de 2023 (25,5%), la historia es la opuesta: una caída enorme. Los datos son los mismos y todos los gráficos son correctos. Lo que cambia es **la ventana**.
-:::
-:::
-
-### El truco
-
-Se llama **cherry picking**: quedarse con la parte de los datos que sirve para defender una posición y dejar afuera la que la contradice. No hace falta inventar nada. Alcanza con elegir dónde empieza y dónde termina el gráfico, qué países se comparan, qué años, qué mes base.
-
-### Hacelo vos
-
-```{python}
-#| echo: false
-#| output: asis
-labo.demo("cherry", [{"fecha": f.strftime("%Y-%m-%d"), "v": round(v, 2)} for f, v in inflacion.items()],
-          inicial={"desde": "2025-05-01", "hasta": "2026-03-01"},
-          presets=[
-              {"nombre": "El noticiero", "desde": "2025-05-01", "hasta": "2026-03-01"},
-              {"nombre": "Desde dic 23", "desde": "2023-12-01", "hasta": inflacion.index[-1].strftime("%Y-%m-%d")},
-              {"nombre": "Últimos 6 meses", "desde": inflacion.index[-6].strftime("%Y-%m-%d"), "hasta": inflacion.index[-1].strftime("%Y-%m-%d")},
-              {"nombre": "Toda la serie", "desde": inflacion.index[0].strftime("%Y-%m-%d"), "hasta": inflacion.index[-1].strftime("%Y-%m-%d")},
-          ])
-```
-
-::: {.desafio data-minutos="2"}
-**Dos equipos, la misma serie.** El equipo A tiene que encontrar la ventana más honesta posible en la que "la inflación se disparó". El equipo B, una en la que "se desplomó". Gana el titular más dramático que el otro equipo no pueda desmentir *sin cambiar la ventana*.
-:::
-
-El consejo es el de siempre: no quedarse con un solo gráfico de un solo medio, por más prolijo que sea. Mirar la serie completa, comparar fuentes y, cuando se puede, ir directo a la fuente de los datos. En este caso el INDEC publica la serie entera, gratis.
-
-::: {.receta}
-```{python}
-# ¿En cuántas ventanas de al menos 6 meses la inflación "sube" y en cuántas "baja"?
-url = "https://apis.datos.gob.ar/series/api/series/?ids=148.3_INIVELNAL_DICI_M_26&format=csv&limit=5000"
-nivel = pd.read_csv(url, index_col=0, parse_dates=True,
-                    storage_options={"User-Agent": "Mozilla/5.0"}).iloc[:, 0]
-inflacion = nivel.pct_change().dropna() * 100                   # variación mensual
-sube = baja = 0
-for i in range(len(inflacion)):
-    for j in range(i + 6, len(inflacion)):                       # <1>
-        if inflacion.iloc[j] > inflacion.iloc[i]:
-            sube += 1
-        else:
-            baja += 1
-print(f"Ventanas donde 'sube': {sube} · donde 'baja': {baja}")  # <2>
-```
-1. Todas las ventanas posibles de 6 meses o más: cada una es un titular posible.
-2. Hay miles de ventanas para cada historia. Elegir una no es mentir con los números: es mentir con la selección.
-:::
-
-::: {.antidoto data-truco="Cherry picking" data-pregunta="¿Por qué el gráfico empieza y termina justo ahí? ¿Qué pasa si agrando la ventana?"}
-**Preguntá por qué empieza y termina ahí.** Pedí la serie completa. Si la conclusión se da vuelta al mover un par de meses, no era una conclusión: era una elección.
-:::
-
-## 13 · ¿A quién le preguntaste? {#muestras}
-
-::: {.gancho}
-[Encuesta en la cuenta de Instagram de un candidato · inventada]{.medio}
-[El 71% de los argentinos apoya la propuesta, según una encuesta con más de 1.500 respuestas]{.titular}
-:::
-
-::: {.pregunta data-correcta="3"}
-¿Qué tan en serio se la tomarían?
-
-- Bastante: 1.500 respuestas es un montón
-- Bastante, si el margen de error es chico
-- Poco: importa más quién contestó que cuántos
-
-::: {.respuesta}
-**Poco.** Contesta quien sigue esa cuenta y además tiene ganas de contestar: una muestra que no se parece al país. Juntar más respuestas no arregla eso, solo hace que el error sea más preciso. En 1936, la revista *Literary Digest* juntó más de dos millones de respuestas por correo y pronosticó que Roosevelt perdía. Ganó por paliza. George Gallup, con una muestra mucho más chica pero bien elegida, acertó.
-:::
-:::
-
-### El truco
-
-Casi nunca se mide a toda la población: se toma una **muestra**. Ahí se puede mentir (o equivocarse) de dos formas:
-
-- **Muestras sesgadas.** Encuestas online, gente que se ofrece para un estudio, "le pregunté a mis amigos". Es lo mismo que hacemos todos cuando generalizamos desde nuestra experiencia: nuestra muestra de "la gente" son los que conocemos.
-- **Muestras chiquitas.** "El 66% de los hombres dice que su prioridad es la plata" (preguntaron a 15). Un libro clásico cuenta que "un tercio de las mujeres que fueron a la universidad se casó con un profesor": eran tres mujeres, y una se casó con un profesor.
-
-### Hacelo vos
-
-```{python}
-#| echo: false
-#| output: asis
-labo.demo("muestra", poblacion=10_000, verdad=0.40, n_aleatoria=400, prob_responde_favor=0.30, prob_responde_contra=0.08)
-```
-
-::: {.charlalo data-minutos="1"}
-Hagan clic varias veces en cada botón. ¿Cuál le erra más? ¿Cuál tiene más respuestas? ¿Por qué la de Instagram le erra siempre para el mismo lado?
-:::
-
-### Los que no volvieron
-
-::: {.pregunta data-correcta="2"}
-Segunda Guerra Mundial. Los aviones que vuelven de combate llegan con agujeros de bala como en el dibujo. Hay que agregar blindaje, pero pesa: solo se puede reforzar una parte. ¿Dónde lo ponen?
-
-```{=html}
-<svg class="avion" viewBox="0 0 400 360" role="img" aria-label="Avión visto desde arriba con agujeros de bala en alas, fuselaje y cola, y ninguno en motores ni cabina.">
-  <g fill="#C9C4B6">
-    <path d="M200,20 C212,20 216,40 216,70 L216,300 C216,320 208,340 200,345 C192,340 184,320 184,300 L184,70 C184,40 188,20 200,20 Z"/>
-    <path d="M184,130 L40,175 L40,195 L184,178 Z"/><path d="M216,130 L360,175 L360,195 L216,178 Z"/>
-    <path d="M186,290 L130,315 L130,328 L186,316 Z"/><path d="M214,290 L270,315 L270,328 L214,316 Z"/>
-  </g>
-  <g fill="#8C8A82"><ellipse cx="110" cy="168" rx="10" ry="24"/><ellipse cx="290" cy="168" rx="10" ry="24"/><ellipse cx="200" cy="48" rx="8" ry="13"/></g>
-  <g fill="#BD432F">
-    <circle cx="60" cy="183" r="3.5"/><circle cx="76" cy="179" r="3.5"/><circle cx="88" cy="188" r="3.5"/><circle cx="134" cy="167" r="3.5"/><circle cx="144" cy="179" r="3.5"/>
-    <circle cx="152" cy="160" r="3.5"/><circle cx="166" cy="172" r="3.5"/><circle cx="172" cy="152" r="3.5"/><circle cx="236" cy="153" r="3.5"/><circle cx="252" cy="170" r="3.5"/>
-    <circle cx="266" cy="158" r="3.5"/><circle cx="318" cy="183" r="3.5"/><circle cx="332" cy="187" r="3.5"/><circle cx="345" cy="181" r="3.5"/><circle cx="230" cy="172" r="3.5"/>
-    <circle cx="196" cy="110" r="3.5"/><circle cx="205" cy="140" r="3.5"/><circle cx="197" cy="192" r="3.5"/><circle cx="206" cy="216" r="3.5"/><circle cx="194" cy="240" r="3.5"/>
-    <circle cx="203" cy="263" r="3.5"/><circle cx="197" cy="286" r="3.5"/><circle cx="150" cy="318" r="3.5"/><circle cx="162" cy="313" r="3.5"/><circle cx="242" cy="313" r="3.5"/><circle cx="256" cy="320" r="3.5"/>
-  </g>
-</svg>
-```
-
-- En las alas, el fuselaje y la cola, donde hay más agujeros
-- En los motores y la cabina, donde no hay agujeros
-
-::: {.respuesta}
-**En los motores y la cabina.** El estadístico Abraham Wald se dio cuenta de que la muestra solo tenía los aviones *que volvieron*. Los que recibían balazos en el motor o en la cabina no volvían a contarlo. Los agujeros muestran dónde un avión puede recibir un tiro y sobrevivir. Es el **sesgo de supervivencia**, y está en todos lados: los fondos de inversión que "siempre ganaron" (los que perdieron cerraron y no aparecen en la lista), los emprendedores exitosos que "dejaron la facultad", los edificios viejos que "se hacían mejor antes" (los malos ya se cayeron).
-:::
-:::
-
-::: {.receta}
-```{python}
-import numpy as np
-
-rng = np.random.default_rng(1)
-poblacion = rng.random(10_000) < 0.40                  # 40% a favor: la verdad
-
-# Instagram: responde el 30% de los que están a favor y el 8% de los que están en contra
-responde = rng.random(10_000) < np.where(poblacion, 0.30, 0.08)          # <1>
-print(f"Instagram: {poblacion[responde].mean():.0%} a favor, con {responde.sum()} respuestas")
-
-aleatoria = rng.choice(poblacion, size=400, replace=False)               # <2>
-print(f"Aleatoria: {aleatoria.mean():.0%} a favor, con 400 respuestas")
-```
-1. Quién contesta depende de lo que piensa: la muestra está sesgada, por más grande que sea.
-2. Una muestra aleatoria chica le pega mucho más cerca.
-:::
-
-::: {.antidoto data-truco="Muestras" data-pregunta="¿A quién le preguntaron, cuántos eran y quiénes quedaron afuera?"}
-**Preguntá a quién le preguntaron.** Cuántos eran, cómo se eligieron y quiénes no aparecen (los que no contestaron, los que no sobrevivieron). Muchas respuestas de las personas equivocadas no valen más que pocas de las correctas.
-:::
-
-## 14 · ⭐ ¿Qué estás midiendo? {#definiciones}
-
-::: {.gancho}
-[Un estudio inventado, con un titular de verdad posible]{.medio}
-[El 90% de los perros tiene tendencias violentas]{.titular}
-:::
-
-::: {.pregunta data-correcta="3" data-kicker="Pregunta rápida"}
-¿Le tendrían miedo al perro de un amigo?
-
-- Sí, 90% es muchísimo
-- Depende de la raza
-- Depende de qué cuenta como "tendencia violenta"
-
-::: {.respuesta}
-**Depende de qué cuenta como "tendencia violenta".** Si el estudio contó como violento a cualquier perro que alguna vez mordió algo, aunque sea de cachorro, el 90% no asusta a nadie. Nadie mintió: la definición estaba en la página 34 del informe. El titular, en todos los diarios.
-:::
-:::
-
-En economía pasa todo el tiempo. Pobreza, desempleo, informalidad, inflación: cada una tiene una definición técnica, a veces distinta de la del habla cotidiana, y a veces distinta entre países o entre años.
-
-::: {.pregunta data-correcta="2"}
-Una persona trabajó **una hora** la semana pasada, cortando el pasto de un vecino por plata. Para el INDEC, ¿está desocupada?
-
-- Sí: una hora no es un trabajo
-- No: cuenta como ocupada
-- Depende de si busca otro trabajo
-
-::: {.respuesta}
-**No: cuenta como ocupada.** Siguiendo las normas internacionales (OIT), la Encuesta Permanente de Hogares considera ocupado a quien trabajó al menos una hora en la semana de referencia. Si quiere trabajar más horas, es un ocupado *subocupado*. Y quien quiere trabajar pero no salió a buscar no cuenta como desocupado: es *inactivo*. Ninguna de estas reglas es tramposa en sí. Pero hay que conocerlas antes de comparar números.
-:::
-:::
-
-### Hacelo vos
-
-```{python}
-#| echo: false
-#| output: asis
-grupos_ocupacion = [
-    {"nombre": "Ocupados plenos", "n": 56, "estado": "ocupado"},
-    {"nombre": "Trabajaron solo unas horas", "n": 6, "regla": "pocas_horas"},
-    {"nombre": "Plan social con contraprestación", "n": 3, "regla": "plan"},
-    {"nombre": "Desocupados (buscaron trabajo)", "n": 5, "estado": "desocupado"},
-    {"nombre": "Desalentados (quieren trabajar, no buscaron)", "n": 3, "regla": "desalentado"},
-    {"nombre": "Inactivos (estudian, jubilados, cuidan a alguien)", "n": 27, "estado": "inactivo"},
-]
-labo.demo("definiciones", grupos=grupos_ocupacion)
-```
-
-Son 100 personas inventadas, con proporciones parecidas a las de la EPH. Con las mismas personas, la "tasa de desocupación" puede ir de 7% a más de 20% según a quién cuentes como desocupado. Lo honesto es usar la definición estándar y, si querés mostrar otra cosa, mostrarla aparte con su nombre: la tasa de subocupación, la de desocupación más desalentados, etc.
-
-Un aviso más, de otro estudio real. Cuando a los varones de Estados Unidos les preguntan su altura, aparecen muy pocos que miden 1,80 y demasiados que miden 1,83 (seis pies). No hay ningún gen raro: muchos redondean para arriba. Un dato **declarado** no es lo mismo que un dato **medido**.
-
-### Cuando el que miente es el que mide
-
-::: {.pregunta data-correcta="3"}
-¿Cuánta inflación hubo en la Argentina en 2010?
-
-- 10,9%, como informó el INDEC
-- Alrededor de 25%
-- No lo sabemos con certeza
-
-::: {.respuesta}
-**No lo sabemos con certeza.** El INDEC informó 10,9%. Pero en 2007 el organismo había sido intervenido y su índice de precios dejó de ser creíble. Las consultoras privadas y varias provincias medían más del doble. Un estudio con precios de supermercados online (Cavallo, 2013) encontró que entre 2007 y 2011 la inflación fue casi el triple de la oficial. En 2013 el FMI emitió una declaración de censura contra la Argentina por la calidad de sus estadísticas. En 2016 se declaró la emergencia estadística y el propio INDEC advirtió que las series publicadas desde 2007 debían tomarse con reservas.
-:::
-:::
-
-Es el truco más grave de todos, porque arruina el dato en el origen y para siempre: no hay gráfico honesto que arregle un número inventado. Por eso importan tanto las estadísticas públicas independientes y que publiquen sus métodos.
-
-::: {.antidoto data-truco="Definiciones" data-pregunta="¿Cómo se definió lo que se mide? ¿Quién lo midió y con qué método?"}
-**Leé la definición.** Antes de comparar números, fijate qué cuenta como qué, si el dato es medido o declarado, y quién lo produjo. Un número sin su definición es un titular, no un dato.
-:::
-
-## 15 · Si torturás los datos, confiesan {#p-hacking}
-
-::: {.gancho data-kicker="Experimento en vivo"}
-Saquen una moneda (o usen el celular). Tírenla **10 veces** y anoten cuántas caras salieron. ¿Alguien sacó 8 o más? Que pase al frente: **tiene poderes**.
-:::
-
-::: {.desafio data-minutos="2" data-kicker="Todos a tirar la moneda"}
-Diez tiradas cada uno. Levanten la mano los que sacaron 8, 9 o 10 caras.
-:::
-
-::: {.pregunta data-correcta="2"}
-¿La persona que sacó 9 caras tiene poderes?
-
-- Sí, la chance de sacar 9 caras es bajísima
-- No: en un aula de 40, lo raro sería que *nadie* lo logre
-
-::: {.respuesta}
-**No.** Para una persona, sacar 8 o más caras de 10 tiene una chance de 5,5%. Pero acá lo intentaron 40 personas a la vez. La chance de que *al menos una* lo logre es de casi 90%. Si mirás muchos resultados y te quedás con el más llamativo, siempre vas a encontrar "poderes".
-:::
-:::
-
-```{python}
-#| echo: false
-#| output: asis
-labo.demo("monedas", n=40)
-```
-
-### El truco
-
-En ciencia, un resultado se suele llamar "estadísticamente significativo" si tiene menos de 5% de chance de aparecer por casualidad (p < 0,05). El problema: si probás **20 cosas** donde no hay ningún efecto, en promedio una va a dar "significativa" igual. Si después publicás solo esa, tenés un descubrimiento falso. Se llama **p-hacking**, o comparaciones múltiples. El cómic [xkcd 882](https://xkcd.com/882/) lo explica con gomitas de colores.
-
-### Hacelo vos
-
-```{python}
-#| echo: false
-#| output: asis
-colores_gomitas = ["violetas", "marrones", "rosas", "azules", "turquesa", "salmón", "rojas", "celestes", "fucsia", "amarillas",
-                   "grises", "beige", "cian", "verdes", "malva", "crema", "lilas", "negras", "durazno", "naranjas"]
-labo.demo("p-hacking", colores=colores_gomitas, alfa=0.05)
-```
-
-::: {.charlalo data-minutos="1"}
-Si en un diario leen "un estudio encontró que el café reduce el riesgo de X", ¿qué preguntarían para saber si es p-hacking? (Pista: ¿cuántas cosas midieron?, ¿estaba planeado de antemano?, ¿alguien lo replicó?)
-:::
-
-::: {.receta}
-```{python}
-import numpy as np
-from statsmodels.stats.weightstats import ttest_ind
-
-rng = np.random.default_rng(882)
-hallazgos = []
-for color in ["violetas", "azules", "verdes", "rojas", "amarillas"] * 4:   # 20 tests
-    comen = rng.normal(10, 3, 50)         # acné de quienes comen gomitas de ese color
-    no_comen = rng.normal(10, 3, 50)      # acné de quienes no: ¡misma distribución!
-    _, p, _ = ttest_ind(comen, no_comen)
-    if p < 0.05:                                                   # <1>
-        hallazgos.append((color, round(p, 3)))
-print("«Descubrimientos»:", hallazgos)
-```
-1. No hay ningún efecto real, pero con 20 tests al 5% lo esperable es encontrar uno. La solución: registrar de antemano qué se va a testear y corregir por la cantidad de tests (por ejemplo, Bonferroni: usar 0,05 / 20).
-:::
-
-::: {.antidoto data-truco="p-hacking" data-pregunta="¿Cuántas cosas probaron antes de encontrar esta? ¿Alguien lo replicó?"}
-**Preguntá cuántas cosas probaron.** Un resultado "significativo" entre muchos intentos puede ser pura suerte. Desconfiá de los hallazgos sorprendentes que nadie replicó.
-:::
-
 # Epílogo · Manual de defensa personal {.unnumbered}
 
 ## El encandilamiento de los números {#encandilamiento}
@@ -1550,44 +1697,55 @@ Todos los antídotos de la clase, en una lista. Tildá los que ya te salen de me
 ## Sé el villano {#villano}
 
 ::: {.desafio data-minutos="20" data-kicker="Ejercicio final · en grupos"}
-1. Armen grupos de 3 o 4. A cada grupo le toca una serie: **A** inflación mensual, **B** salarios registrados, **C** dólar oficial o **D** actividad económica (EMAE).
-2. Con el código de abajo (en Colab), hagan **dos gráficos de la misma serie con titulares opuestos**. Usen al menos dos trucos de la clase cada uno.
+1. Armen grupos de 3 o 4. A cada grupo le toca una serie y dos clientes con intereses opuestos:
+    - **A** · Las ventas mensuales de Dulce Dato: un gráfico para el banco y otro para el delegado que pide aumento.
+    - **B** · Los sueldos de Dulce Dato: uno para Marta y otro para el delegado, en la paritaria.
+    - **C** · La encuesta a los clientes: uno para la agencia de publicidad y otro para la competencia.
+    - **D** · La inflación mensual del INDEC (datos reales): uno para el gobierno y otro para la oposición.
+2. Con el código de abajo (en Colab), hagan **dos gráficos de la misma serie con titulares opuestos**. Usen al menos dos trucos de la clase en cada uno.
 3. Intercambien los gráficos con otro grupo. Con el checklist en la mano, cada grupo tiene que encontrar los trucos del otro.
 4. Puntos: uno por cada truco descubierto. Los autores se llevan un punto por cada truco que nadie vio.
 :::
 
 ```{python}
 #| eval: false
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-SERIES = {
-    "A": "148.3_INIVELNAL_DICI_M_26",   # IPC nivel general (calculen la variación mensual)
-    "B": "149.1_TL_REGIADO_OCTU_0_16",  # Índice de salarios, empleo registrado
-    "C": "175.1_DR_ESTANSE_0_0_20",     # Dólar oficial (diario: lo pedimos promediado por mes)
-    "D": "143.3_NO_PR_2004_A_21",       # EMAE, serie original
-}
 grupo = "A"   # ← cambien la letra
-url = (f"https://apis.datos.gob.ar/series/api/series/?ids={SERIES[grupo]}"
-       "&collapse=month&collapse_aggregation=avg&format=csv&limit=5000")
-serie = pd.read_csv(url, index_col=0, parse_dates=True,
-                    storage_options={"User-Agent": "Mozilla/5.0"}).iloc[:, 0]
 
+if grupo == "A":   # Ventas de Dulce Dato, en miles de alfajores por mes (inventadas, con temporada alta en invierno)
+    rng = np.random.default_rng(14)
+    meses = pd.date_range("2021-01-01", "2026-09-01", freq="MS")
+    temporada = 1 + 0.25 * np.cos(2 * np.pi * (meses.month - 7) / 12)
+    serie = pd.Series(330 * temporada * np.exp(np.cumsum(rng.normal(0.004, 0.04, len(meses)))), index=meses).round()
+elif grupo == "B": # Sueldos de las 24 personas de Dulce Dato, en millones de pesos por mes
+    serie = pd.Series([1.18, 1.20, 1.22, 1.24, 1.25, 1.26, 1.28, 1.30, 1.31, 1.33, 1.35, 1.38, 1.40, 1.45,
+                       1.42, 1.50, 1.62, 1.48, 1.55, 1.85, 1.95, 2.30, 4.50, 14.00])
+elif grupo == "C": # «¿Por qué elegís Dulce Dato?» (se podía marcar más de una; % que marcó cada razón)
+    serie = pd.Series({"Precio": 61, "Sabor": 54, "Lo tiene mi kiosco": 38, "Tamaño": 22, "Envoltorio": 9})
+else:              # D · Inflación mensual del INDEC (datos reales, de la API de datos.gob.ar)
+    url = "https://apis.datos.gob.ar/series/api/series/?ids=148.3_INIVELNAL_DICI_M_26&format=csv&limit=5000"
+    nivel = pd.read_csv(url, index_col=0, parse_dates=True, storage_options={"User-Agent": "Mozilla/5.0"}).iloc[:, 0]
+    serie = nivel.pct_change().dropna() * 100
+
+tipo = "line" if grupo in ("A", "D") else "bar"
 fig, (izq, der) = plt.subplots(1, 2, figsize=(11, 4))
-serie.plot(ax=izq, title="Titular 1: ...")
-serie.plot(ax=der, title="Titular 2: ...")
+serie.plot(ax=izq, kind=tipo, title="Titular 1: ...")
+serie.plot(ax=der, kind=tipo, title="Titular 2: ...")
 plt.show()
 ```
 
 ## Recursos {#recursos}
 
-Las fuentes de esta clase y otras para seguir. Todo lo que se ve acá fue recreado con datos públicos; los ejemplos y las ideas vienen de estos materiales.
+Las fuentes de esta clase y otras para seguir. Los ejemplos y las ideas vienen de estos materiales; los datos de la economía son públicos y los de Dulce Dato, inventados.
 
 ### Los videos que inspiraron la clase
 
 ::: {.recursos}
 [[Serie en Instagram]{.tipo} [Santi Fiorino · «Los datos no mienten, pero se puede mentir»]{.t} [Partes 1 a 5, 7 y 8: el eje Y, los acumulados, las correlaciones, las tortas, los mapas, los pictogramas y el cherry picking.]{.d}](https://www.instagram.com/santifiorino.py/){.recurso}
-[[Video · 19 min]{.tipo} [Zach Star · This is How Easy It Is to Lie With Statistics]{.t} [Porcentajes, la píldora de 1995, causalidad, Berkeley y la falacia del fiscal.]{.d}](https://www.youtube.com/watch?v=bVG2OQp6jEQ){.recurso}
+[[Video · 19 min]{.tipo} [Zach Star · This is How Easy It Is to Lie With Statistics]{.t} [Porcentajes y la deserción escolar, la píldora de 1995, causalidad, Berkeley y la falacia del fiscal.]{.d}](https://www.youtube.com/watch?v=bVG2OQp6jEQ){.recurso}
 [[Video · 33 min]{.tipo} [Unsolicited advice · How to Lie With Statistics (and get away with it)]{.t} [Definiciones, muestras, promedios, tasa base, proporciones y atribución.]{.d}](https://www.youtube.com/watch?v=f4yZJVdJCG4){.recurso}
 :::
 
@@ -1625,4 +1783,4 @@ Los reels de Fiorino, uno por uno: [eje Y](https://www.instagram.com/reel/C-YxMX
 
 ### Datos usados en esta clase
 
-IPC, índice de salarios, EMAE y Censo 2022: **INDEC**. Dólar oficial: **BCRA**. Producción de soja: **Ministerio de Agricultura (MAGyP)**. Superficie de las provincias: **IGN**. Series bajadas de la API de **datos.gob.ar** en octubre de 2026. Correlación de Messi y Gainesville: **Tyler Vigen** (CC BY 4.0). Admisiones de Berkeley: Bickel y otros (1975). Los ingresos del aula, las encuestas y las personas de los módulos 7, 13 y 14 son inventados y lo dice cada vez.
+IPC, índice de salarios y Censo 2022: **INDEC**. Dólar oficial: **BCRA**. Superficie de las provincias: **IGN**. Series bajadas de la API de **datos.gob.ar** en octubre de 2026. Correlación de Messi y Gainesville: **Tyler Vigen** (CC BY 4.0). Admisiones de Berkeley: Bickel y otros (1975). **Dulce Dato es inventada**, igual que todos sus números, las encuestas, el ejemplo de la deserción y las personas del módulo 1; lo dice cada vez.

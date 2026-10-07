@@ -10,9 +10,9 @@
 
 | Minuto | Concepto | Módulo |
 |---|---|---|
-| 00:04 | Mapa electoral hipotético de EE.UU.: casi todo azul (Harris), pero los 5 estados más poblados en rojo (Trump). | 5 |
-| 00:31 | Rojo: ~170 millones de personas; azul: ~164 millones. El 80% del mapa es azul y el 51% de la gente está en rojo. | 5 |
-| 00:51 | Alternativas: intensidad por población, regiones más chicas (condados), hexágonos, círculos proporcionales. | 5 |
+| 00:04 | Mapa electoral hipotético de EE.UU.: casi todo azul (Harris), pero los 5 estados más poblados en rojo (Trump). | 14 |
+| 00:31 | Rojo: ~170 millones de personas; azul: ~164 millones. El 80% del mapa es azul y el 51% de la gente está en rojo. | 14 |
+| 00:51 | Alternativas: intensidad por población, regiones más chicas (condados), hexágonos, círculos proporcionales. | 14 |
 
 ## Qué muestra en pantalla
 

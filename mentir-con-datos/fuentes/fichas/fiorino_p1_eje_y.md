@@ -10,10 +10,10 @@
 
 | Minuto | Concepto | Módulo |
 |---|---|---|
-| 00:04 | Eje Y truncado en barras: pobreza de Nigeria, Chad y Etiopía con el eje de 60 a 62. Al llevarlo a 0, son casi iguales. | 1 |
-| 00:37 | El mismo truco en líneas: pobreza 2014-2022 con el eje de 59 a 63. | 1 |
-| 01:00 | Versión más burda: gráfico de Apple (CPU Performance vs Power) sin números en el eje. | 1 |
-| 01:13 | Consejo: hacer zoom solo si las diferencias que se agrandan importan de verdad. | 1 |
+| 00:04 | Eje Y truncado en barras: pobreza de Nigeria, Chad y Etiopía con el eje de 60 a 62. Al llevarlo a 0, son casi iguales. | 10 |
+| 00:37 | El mismo truco en líneas: pobreza 2014-2022 con el eje de 59 a 63. | 10 |
+| 01:00 | Versión más burda: gráfico de Apple (CPU Performance vs Power) sin números en el eje. | 10 |
+| 01:13 | Consejo: hacer zoom solo si las diferencias que se agrandan importan de verdad. | 10 |
 
 ## Qué muestra en pantalla
 

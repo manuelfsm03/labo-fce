@@ -18,6 +18,7 @@
     var s;
     if (formato === '%') { s = (v).toFixed(d).replace('.', ',') + '%'; }
     else if (formato === 'x') { s = '×' + v.toFixed(d).replace('.', ','); }
+    else if (formato === '$') { s = '$' + Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
     else { s = v.toFixed(d).replace('.', ','); }
     return s;
   }

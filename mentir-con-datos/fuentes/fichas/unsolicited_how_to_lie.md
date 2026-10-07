@@ -10,14 +10,14 @@
 
 | Minuto | Concepto | Módulo |
 |---|---|---|
-| 02:04 | Definiciones tramposas: «el 90% de los perros tiene tendencias violentas». Pobreza y otras palabras con definiciones distintas. | 14 |
-| 04:48 | Inferencias raras: altura declarada de los varones de EE.UU. (pico en 6 pies, CDC). Cocker spaniels en adiestramiento para generalizar a todos. | 14 y 13 |
-| 07:47 | Muestras: tamaño (15 hombres → «66%»), Huff («un tercio de las universitarias se casa con un profesor»: eran 3), muestras de estudiantes, la experiencia personal como muestra. | 13 |
-| 12:01 | El «Average Joe» y los 1,96 hijos; media, mediana y moda (5, 5, 15, 20 y 500 mil libras); la dispersión importa. | 7 |
-| 16:17 | Tasa base: pareja vs desconocido, más muertes en choques que hace 100 años, detector de asesinos al 99%, Kahneman (bibliotecario o granjero), tiburones vs escaleras. | 9 |
-| 19:26 | Proporciones: «se duplicaron las muertes por tiburón» (de 5 a 10), márgenes de 0,5% a 1%, cáncer +10% vs pececitos +300%, categorías a medida. | 8 |
-| 23:03 | Correlación y causalidad: tercera causa (riqueza), causalidad al revés, Tyler Vigen, post hoc (Hume y la independencia de EE.UU.). | 11 |
-| 26:59 | Atribución: culpar al gobierno en 2009; error fundamental de atribución. | 11 |
+| 02:04 | Definiciones tramposas: «el 90% de los perros tiene tendencias violentas». Pobreza y otras palabras con definiciones distintas. | 1 |
+| 04:48 | Inferencias raras: altura declarada de los varones de EE.UU. (pico en 6 pies, CDC). Cocker spaniels en adiestramiento para generalizar a todos. | 1 y 2 |
+| 07:47 | Muestras: tamaño (15 hombres → «66%»), Huff («un tercio de las universitarias se casa con un profesor»: eran 3), muestras de estudiantes, la experiencia personal como muestra. | 2 |
+| 12:01 | El «Average Joe» y los 1,96 hijos; media, mediana y moda (5, 5, 15, 20 y 500 mil libras); la dispersión importa. | 5 |
+| 16:17 | Tasa base: pareja vs desconocido, más muertes en choques que hace 100 años, detector de asesinos al 99%, Kahneman (bibliotecario o granjero), tiburones vs escaleras. | 7 |
+| 19:26 | Proporciones: «se duplicaron las muertes por tiburón» (de 5 a 10), márgenes de 0,5% a 1%, cáncer +10% vs pececitos +300%, categorías a medida. | 6 |
+| 23:03 | Correlación y causalidad: tercera causa (riqueza), causalidad al revés, Tyler Vigen, post hoc (Hume y la independencia de EE.UU.). | 9 |
+| 26:59 | Atribución: culpar al gobierno en 2009; error fundamental de atribución. | 9 |
 | 29:30 | El encandilamiento de los números: ni creyentes ciegos ni cínicos. | epílogo |
 
 ## Qué muestra en pantalla
