@@ -1,0 +1,26 @@
+<!-- Quarto carga RequireJS (para widgets de Jupyter). Con `define.amd` presente, d3 y Plot se registran
+     como módulos AMD en vez de quedar como globales: lo escondemos mientras cargan y después lo devolvemos. -->
+<script>window.__defineLabo = window.define; window.define = undefined;</script>
+<script src="assets/vendor/d3.min.js"></script>
+<script src="assets/vendor/plot.umd.min.js"></script>
+<script>window.define = window.__defineLabo; delete window.__defineLabo;</script>
+<script src="assets/charla.js"></script>
+<script src="assets/demos/comun.js"></script>
+<script src="assets/demos/eje-y.js"></script>
+<script src="assets/demos/acumulado.js"></script>
+<script src="assets/demos/tortas.js"></script>
+<script src="assets/demos/pictogramas.js"></script>
+<script src="assets/demos/mapa.js"></script>
+<script src="assets/demos/doble-eje.js"></script>
+<script src="assets/demos/escala-log.js"></script>
+<script src="assets/demos/promedio.js"></script>
+<script src="assets/demos/riesgo.js"></script>
+<script src="assets/demos/real.js"></script>
+<script src="assets/demos/tasa-base.js"></script>
+<script src="assets/demos/simpson.js"></script>
+<script src="assets/demos/espurias.js"></script>
+<script src="assets/demos/cherry.js"></script>
+<script src="assets/demos/muestra.js"></script>
+<script src="assets/demos/definiciones.js"></script>
+<script src="assets/demos/p-hacking.js"></script>
+<script src="assets/anscombe.js"></script>

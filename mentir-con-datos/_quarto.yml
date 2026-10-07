@@ -1,0 +1,46 @@
+project:
+  type: default
+  render:
+    - index.qmd
+
+lang: es
+jupyter: python3
+
+execute:
+  echo: true
+  warning: false
+  message: false
+
+format:
+  html:
+    output-file: mentir-con-datos.html
+    embed-resources: true
+    minimal: false
+    theme: [default, tema.scss]
+    css:
+      - assets/fuentes.css
+      - assets/charla.css
+      - assets/anscombe.css
+      - assets/demos.css
+    include-after-body: assets/scripts.html
+    page-layout: article
+    toc: true
+    toc-depth: 2
+    toc-location: left
+    toc-title: "En esta clase"
+    number-sections: false
+    anchor-sections: true
+    smooth-scroll: true
+    code-copy: true
+    code-overflow: wrap
+    code-annotations: below
+    code-block-bg: true
+    highlight-style: tango
+    html-math-method: mathml
+    fig-format: svg
+    fig-responsive: true
+    link-external-newwindow: true
+    crossref:
+      fig-title: Figura
+      fig-prefix: Figura
+      title-delim: "."

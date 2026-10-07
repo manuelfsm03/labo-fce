@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+.quarto/
+**/*.quarto_ipynb
+mentir-con-datos/mentir-con-datos_files/
+*.mp4

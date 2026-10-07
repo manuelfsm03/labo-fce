@@ -1,0 +1,9 @@
+# Para renderizar la clase (Python 3.11+)
+quarto-cli==1.10.19
+jupyter
+pandas
+numpy
+matplotlib
+statsmodels
+requests
+pyyaml

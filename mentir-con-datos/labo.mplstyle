@@ -1,0 +1,52 @@
+# Estilo de los gráficos de la clase: papel, tinta y paleta del sitio.
+font.family: Inter
+font.size: 11
+text.color: 1B222A
+
+figure.figsize: 7, 3.4
+figure.facecolor: none
+figure.dpi: 110
+savefig.facecolor: none
+savefig.transparent: True
+savefig.bbox: tight
+svg.fonttype: path
+
+axes.facecolor: none
+axes.edgecolor: C9C4B6
+axes.linewidth: 0.8
+axes.spines.top: False
+axes.spines.right: False
+axes.titlesize: 12.5
+axes.titleweight: 600
+axes.titlelocation: left
+axes.titlepad: 12
+axes.labelsize: 10
+axes.labelcolor: 5B6470
+axes.grid: True
+axes.grid.axis: y
+axes.axisbelow: True
+axes.prop_cycle: cycler('color', ['22689A', 'BD871C', '25855B', '8B4486', 'BD432F'])
+
+grid.color: E4E0D5
+grid.linewidth: 0.8
+grid.linestyle: -
+
+xtick.color: C9C4B6
+ytick.color: C9C4B6
+xtick.labelcolor: 5B6470
+ytick.labelcolor: 5B6470
+xtick.labelsize: 9.5
+ytick.labelsize: 9.5
+xtick.major.size: 3
+ytick.major.size: 0
+xtick.major.pad: 5
+ytick.major.pad: 6
+
+lines.linewidth: 2
+lines.solid_capstyle: round
+lines.solid_joinstyle: round
+lines.markersize: 6
+patch.linewidth: 0
+
+legend.frameon: False
+legend.fontsize: 9.5

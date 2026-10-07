@@ -1,0 +1,76 @@
+/*-- scss:defaults --*/
+// Tokens del sitio (manuelfsm03.github.io): papel frío, tinta casi negra, dorado trigo, verde campo.
+$papel:      #F7F6F2;
+$papel-2:    #EFEDE6;
+$tinta:      #1B222A;
+$tinta-2:    #5B6470;
+$dorado:     #A9832B;
+$link:       #8A671D;
+$azul:       #2E5A6E;
+$verde:      #2F6B52;
+$verde-hondo:#24523F;
+$rojo:       #B23B2E;
+$regla:      #DAD5C7;
+$banda:      #1F3A2E;
+
+$body-bg: $papel;
+$body-color: $tinta;
+$link-color: $link;
+$primary: $verde;
+$secondary: $tinta-2;
+$danger: $rojo;
+$success: $verde;
+$border-color: $regla;
+
+$font-family-sans-serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+$font-family-monospace: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+$headings-font-family: "Source Serif 4", Georgia, serif;
+$headings-font-weight: 600;
+$font-size-root: 17px;
+$line-height-base: 1.62;
+
+$code-color: $link;
+$code-block-bg: #FBFAF6;
+$code-block-border-left-color: $dorado;
+$toc-color: $tinta-2;
+$toc-font-size: .86rem;
+
+/*-- scss:rules --*/
+body { -webkit-font-smoothing: antialiased; }
+
+h1, h2, h3, h4 { color: $tinta; letter-spacing: -.005em; }
+h1.title { font-style: italic; font-weight: 400; font-size: clamp(2.2rem, 5vw, 3.2rem); line-height: 1.05; }
+.subtitle { font-family: "IBM Plex Mono", monospace; font-size: .8rem !important; letter-spacing: .12em; text-transform: uppercase; color: $dorado; }
+
+// Títulos de módulo con la tilde de "libro contable" del sitio
+h2 { margin-top: 3.2rem; padding-top: 1.4rem; border-top: 1px solid $regla; position: relative; }
+h2.anchored::before { content: ""; position: absolute; left: 0; top: -1px; width: 56px; border-top: 3px solid $dorado; }
+h3 { font-size: 1.22rem; margin-top: 2rem; }
+
+a { text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+// Índice lateral
+#TOC .nav-link, #quarto-margin-sidebar .nav-link { color: $tinta-2; }
+#TOC .nav-link.active { color: $tinta; font-weight: 600; border-left-color: $dorado; }
+.sidebar nav[role="doc-toc"] ul > li > a.active { border-left-color: $dorado; color: $tinta; }
+
+// Código: papel un tono más claro, filete dorado como en el sitio
+div.sourceCode { border-radius: 4px; border: 1px solid $regla; }
+pre code { font-size: .86rem; }
+.code-annotation-gutter-bg, .code-annotation-gutter { background-color: #FBFAF6; }
+dl.code-annotation-container-grid dt { color: $rojo; }
+
+// Pestañas "tramposo | honesto"
+.panel-tabset .nav-tabs .nav-link { color: $tinta-2; font-weight: 500; }
+.panel-tabset .nav-tabs .nav-link.active { color: $tinta; background: $papel; border-color: $regla $regla $papel; }
+.panel-tabset .tab-content { border-color: $regla; background: $papel; }
+
+// Figuras al estilo "Figura N. … Nota / Fuente" del sitio
+.figure-caption, figcaption { color: $tinta-2; font-size: .86rem; }
+.quarto-float-caption-bottom { margin-top: .4rem; }
+
+// Callouts sobrios
+.callout { border-radius: 4px; }
+
+// Tablas de datos
+table { font-variant-numeric: tabular-nums; }

@@ -1,0 +1,240 @@
+/* Componentes de charla: preguntas al aula, "adiviná", desafíos, antídotos y modo charla.
+   Tokens del sitio. Todo funciona proyectado y también para estudiar en casa. */
+:root {
+  --papel: #F7F6F2;
+  --papel-2: #EFEDE6;
+  --tarjeta: #FFFFFF;
+  --tinta: #1B222A;
+  --tinta-2: #5B6470;
+  --tinta-3: #7B8088;
+  --regla: #DAD5C7;
+  --dorado: #A9832B;
+  --dorado-suave: #ECE6D6;
+  --link: #8A671D;
+  --azul: #2E5A6E;
+  --azul-suave: #DFE3E2;
+  --verde: #2F6B52;
+  --verde-suave: #DFE5DF;
+  --rojo: #B23B2E;
+  --rojo-suave: #F3E1DC;
+  --banda: #1F3A2E;
+  --crema: #F7F6F2;
+  --ease: .18s ease;
+}
+
+/* Etiqueta tipo "kicker" que encabeza cada bloque interactivo */
+.bloque-kicker {
+  display: flex; align-items: center; gap: .5em;
+  font: 500 .72rem/1.2 "IBM Plex Mono", monospace;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--tinta-2);
+  margin-bottom: .6rem;
+}
+.bloque-kicker .ico { font-size: 1.05rem; letter-spacing: 0; }
+
+/* ---------- 🎣 Gancho ---------- */
+.gancho {
+  margin: 1.4rem 0 1.6rem;
+  padding: 1.1rem 1.25rem 1.2rem;
+  background: var(--tarjeta);
+  border: 1px solid var(--regla);
+  border-left: 4px solid var(--dorado);
+  border-radius: 4px;
+}
+.gancho > p:last-child { margin-bottom: 0; }
+.titular {
+  display: block;
+  font-family: "Source Serif 4", Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(1.25rem, 2.6vw, 1.6rem);
+  line-height: 1.2;
+  letter-spacing: -.01em;
+  margin: .2rem 0 .4rem;
+}
+.titular::before { content: "“"; color: var(--dorado); margin-right: .05em; }
+.titular::after { content: "”"; color: var(--dorado); margin-left: .05em; }
+.medio { display: block; font: 500 .72rem "IBM Plex Mono", monospace; color: var(--tinta-3); letter-spacing: .06em; text-transform: uppercase; }
+
+/* ---------- 🙋 Pregunta al aula / 🎯 Adiviná ---------- */
+.pregunta, .adivina {
+  margin: 1.4rem 0 1.6rem;
+  padding: 1.1rem 1.25rem 1.2rem;
+  background: var(--azul-suave);
+  border-radius: 6px;
+  position: relative;
+}
+.adivina { background: var(--dorado-suave); }
+.pregunta > p:first-of-type, .adivina > p:first-of-type { font-weight: 600; font-size: 1.06rem; }
+
+.opciones { display: flex; flex-wrap: wrap; gap: .5rem; list-style: none; padding: 0; margin: .8rem 0 0; }
+.opciones button {
+  display: inline-flex; align-items: center; gap: .55em;
+  font: 500 .95rem "Inter", sans-serif; color: var(--tinta);
+  background: var(--tarjeta);
+  border: 1px solid var(--regla); border-radius: 999px;
+  padding: .42em 1em .42em .45em;
+  cursor: pointer; transition: border-color var(--ease), background var(--ease);
+}
+.opciones button:hover { border-color: var(--tinta-2); }
+.opciones .letra {
+  display: inline-grid; place-items: center;
+  width: 1.65em; height: 1.65em; border-radius: 50%;
+  background: var(--papel-2); font: 600 .78rem "IBM Plex Mono", monospace;
+}
+.opciones button[aria-pressed="true"] { border-color: var(--tinta); background: var(--tinta); color: var(--crema); }
+.opciones button[aria-pressed="true"] .letra { background: var(--crema); color: var(--tinta); }
+.revelado .opciones button.correcta { border-color: var(--verde); box-shadow: 0 0 0 2px var(--verde) inset; }
+.revelado .opciones button.correcta::after { content: "✓"; color: var(--verde); font-weight: 700; margin-left: .2em; }
+.revelado .opciones button[aria-pressed="true"].correcta::after { color: var(--crema); }
+
+.acciones { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin-top: .9rem; }
+.btn-charla {
+  font: 600 .9rem "Inter", sans-serif;
+  color: var(--crema); background: var(--tinta);
+  border: 0; border-radius: 4px; padding: .5em 1em;
+  cursor: pointer; transition: background var(--ease);
+}
+.btn-charla:hover { background: #333c46; }
+.btn-charla.sec { background: transparent; color: var(--tinta); border: 1px solid var(--tinta-2); }
+.btn-charla:focus-visible, .opciones button:focus-visible { outline: 2px solid var(--dorado); outline-offset: 2px; }
+
+.respuesta {
+  margin-top: 1rem;
+  padding: .9rem 1rem;
+  background: var(--tarjeta);
+  border-radius: 4px;
+  border-left: 3px solid var(--verde);
+  transition: filter .25s ease, opacity .25s ease;
+}
+.respuesta > :last-child { margin-bottom: 0; }
+.js .oculta {
+  filter: blur(9px);
+  opacity: .55;
+  user-select: none;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) { .respuesta { transition: none; } }
+
+/* Adiviná: control de estimación */
+.estimacion { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem; margin-top: .8rem; }
+.estimacion input[type="range"] { flex: 1 1 220px; accent-color: var(--tinta); }
+.estimacion output {
+  min-width: 5.5em; text-align: right;
+  font: 600 1.25rem "IBM Plex Mono", monospace; color: var(--tinta);
+}
+.veredicto { font: 500 .9rem "Inter", sans-serif; color: var(--tinta-2); }
+
+/* ---------- ⏱️ Desafío / 💬 Charlalo ---------- */
+.desafio, .charlalo {
+  margin: 1.2rem 0 1.4rem;
+  padding: .9rem 1.15rem 1rem;
+  border: 1px dashed var(--tinta-3);
+  border-radius: 6px;
+}
+.charlalo { border-style: solid; border-color: var(--regla); background: var(--tarjeta); }
+.desafio > :last-child, .charlalo > :last-child { margin-bottom: 0; }
+.reloj {
+  margin-left: auto;
+  font: 600 .85rem "IBM Plex Mono", monospace;
+  background: var(--papel-2); color: var(--tinta);
+  border: 1px solid var(--regla); border-radius: 999px;
+  padding: .25em .8em; cursor: pointer;
+}
+.reloj.corriendo { background: var(--tinta); color: var(--crema); }
+.reloj.listo { background: var(--rojo); color: var(--crema); border-color: var(--rojo); }
+
+/* ---------- 🕵️ Antídoto ---------- */
+.antidoto {
+  margin: 1.6rem 0 2rem;
+  padding: 1rem 1.2rem 1.05rem 1.2rem;
+  background: var(--verde-suave);
+  border-radius: 6px;
+  border-left: 4px solid var(--verde);
+}
+.antidoto > :last-child { margin-bottom: 0; }
+.antidoto strong:first-child { color: var(--verde); }
+
+/* ---------- Estados: trampa / honesto (siempre ícono + rótulo) ---------- */
+.estado {
+  display: inline-flex; align-items: center; gap: .35em;
+  font: 600 .74rem "IBM Plex Mono", monospace; letter-spacing: .04em; text-transform: uppercase;
+  padding: .18em .6em; border-radius: 3px;
+}
+.estado.trampa { color: var(--rojo); background: var(--rojo-suave); }
+.estado.trampa::before { content: "⚠"; }
+.estado.honesto { color: var(--verde); background: var(--verde-suave); }
+.estado.honesto::before { content: "✓"; }
+
+/* ---------- Checklist del epílogo ---------- */
+#checklist ol { list-style: none; padding: 0; counter-reset: item; }
+#checklist li {
+  counter-increment: item;
+  display: grid; grid-template-columns: auto 1fr; gap: .2rem .8rem; align-items: start;
+  padding: .7rem .2rem; border-bottom: 1px solid var(--regla);
+}
+#checklist input { margin-top: .35rem; width: 1.05rem; height: 1.05rem; accent-color: var(--verde); }
+#checklist .truco { font: 500 .72rem "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--tinta-3); }
+#checklist .truco a { color: inherit; }
+#checklist li.hecho .pregunta-check { color: var(--tinta-3); text-decoration: line-through; }
+
+/* ---------- Mapa de la clase ("río arriba") ---------- */
+.rio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem; margin: 1.4rem 0 .6rem; position: relative; }
+.rio .tramo { background: var(--tarjeta); border: 1px solid var(--regla); border-radius: 6px; padding: .9rem 1rem; }
+.rio .tramo .n { font: 500 .7rem "IBM Plex Mono", monospace; letter-spacing: .12em; color: var(--dorado); text-transform: uppercase; }
+.rio .tramo h4 { font-size: 1.12rem; margin: .25rem 0 .3rem; }
+.rio .tramo p { font-size: .9rem; color: var(--tinta-2); margin: 0; }
+.rio-flecha { display: flex; justify-content: space-between; align-items: center; gap: .6rem; font: 500 .76rem "IBM Plex Mono", monospace; color: var(--tinta-3); margin-bottom: 1.4rem; }
+.rio-flecha .linea { flex: 1; border-top: 1px solid var(--tinta-3); position: relative; }
+.rio-flecha .linea::before { content: ""; position: absolute; left: -1px; top: -5px; border: 5px solid transparent; border-right: 7px solid var(--tinta-3); border-left: 0; }
+@media (max-width: 640px) { .rio { grid-template-columns: 1fr; } }
+
+/* ---------- Recursos ---------- */
+.recursos { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: .8rem; margin: 1rem 0 1.6rem; }
+.recurso { display: block; background: var(--tarjeta); border: 1px solid var(--regla); border-radius: 6px; padding: .8rem 1rem; text-decoration: none; color: var(--tinta); transition: border-color var(--ease); }
+.recurso:hover { border-color: var(--tinta-2); }
+.recurso .tipo { font: 500 .68rem "IBM Plex Mono", monospace; letter-spacing: .1em; text-transform: uppercase; color: var(--dorado); }
+.recurso .t { display: block; font-weight: 600; margin: .15rem 0 .2rem; }
+.recurso .d { display: block; font-size: .86rem; color: var(--tinta-2); }
+
+/* ---------- Botón y modo charla ---------- */
+.modo-toggle {
+  position: fixed; right: 16px; bottom: 16px; z-index: 1050;
+  font: 600 .86rem "Inter", sans-serif;
+  color: var(--crema); background: var(--banda);
+  border: 0; border-radius: 999px; padding: .6em 1.05em;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .25);
+  cursor: pointer;
+}
+.modo-toggle:focus-visible { outline: 2px solid var(--dorado); outline-offset: 3px; }
+
+details.receta-plegada { margin: 1rem 0 1.4rem; border: 1px solid var(--regla); border-radius: 6px; background: var(--tarjeta); }
+details.receta-plegada > summary { cursor: pointer; padding: .6rem .9rem; font: 500 .82rem "IBM Plex Mono", monospace; color: var(--tinta-2); }
+details.receta-plegada[open] > summary { border-bottom: 1px solid var(--regla); }
+details.receta-plegada > .receta-cuerpo { padding: .6rem .9rem .2rem; }
+
+body.charla { font-size: 1.22rem; }
+body.charla #quarto-margin-sidebar, body.charla #quarto-sidebar, body.charla .sidebar.toc-left { display: none !important; }
+body.charla main.content { max-width: 1100px; margin-left: auto; margin-right: auto; grid-column: body-content-start / body-content-end !important; }
+body.charla .page-columns { grid-template-columns: [screen-start] 1.5em [screen-start-inset page-start page-start-inset body-start-outset body-start body-content-start] minmax(500px, 1fr) [body-content-end body-end body-end-outset page-end-inset page-end screen-end-inset] 1.5em [screen-end] !important; }
+body.charla .solo-lectura { display: none; }
+body.charla .titular { font-size: clamp(1.6rem, 3.4vw, 2.2rem); }
+body.charla .opciones button { font-size: 1.15rem; }
+body.charla .demo { font-size: 1.05rem; }
+.solo-charla { display: none; }
+body.charla .solo-charla { display: block; }
+
+/* Nota de uso al principio */
+.uso { margin: 1rem 0 1.8rem; padding: .9rem 1.1rem; background: var(--tarjeta); border: 1px solid var(--regla); border-left: 3px solid var(--dorado); border-radius: 4px; font-size: .95rem; }
+.uso > :last-child { margin-bottom: 0; }
+
+/* Tabla resumen de Anscombe */
+table.resumen-anscombe { width: 100%; margin: .6rem 0 1.2rem; font-variant-numeric: tabular-nums; border-collapse: collapse; }
+table.resumen-anscombe th { font: 500 .74rem "IBM Plex Mono", monospace; letter-spacing: .04em; color: var(--tinta-2); text-align: left; border-bottom: 1px solid var(--tinta-3); padding: .35rem .5rem .35rem 0; white-space: nowrap; }
+table.resumen-anscombe td { padding: .45rem .5rem .45rem 0; border-bottom: 1px solid var(--regla); white-space: nowrap; }
+table.resumen-anscombe td:first-child { font-family: "Source Serif 4", Georgia, serif; font-weight: 600; }
+
+/* Avión de Wald */
+svg.avion { display: block; width: 100%; max-width: 340px; height: auto; margin: .6rem auto .2rem; }
+/* Tarjetas de recursos: cada link es una celda de la grilla */
+.recursos > p { display: contents; }
+.recurso { text-decoration: none !important; }

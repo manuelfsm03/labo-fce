@@ -1,0 +1,98 @@
+/* Interactivos: controles, lectura de resultados y vista de datos. */
+.demo {
+  margin: 1.4rem 0 1.8rem;
+  padding: 1rem 1.1rem .9rem;
+  background: #FFFFFF;
+  border: 1px solid #DAD5C7;
+  border-radius: 6px;
+}
+.demo-controles { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem 1.4rem; margin-bottom: .6rem; }
+.control.rango { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .8rem; flex: 1 1 320px; }
+.control.rango label { font: 500 .8rem "IBM Plex Mono", monospace; letter-spacing: .04em; color: #5B6470; }
+.control.rango input[type="range"] { flex: 1 1 160px; accent-color: #1B222A; min-width: 140px; }
+.control.rango output { font: 600 1rem "IBM Plex Mono", monospace; min-width: 4.5em; text-align: right; color: #1B222A; }
+.control.seg { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+.control.seg .seg-rotulo { font: 500 .8rem "IBM Plex Mono", monospace; color: #5B6470; margin-right: .4rem; }
+.control.seg button {
+  font: 500 .88rem "Inter", sans-serif; color: #1B222A; background: #F7F6F2;
+  border: 1px solid #DAD5C7; border-radius: 4px; padding: .32em .8em; cursor: pointer;
+}
+.control.seg button[aria-pressed="true"] { background: #1B222A; color: #F7F6F2; border-color: #1B222A; }
+.control.seg button:focus-visible, .control.rango input:focus-visible { outline: 2px solid #A9832B; outline-offset: 2px; }
+
+.demo-lienzo { width: 100%; min-height: 120px; }
+.demo-lienzo svg { display: block; max-width: 100%; height: auto; }
+.demo-lectura { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1.2rem; margin-top: .6rem; padding-top: .7rem; border-top: 1px solid #ECE9E0; }
+.demo-lectura .kpis { display: flex; flex-wrap: wrap; gap: .6rem 1.6rem; }
+.demo-lectura .kpi { display: flex; flex-direction: column; min-width: 9rem; }
+.demo-lectura .k { font: 500 .7rem "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: #7B8088; }
+.demo-lectura .v { font-weight: 500; color: #1B222A; }
+.demo-lectura .v.grande { font: 600 1.6rem/1.1 "Inter", sans-serif; }
+.demo-error { color: #B23B2E; font-weight: 500; }
+
+details.ver-datos { margin-top: .7rem; }
+details.ver-datos > summary { cursor: pointer; font: 500 .78rem "IBM Plex Mono", monospace; color: #5B6470; }
+details.ver-datos table { margin: .5rem 0 .2rem; font-size: .86rem; border-collapse: collapse; }
+details.ver-datos th, details.ver-datos td { padding: .25rem .8rem .25rem 0; border-bottom: 1px solid #ECE9E0; text-align: left; }
+details.ver-datos .num { text-align: right; }
+.tabla-scroll { overflow-x: auto; }
+
+/* Tooltips de Plot */
+.demo [aria-label="tip"] { font-family: "Inter", sans-serif; }
+
+/* Tortas */
+.leyenda { display: flex; flex-wrap: wrap; gap: .3rem 1rem; margin: .2rem 0 .6rem; font-size: .88rem; color: #1B222A; }
+.ley-item { display: inline-flex; align-items: center; gap: .4em; }
+.ley-item i { width: 12px; height: 12px; border-radius: 2px; display: inline-block; }
+.tortas-lienzo { display: grid; gap: 24px; align-items: start; }
+.torta-celda svg { max-width: 100%; height: auto; }
+
+/* Mapa */
+.mapa-cuerpo { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1.6rem; align-items: start; }
+.mapa-lienzo { width: auto; min-height: 0; }
+.mapa-panel { display: flex; flex-direction: column; gap: .9rem; padding-top: .4rem; }
+.mapa-panel .kpi { display: flex; flex-direction: column; }
+.mapa-panel .k { font: 500 .7rem "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: #7B8088; }
+.mapa-panel .v.grande { font: 600 2.2rem/1.05 "Inter", sans-serif; color: #1B222A; }
+.mapa-ayuda { font-size: .86rem; color: #5B6470; margin: 0; }
+.mapa-lista { font-size: .82rem; color: #5B6470; margin: 0; }
+g.prov { cursor: pointer; transition: opacity .15s ease; }
+g.prov:hover { opacity: .78; }
+g.prov:focus-visible { outline: none; }
+g.prov:focus-visible rect { stroke: #1B222A; stroke-width: 1.5; }
+@media (max-width: 560px) { .mapa-cuerpo { grid-template-columns: 1fr; } }
+
+/* Gancho de pictogramas */
+svg.bolsas-gancho { display: block; width: 100%; max-width: 420px; height: auto; margin: .4rem auto 0; font-family: "Inter", sans-serif; }
+.ley-item i.linea { width: 16px; height: 2.5px; border-radius: 2px; }
+
+/* Controles apilados */
+.demo-controles.columna { flex-direction: column; align-items: stretch; gap: .5rem; }
+.demo-controles.columna .control.rango { flex: 1 1 auto; }
+.demo-controles.columna .control.rango label { min-width: 17rem; }
+
+/* Tasa base */
+.tb-cuerpo { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1.4rem; align-items: start; margin-top: .4rem; }
+.tb-lienzo { width: auto; }
+.tb-panel { display: flex; flex-direction: column; gap: .7rem; }
+.tb-panel .kpi { display: flex; flex-direction: column; }
+.tb-panel .k { font: 500 .7rem "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: #7B8088; }
+.tb-panel .v.grande { font: 600 2.4rem/1.05 "Inter", sans-serif; }
+.leyenda.vertical { flex-direction: column; gap: .3rem; }
+@media (max-width: 640px) { .tb-cuerpo { grid-template-columns: 1fr; } }
+
+/* Riesgo */
+.riesgo-lienzo canvas { display: block; max-width: 100%; height: auto; }
+
+/* Espurias */
+.nota-hist { font-size: .86rem; color: #5B6470; margin: .2rem 0 0; }
+.demo-controles.columna .control.rango { display: grid; grid-template-columns: minmax(10rem, 16rem) minmax(120px, 1fr) 4.6rem; align-items: center; gap: .6rem; }
+.demo-controles.columna .control.rango label { min-width: 0; }
+@media (max-width: 560px) { .demo-controles.columna .control.rango { grid-template-columns: 1fr 4.6rem; } .demo-controles.columna .control.rango label { grid-column: 1 / -1; } }
+.tb-cuerpo.apilado { grid-template-columns: 1fr; }
+
+/* Subtítulos y titulares dentro de los demos */
+.demo-subtitulo { font: 500 .74rem "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: #7B8088; margin: .8rem 0 .2rem; }
+.titular-demo { display: block; font-family: "Source Serif 4", Georgia, serif; font-weight: 700; font-size: 1.2rem; line-height: 1.25; color: #1B222A; margin: .1rem 0 .2rem; }
+.demo-controles.columna .control.seg { display: grid; grid-template-columns: minmax(12rem, 1fr) auto auto; align-items: center; gap: 4px; }
+@media (max-width: 560px) { .demo-controles.columna .control.seg { grid-template-columns: 1fr 1fr; } .demo-controles.columna .control.seg .seg-rotulo { grid-column: 1 / -1; } }
