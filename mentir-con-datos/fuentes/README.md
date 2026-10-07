@@ -1,10 +1,10 @@
 # Fuentes audiovisuales de la clase
 
-Fichas de los 9 videos que inspiraron la clase: link, conceptos con su minuto y el módulo donde se usan, qué muestran en pantalla y la transcripción completa. Este material es solo de referencia para armar y actualizar la clase; la página no muestra nada de esto, solo los linkea en **Recursos**.
+Fichas de los 10 videos que inspiraron la clase: link, conceptos con su minuto y el módulo donde se usan, qué muestran en pantalla y la transcripción completa. Este material es solo de referencia para armar y actualizar la clase; la página no muestra nada de esto, solo los linkea en **Recursos**.
 
 | Ficha | Fuente |
 |---|---|
-| `fichas/fiorino_p1_eje_y.md` … `fiorino_p8_cherry_picking.md` | Serie de reels de Santi Fiorino (@santifiorino.py), partes 1–5, 7 y 8 |
+| `fichas/fiorino_p1_eje_y.md` … `fiorino_p8_cherry_picking.md` | Serie de reels de Santi Fiorino (@santifiorino.py), partes 1 a 8 |
 | `fichas/zachstar_lie_with_statistics.md` | Zach Star, *This is How Easy It Is to Lie With Statistics* (YouTube, 2019) |
 | `fichas/unsolicited_how_to_lie.md` | Unsolicited advice, *How to Lie With Statistics (and get away with it)* (YouTube, 2024) |
 | `cuadros/*.jpg` | Una hoja de contacto por reel (un cuadro cada 2 s) con los gráficos clave |

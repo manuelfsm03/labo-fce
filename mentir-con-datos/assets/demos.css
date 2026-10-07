@@ -1,98 +1,202 @@
-/* Interactivos: controles, lectura de resultados y vista de datos. */
-.demo {
-  margin: 1.4rem 0 1.8rem;
-  padding: 1rem 1.1rem .9rem;
-  background: #FFFFFF;
-  border: 1px solid #DAD5C7;
-  border-radius: 6px;
+/* Interactivos con la anatomía de los gráficos de El Atlas: antetítulo, título que cuenta el hallazgo,
+   bajada en itálica, controles, gráfico con etiquetas directas, fuente y firma, descargas y navegación.
+   La tarjeta (borde negro, esquinas redondeadas) es la del taller de IA. */
+:root {
+  --fig-papel: #FBF9F4;
+  --fig-tinta: #1A1A1A;
+  --fig-tinta-2: #4A4A4A;
+  --fig-tinta-3: #8A8579;
+  --fig-regla: #E0DCC8;
+  --fig-regla-2: #C9C2B2;
+  --fig-grilla: #ECE7D8;
+  --fig-acento: #BE5D32;
+  --fig-serif: "Source Serif 4", Georgia, serif;
+  --fig-sans: "Source Sans 3", -apple-system, "Segoe UI", sans-serif;
 }
-.demo-controles { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem 1.4rem; margin-bottom: .6rem; }
-.control.rango { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .8rem; flex: 1 1 320px; }
-.control.rango label { font: 500 .8rem "IBM Plex Mono", monospace; letter-spacing: .04em; color: #5B6470; }
-.control.rango input[type="range"] { flex: 1 1 160px; accent-color: #1B222A; min-width: 140px; }
-.control.rango output { font: 600 1rem "IBM Plex Mono", monospace; min-width: 4.5em; text-align: right; color: #1B222A; }
-.control.seg { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px; }
-.control.seg .seg-rotulo { font: 500 .8rem "IBM Plex Mono", monospace; color: #5B6470; margin-right: .4rem; }
-.control.seg button {
-  font: 500 .88rem "Inter", sans-serif; color: #1B222A; background: #F7F6F2;
-  border: 1px solid #DAD5C7; border-radius: 4px; padding: .32em .8em; cursor: pointer;
-}
-.control.seg button[aria-pressed="true"] { background: #1B222A; color: #F7F6F2; border-color: #1B222A; }
-.control.seg button:focus-visible, .control.rango input:focus-visible { outline: 2px solid #A9832B; outline-offset: 2px; }
 
+/* ---------- La figura ---------- */
+.fig-atlas {
+  margin: 2rem 0 2.4rem;
+  padding: 1.5rem 1.6rem 1.1rem;
+  background: var(--fig-papel);
+  border: 2.5px solid var(--fig-tinta);
+  border-radius: 14px;
+  font-family: var(--fig-sans);
+  color: var(--fig-tinta);
+  scroll-margin-top: 1rem;
+}
+.fig-kicker {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .55em;
+  font: 600 .72rem var(--fig-sans); letter-spacing: .2em; text-transform: uppercase; color: var(--fig-tinta-2);
+}
+.fig-kicker .sep { color: var(--fig-acento); }
+.fig-titulo {
+  font: 700 clamp(1.35rem, 2.6vw, 1.8rem)/1.15 var(--fig-serif);
+  letter-spacing: -.01em; margin: .45rem 0 0; font-variant-numeric: lining-nums;
+}
+.fig-bajada {
+  font: italic 400 1.02rem/1.45 var(--fig-serif); color: var(--fig-tinta-2);
+  margin: .35rem 0 0; font-variant-numeric: lining-nums;
+}
+.fig-regla { width: 54px; height: 4px; background: var(--fig-acento); margin: .8rem 0 1.1rem; }
+.fig-atlas .demo { margin: 0; padding: 0; border: 0; background: transparent; }
+.fig-pie {
+  display: flex; justify-content: space-between; align-items: flex-end; gap: 1.2rem;
+  border-top: 1.5px solid var(--fig-regla); padding-top: .65rem; margin-top: .9rem;
+}
+.fig-fuente { font: 400 .82rem/1.4 var(--fig-sans); color: var(--fig-tinta-3); }
+.fig-fuente b { color: var(--fig-tinta-2); font-weight: 600; }
+.fig-firma { text-align: right; color: var(--fig-acento); white-space: nowrap; line-height: 1.05; }
+.fig-firma .f1 { display: block; font: 700 1rem var(--fig-sans); }
+.fig-firma .f2 { display: block; font: 600 .78rem var(--fig-sans); }
+.fig-barra { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .7rem 1rem; margin-top: .9rem; }
+.fig-descargas { display: flex; flex-wrap: wrap; gap: .4rem; }
+.fig-descargas button {
+  font: 600 .66rem var(--fig-sans); letter-spacing: .1em; text-transform: uppercase;
+  background: var(--fig-tinta); color: #fff; border: 0; border-radius: 4px; padding: .6em 1em; cursor: pointer;
+}
+.fig-descargas button:hover { background: #3A3A3A; }
+.fig-nav { display: flex; align-items: center; gap: .55rem; font: 600 .7rem var(--fig-sans); letter-spacing: .12em; text-transform: uppercase; color: var(--fig-tinta-2); }
+.fig-nav button {
+  width: 2.1rem; height: 2.1rem; border-radius: 50%; border: 1.5px solid var(--fig-regla-2); background: #fff;
+  font: 600 1rem var(--fig-sans); color: var(--fig-tinta); cursor: pointer; display: inline-grid; place-items: center;
+}
+.fig-nav button:hover:not(:disabled) { border-color: var(--fig-tinta); background: #FFF4C4; }
+.fig-nav button:disabled { opacity: .35; cursor: default; }
+.fig-todos { font: 600 .82rem var(--fig-sans); color: var(--fig-acento); text-decoration: none; }
+.fig-todos:hover { text-decoration: underline; }
+
+/* ---------- Interactivo suelto (sin figura) ---------- */
+.demo {
+  margin: 1.6rem 0 1.9rem; padding: 1.1rem 1.25rem 1rem;
+  background: var(--fig-papel); border: 2.5px solid var(--fig-tinta); border-radius: 14px;
+  font-family: var(--fig-sans);
+}
+
+/* ---------- Controles (los de El Atlas) ---------- */
+.demo-controles { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem 1.4rem; margin-bottom: .7rem; }
+.control.rango { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .8rem; flex: 1 1 320px; }
+.control.rango label, .control.seg .seg-rotulo {
+  font: 600 .7rem var(--fig-sans); letter-spacing: .12em; text-transform: uppercase; color: var(--fig-tinta-3);
+}
+.control.rango input[type="range"] { flex: 1 1 160px; accent-color: var(--fig-acento); min-width: 140px; }
+.control.rango output { font: 700 1.05rem var(--fig-sans); min-width: 4.5em; text-align: right; color: var(--fig-tinta); font-variant-numeric: tabular-nums; }
+.control.seg { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0; }
+.control.seg .seg-rotulo { margin-right: .6rem; }
+.control.seg button {
+  font: 600 .86rem var(--fig-sans); color: var(--fig-tinta-2); background: #fff;
+  border: 1.5px solid var(--fig-regla-2); padding: .38em .9em; cursor: pointer; margin-left: -1.5px;
+}
+.control.seg button, .control.seg .btn-charla { border-radius: 0; box-shadow: none; transform: none; }
+.control.seg .seg-rotulo + button, .control.seg > button:first-child { border-radius: 6px 0 0 6px; margin-left: 0; }
+.control.seg button:last-child { border-radius: 0 6px 6px 0; }
+.control.seg button:hover { background: #F4F1E8; color: var(--fig-tinta); }
+.control.seg button[aria-pressed="true"] { background: var(--fig-tinta); color: var(--fig-papel); border-color: var(--fig-tinta); position: relative; z-index: 1; }
+.control.seg button:focus-visible, .control.rango input:focus-visible { outline: 2.5px solid #7B9CC9; outline-offset: 2px; }
+.demo .btn-charla { font-family: var(--fig-sans); font-size: .86rem; }
+
+/* ---------- Lienzo y lectura ---------- */
 .demo-lienzo { width: 100%; min-height: 120px; }
 .demo-lienzo svg { display: block; max-width: 100%; height: auto; }
-.demo-lectura { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1.2rem; margin-top: .6rem; padding-top: .7rem; border-top: 1px solid #ECE9E0; }
-.demo-lectura .kpis { display: flex; flex-wrap: wrap; gap: .6rem 1.6rem; }
+.demo-lectura { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1.2rem; margin-top: .7rem; padding-top: .75rem; border-top: 1.5px solid var(--fig-regla); }
+.demo-lectura .kpis { display: flex; flex-wrap: wrap; gap: .7rem 1.8rem; }
 .demo-lectura .kpi { display: flex; flex-direction: column; min-width: 9rem; }
-.demo-lectura .k { font: 500 .7rem "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: #7B8088; }
-.demo-lectura .v { font-weight: 500; color: #1B222A; }
-.demo-lectura .v.grande { font: 600 1.6rem/1.1 "Inter", sans-serif; }
-.demo-error { color: #B23B2E; font-weight: 500; }
+.demo-lectura .k, .mapa-panel .k, .tb-panel .k { font: 600 .68rem var(--fig-sans); letter-spacing: .14em; text-transform: uppercase; color: var(--fig-tinta-3); }
+.demo-lectura .v { font: 500 1rem var(--fig-sans); color: var(--fig-tinta); }
+.demo-lectura .v.grande { font: 700 1.8rem/1.05 var(--fig-sans); font-variant-numeric: tabular-nums; }
+.demo-error { color: #B23B2E; font-weight: 600; }
 
-details.ver-datos { margin-top: .7rem; }
-details.ver-datos > summary { cursor: pointer; font: 500 .78rem "IBM Plex Mono", monospace; color: #5B6470; }
-details.ver-datos table { margin: .5rem 0 .2rem; font-size: .86rem; border-collapse: collapse; }
-details.ver-datos th, details.ver-datos td { padding: .25rem .8rem .25rem 0; border-bottom: 1px solid #ECE9E0; text-align: left; }
-details.ver-datos .num { text-align: right; }
+details.ver-datos { margin-top: .8rem; }
+details.ver-datos > summary { cursor: pointer; font: 600 .7rem var(--fig-sans); letter-spacing: .12em; text-transform: uppercase; color: var(--fig-tinta-2); }
+details.ver-datos table { margin: .5rem 0 .2rem; font: 400 .88rem var(--fig-sans); border-collapse: collapse; }
+details.ver-datos th { font-weight: 600; color: var(--fig-tinta-2); border-bottom: 1.5px solid var(--fig-tinta) !important; }
+details.ver-datos th, details.ver-datos td { padding: .3rem .9rem .3rem 0; border-bottom: 1px solid var(--fig-regla); text-align: left; }
+details.ver-datos .num { text-align: right; font-variant-numeric: tabular-nums; }
 .tabla-scroll { overflow-x: auto; }
 
-/* Tooltips de Plot */
-.demo [aria-label="tip"] { font-family: "Inter", sans-serif; }
+/* ---------- Gráficos de Plot con el estilo de El Atlas ---------- */
+.demo svg [aria-label$="-axis tick label"] text, .demo svg [aria-label$="-axis tick label"] { fill: var(--fig-tinta-3); }
+.demo svg [aria-label$="-axis label"] text { fill: var(--fig-tinta-2); }
+.demo svg [aria-label$="-grid"] line { stroke: var(--fig-grilla); stroke-opacity: 1; }
+.demo svg [aria-label="tip"] { font-family: var(--fig-sans); }
+.demo svg [aria-label="tip"] > path, .demo svg [aria-label="tip"] path:first-child { fill: var(--fig-tinta); stroke: none; }
+.demo svg [aria-label="tip"] text, .demo svg [aria-label="tip"] tspan { fill: #fff; }
 
-/* Tortas */
-.leyenda { display: flex; flex-wrap: wrap; gap: .3rem 1rem; margin: .2rem 0 .6rem; font-size: .88rem; color: #1B222A; }
+/* ---------- Leyendas y piezas de cada demo ---------- */
+.leyenda { display: flex; flex-wrap: wrap; gap: .3rem 1rem; margin: .2rem 0 .7rem; font: 500 .9rem var(--fig-sans); color: var(--fig-tinta); }
 .ley-item { display: inline-flex; align-items: center; gap: .4em; }
-.ley-item i { width: 12px; height: 12px; border-radius: 2px; display: inline-block; }
+.ley-item i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+.ley-item i.linea { width: 16px; height: 2.5px; border-radius: 2px; }
+.leyenda.vertical { flex-direction: column; gap: .3rem; }
 .tortas-lienzo { display: grid; gap: 24px; align-items: start; }
 .torta-celda svg { max-width: 100%; height: auto; }
 
-/* Mapa */
 .mapa-cuerpo { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1.6rem; align-items: start; }
 .mapa-lienzo { width: auto; min-height: 0; }
 .mapa-panel { display: flex; flex-direction: column; gap: .9rem; padding-top: .4rem; }
 .mapa-panel .kpi { display: flex; flex-direction: column; }
-.mapa-panel .k { font: 500 .7rem "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: #7B8088; }
-.mapa-panel .v.grande { font: 600 2.2rem/1.05 "Inter", sans-serif; color: #1B222A; }
-.mapa-ayuda { font-size: .86rem; color: #5B6470; margin: 0; }
-.mapa-lista { font-size: .82rem; color: #5B6470; margin: 0; }
+.mapa-panel .v.grande, .tb-panel .v.grande { font: 700 2.3rem/1.05 var(--fig-sans); color: var(--fig-tinta); font-variant-numeric: tabular-nums; }
+.mapa-ayuda, .mapa-lista { font-size: .86rem; color: var(--fig-tinta-2); margin: 0; }
 g.prov { cursor: pointer; transition: opacity .15s ease; }
 g.prov:hover { opacity: .78; }
 g.prov:focus-visible { outline: none; }
-g.prov:focus-visible rect { stroke: #1B222A; stroke-width: 1.5; }
+g.prov:focus-visible rect { stroke: var(--fig-tinta); stroke-width: 1.5; }
 @media (max-width: 560px) { .mapa-cuerpo { grid-template-columns: 1fr; } }
 
-/* Gancho de pictogramas */
-svg.picto-gancho { display: block; width: 100%; max-width: 420px; height: auto; margin: .4rem auto 0; font-family: "Inter", sans-serif; }
-.ley-item i.linea { width: 16px; height: 2.5px; border-radius: 2px; }
+svg.picto-gancho { display: block; width: 100%; max-width: 420px; height: auto; margin: .4rem auto 0; font-family: var(--fig-sans); }
 
-/* Controles apilados */
-.demo-controles.columna { flex-direction: column; align-items: stretch; gap: .5rem; }
-.demo-controles.columna .control.rango { flex: 1 1 auto; }
-.demo-controles.columna .control.rango label { min-width: 17rem; }
+.demo-controles.columna { flex-direction: column; align-items: stretch; gap: .55rem; }
+.demo-controles.columna .control.rango { display: grid; grid-template-columns: minmax(10rem, 17rem) minmax(120px, 1fr) 4.6rem; align-items: center; gap: .6rem; flex: 1 1 auto; }
+.demo-controles.columna .control.rango label { min-width: 0; }
+.demo-controles.columna .control.seg { display: grid; grid-template-columns: minmax(12rem, 1fr) auto auto; align-items: center; }
+@media (max-width: 560px) {
+  .demo-controles.columna .control.rango { grid-template-columns: 1fr 4.6rem; }
+  .demo-controles.columna .control.rango label { grid-column: 1 / -1; }
+  .demo-controles.columna .control.seg { grid-template-columns: 1fr 1fr; }
+  .demo-controles.columna .control.seg .seg-rotulo { grid-column: 1 / -1; }
+}
 
-/* Tasa base */
 .tb-cuerpo { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1.4rem; align-items: start; margin-top: .4rem; }
+.tb-cuerpo.apilado { grid-template-columns: 1fr; }
 .tb-lienzo { width: auto; }
 .tb-panel { display: flex; flex-direction: column; gap: .7rem; }
 .tb-panel .kpi { display: flex; flex-direction: column; }
-.tb-panel .k { font: 500 .7rem "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: #7B8088; }
-.tb-panel .v.grande { font: 600 2.4rem/1.05 "Inter", sans-serif; }
-.leyenda.vertical { flex-direction: column; gap: .3rem; }
 @media (max-width: 640px) { .tb-cuerpo { grid-template-columns: 1fr; } }
 
-/* Riesgo */
 .riesgo-lienzo canvas { display: block; max-width: 100%; height: auto; }
+.nota-hist { font-size: .86rem; color: var(--fig-tinta-2); margin: .2rem 0 0; }
+.demo-subtitulo { font: 600 .68rem var(--fig-sans); letter-spacing: .14em; text-transform: uppercase; color: var(--fig-tinta-3); margin: .9rem 0 .2rem; }
+.titular-demo { display: block; font: 700 1.25rem/1.25 var(--fig-serif); color: var(--fig-tinta); margin: .1rem 0 .2rem; }
 
-/* Espurias */
-.nota-hist { font-size: .86rem; color: #5B6470; margin: .2rem 0 0; }
-.demo-controles.columna .control.rango { display: grid; grid-template-columns: minmax(10rem, 16rem) minmax(120px, 1fr) 4.6rem; align-items: center; gap: .6rem; }
-.demo-controles.columna .control.rango label { min-width: 0; }
-@media (max-width: 560px) { .demo-controles.columna .control.rango { grid-template-columns: 1fr 4.6rem; } .demo-controles.columna .control.rango label { grid-column: 1 / -1; } }
-.tb-cuerpo.apilado { grid-template-columns: 1fr; }
+/* Torta 3D */
+.t3d-cuerpo { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 1.4rem; align-items: center; }
+.t3d-cuerpo.apilado { grid-template-columns: 1fr; }
+.t3d-lienzo svg { display: block; width: 100%; height: auto; }
 
-/* Subtítulos y titulares dentro de los demos */
-.demo-subtitulo { font: 500 .74rem "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: #7B8088; margin: .8rem 0 .2rem; }
-.titular-demo { display: block; font-family: "Source Serif 4", Georgia, serif; font-weight: 700; font-size: 1.2rem; line-height: 1.25; color: #1B222A; margin: .1rem 0 .2rem; }
-.demo-controles.columna .control.seg { display: grid; grid-template-columns: minmax(12rem, 1fr) auto auto; align-items: center; gap: 4px; }
-@media (max-width: 560px) { .demo-controles.columna .control.seg { grid-template-columns: 1fr 1fr; } .demo-controles.columna .control.seg .seg-rotulo { grid-column: 1 / -1; } }
+/* ---------- Índice de gráficos (como la portada de El Atlas) ---------- */
+.indice-graficos { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1rem; margin: 1.2rem 0 2rem; }
+.ig-tarjeta {
+  display: flex; flex-direction: column; background: var(--fig-papel); border: 2px solid var(--fig-tinta); border-radius: 12px;
+  overflow: hidden; color: var(--fig-tinta); text-decoration: none !important; transition: transform .18s ease;
+}
+.ig-tarjeta:hover { transform: translateY(-3px); }
+.ig-mini { height: 140px; background: #fff; border-bottom: 1.5px solid var(--fig-regla); display: grid; place-items: center; overflow: hidden; padding: 8px; }
+.ig-mini svg, .ig-mini img { max-width: 100%; max-height: 124px; height: auto; display: block; }
+.ig-vacio { display: flex; flex-direction: column; align-items: center; gap: .2rem; font: 500 .78rem var(--fig-sans); color: var(--fig-tinta-3); }
+.ig-vacio svg { width: 34px; height: 34px; color: #F5C900; }
+.ig-vacio b { font: 600 .7rem var(--fig-sans); letter-spacing: .14em; text-transform: uppercase; color: var(--fig-tinta-2); }
+.ig-cuerpo { padding: .8rem .95rem .9rem; display: flex; flex-direction: column; gap: .35rem; flex: 1; }
+.ig-num { font: 600 .66rem var(--fig-sans); letter-spacing: .18em; text-transform: uppercase; color: var(--fig-tinta-3); }
+.ig-titulo { font: 700 1.02rem/1.25 var(--fig-serif); }
+.ig-ver { margin-top: auto; font: 600 .82rem var(--fig-sans); color: var(--fig-acento); }
+
+/* Modo charla: figuras más grandes */
+body.charla .fig-atlas { padding: 2rem 2.2rem 1.4rem; }
+body.charla .fig-titulo { font-size: clamp(1.8rem, 3.2vw, 2.5rem); }
+body.charla .fig-bajada { font-size: 1.25rem; }
+body.charla .demo { font-size: 1.05rem; }
+body.charla .demo-lectura .v.grande { font-size: 2.3rem; }
+
+/* Torta 3D del gancho (la arma labo.torta_3d_svg en Python) */
+svg.torta-3d-gancho { display: block; width: 100%; max-width: 440px; height: auto; margin: .6rem auto .5rem; }
+.gancho .leyenda { justify-content: center; }

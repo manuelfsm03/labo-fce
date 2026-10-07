@@ -7,21 +7,21 @@ import hashlib
 import json
 from pathlib import Path
 
-import matplotlib as mpl
 import pandas as pd
 from matplotlib import font_manager
 
 AQUI = Path(__file__).parent
 
-# Paleta categórica derivada de los colores del sitio. Validada con el validador de la guía dataviz
-# sobre el papel #F7F6F2: banda de luminosidad, croma, separación para daltonismo (adyacentes ≥ 9,3)
-# y piso de visión normal (≥ 15,9). El dorado queda en 2,9:1 de contraste, así que siempre va con
-# rótulo o tabla de datos.
-AZUL, DORADO, VERDE, CIRUELA, LADRILLO = "#22689A", "#BD871C", "#25855B", "#8B4486", "#BD432F"
-SERIES = [AZUL, DORADO, VERDE, CIRUELA, LADRILLO]
-GRIS = "#A6A69F"                       # contexto / de-énfasis
-TINTA, TINTA_2, TINTA_3 = "#1B222A", "#5B6470", "#7B8088"
-PAPEL, GRILLA, EJE = "#F7F6F2", "#E4E0D5", "#C9C4B6"
+# Paleta categórica: azul, terracota (la de El Atlas), verde azulado, mostaza (el amarillo del taller de IA,
+# oscurecido para que se lea sobre papel) y ciruela. Validada con el validador de la guía dataviz sobre el
+# papel #F2EEE5: banda de luminosidad, croma, separación para daltonismo (adyacentes ≥ 10,5), piso de visión
+# normal (≥ 19) y contraste ≥ 3:1. DORADO es la mostaza y LADRILLO la terracota: se conservan los nombres
+# para no tocar el resto del código.
+AZUL, LADRILLO, VERDE, DORADO, CIRUELA = "#2B5797", "#BE5D32", "#00897B", "#B07F00", "#8A4F9E"
+SERIES = [AZUL, LADRILLO, VERDE, DORADO, CIRUELA]
+GRIS = "#A8A398"                       # contexto / de-énfasis
+TINTA, TINTA_2, TINTA_3 = "#1A1A1A", "#4A4A4A", "#8A8579"
+PAPEL, GRILLA, EJE = "#FBF9F4", "#E7E1D3", "#C9C2B2"
 TRAMPA, HONESTO = "#B23B2E", "#2F6B52"  # estados: siempre con ícono y rótulo, nunca solo color
 
 
@@ -29,7 +29,8 @@ def estilo():
     """Registra las tipografías del sitio y aplica el estilo de la clase a matplotlib."""
     for f in sorted((AQUI / "assets/fonts/ttf").glob("*.ttf")):
         font_manager.fontManager.addfont(str(f))
-    mpl.style.use(AQUI / "labo.mplstyle")
+    import matplotlib.style
+    matplotlib.style.use(AQUI / "labo.mplstyle")
 
 
 def coma(x, decimales=1):
@@ -107,3 +108,54 @@ def mapa_celdas(ax, color_de, tam=1.0, hueco=0.12):
     ax.set_ylim(-len(GRILLA_AR) - 0.5, 1.5)
     ax.set_aspect("equal")
     ax.axis("off")
+
+
+def torta_3d_svg(valores, colores, giro=54, inclinacion=26, ancho=420, distancia=4.5, espesor=0.18, etiqueta=""):
+    """Torta 3D en perspectiva como SVG (la misma cuenta que el interactivo torta-3d.js).
+
+    La "cámara" mira la torta inclinada `inclinacion` grados desde una distancia de `distancia` radios:
+    lo que queda cerca se ve más grande y además muestra su costado.
+    """
+    import math
+
+    def proyectar(th, abajo):
+        a = math.radians(inclinacion)
+        x, z = math.cos(th), math.sin(th)
+        prof = z * math.cos(a) - (espesor * math.sin(a) if abajo else 0)
+        s = distancia / (distancia - prof)
+        return x * s, (z * math.sin(a) + (espesor * math.cos(a) if abajo else 0)) * s
+
+    def arco(t0, t1, abajo):
+        n = max(2, math.ceil(abs(t1 - t0) / (math.pi / 90)))
+        return [proyectar(t0 + (t1 - t0) * k / n, abajo) for k in range(n + 1)]
+
+    def oscuro(c):
+        r, g, b = (int(c[i:i + 2], 16) for i in (1, 3, 5))
+        return "#%02x%02x%02x" % (int(r * .62), int(g * .62), int(b * .62))
+
+    total, acum, caras = sum(valores), 0, []
+    for v, c in zip(valores, colores):
+        a0 = acum
+        acum += 360 * v / total
+        t0, t1 = math.radians(a0 + giro), math.radians(acum + giro)
+        costados = []
+        for vuelta in (0, 1):
+            lo, hi = max(t0, vuelta * 2 * math.pi), min(t1, vuelta * 2 * math.pi + math.pi)
+            if hi > lo + 1e-6:
+                costados.append(arco(lo, hi, False) + arco(hi, lo, True))
+        caras.append((math.sin((t0 + t1) / 2), [(0, 0)] + arco(t0, t1, False), costados, c))
+    puntos = [q for _, tapa, cs, _ in caras for q in tapa + [p for k in cs for p in k]]
+    x0, x1 = min(p[0] for p in puntos), max(p[0] for p in puntos)
+    y0, y1 = min(p[1] for p in puntos), max(p[1] for p in puntos)
+    esc = (ancho - 20) / (x1 - x0)
+    alto = int((y1 - y0) * esc) + 20
+
+    def d(pts):
+        return "M" + " L".join(f"{10 + (x - x0) * esc:.1f},{10 + (y - y0) * esc:.1f}" for x, y in pts) + "Z"
+
+    partes = [f'<svg class="torta-3d-gancho" viewBox="0 0 {ancho} {alto}" role="img" aria-label="{etiqueta}">']
+    for _, _, costados, c in sorted(caras, key=lambda k: k[0]):
+        partes += [f'<path d="{d(k)}" fill="{oscuro(c)}" stroke="#FBF9F4" stroke-width="1"/>' for k in costados]
+    partes += [f'<path d="{d(tapa)}" fill="{c}" stroke="#FBF9F4" stroke-width="1.5"/>' for _, tapa, _, c in caras]
+    partes.append("</svg>")
+    return "".join(partes)

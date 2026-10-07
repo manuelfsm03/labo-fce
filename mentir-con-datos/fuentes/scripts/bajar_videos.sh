@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# Baja los 9 videos fuente a $1 (directorio vacío). Reels vía uuinstagram (InstaFix), YouTube vía Wayback.
+# Baja los 10 videos fuente a $1 (directorio vacío). Reels vía uuinstagram (InstaFix), YouTube vía Wayback.
 set -u
 OUT="$1"; cd "$OUT" || exit 1
 UA_BOT="Mozilla/5.0 (compatible; Discordbot/2.0; +https://discordapp.com)"
 declare -A REELS=( [C-YxMXXPmRq]=fiorino_p1_eje_y [C-jCdPRvOqJ]=fiorino_p2_acumulados [C-v5hBXvOKB]=fiorino_p3_correlaciones \
-  [C_Jvc83vC8B]=fiorino_p4_tortas [C_ePCJ9vmMa]=fiorino_p5_superficie [DZgHjHzRt3K]=fiorino_p7_pictogramas [DZ8crWBxjtK]=fiorino_p8_cherry_picking )
+  [C_Jvc83vC8B]=fiorino_p4_tortas [C_ePCJ9vmMa]=fiorino_p5_superficie [DEIZf4ppEGE]=fiorino_p6_tortas_3d [DZgHjHzRt3K]=fiorino_p7_pictogramas [DZ8crWBxjtK]=fiorino_p8_cherry_picking )
 for code in "${!REELS[@]}"; do
   name=${REELS[$code]}
   for try in 1 2 3; do

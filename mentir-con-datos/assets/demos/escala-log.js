@@ -28,13 +28,13 @@ Labo.registrar('escala-log', function (raiz, p) {
         label: 'Pesos por dólar' + (log ? ' (escala logarítmica)' : ''), labelAnchor: 'top', labelArrow: 'none',
         ticks: log ? [1, 10, 100, 1000] : 8, tickFormat: function (v) { return '$' + L.num(v, 0); }
       },
-      marks: [
-        Plot.rectX(episodios, { x1: 'desde', x2: 'hasta', fill: C.dorado, fillOpacity: 0.16 }),
+      marks: L.franjas(p.periodos, datos[0].fecha, datos[datos.length - 1].fecha, w - 56).concat([
+        Plot.rectX(episodios, { x1: 'desde', x2: 'hasta', fill: C.dorado, fillOpacity: 0.2 }),
         Plot.lineY(datos, { x: 'fecha', y: 'dolar', stroke: C.azul, strokeWidth: 1.8 }),
         Plot.text(episodios.filter(function (e) { return e.lado !== 'izq'; }), { x: 'hasta', y: 'v1', text: function (e) { return e.rotulo + ': ×' + L.num(e.veces, 2); }, dx: 6, dy: -10, textAnchor: 'start', fontWeight: 600, fill: C.tinta }),
         Plot.text(episodios.filter(function (e) { return e.lado === 'izq'; }), { x: 'desde', y: 'v1', text: function (e) { return e.rotulo + ': ×' + L.num(e.veces, 2); }, dx: -8, dy: -4, textAnchor: 'end', fontWeight: 600, fill: C.tinta }),
         Plot.tip(datos, Plot.pointerX({ x: 'fecha', y: 'dolar', title: function (d) { return d.fecha.getFullYear() + '-' + String(d.fecha.getMonth() + 1).padStart(2, '0') + ' · $' + L.num(d.dolar, 2); } }))
-      ]
+      ])
     });
     lienzo.textContent = '';
     lienzo.appendChild(g);

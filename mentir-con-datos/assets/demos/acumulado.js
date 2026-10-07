@@ -36,7 +36,10 @@ Labo.registrar('acumulado', function (raiz, p) {
       Plot.tip(datos, Plot.pointerX({ x: 'fecha', y: 'acumulada', title: function (d) { return mesAnio(d) + ' · acumulado ' + f(d.acumulada) + ' · del mes ' + f(d.mensual); } }))
     ] : [
       Plot.barY(datos, { x: 'fecha', y: 'mensual', fill: C.azul, insetLeft: 6, insetRight: 6, ry2: 4, title: function (d) { return mesAnio(d) + ' · ' + f(d.mensual); }, tip: true }),
-      Plot.text([primero, ultimo], { x: 'fecha', y: 'mensual', text: function (d) { return f(d.mensual); }, dy: -10, fontWeight: 600, fill: C.tinta }),
+      // Como en El Atlas: cada barra con su valor (si no entra, solo la primera y la última)
+      w >= 480
+        ? Plot.text(datos, { x: 'fecha', y: 'mensual', text: function (d) { return L.num(d.mensual, 0); }, dy: -9, fontWeight: 700, fill: C.tinta, stroke: C.papel, strokeWidth: 3, paintOrder: 'stroke' })
+        : Plot.text([primero, ultimo], { x: 'fecha', y: 'mensual', text: function (d) { return f(d.mensual); }, dy: -10, fontWeight: 600, fill: C.tinta }),
       Plot.ruleY([0], { stroke: C.eje })
     ];
     var spec = {

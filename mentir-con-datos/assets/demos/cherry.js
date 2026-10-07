@@ -31,23 +31,23 @@ Labo.registrar('cherry', function (raiz, p) {
       width: ancho, height: Math.max(220, Math.min(300, ancho * 0.42)), marginLeft: 44, marginBottom: 30,
       x: { label: null, tickFormat: mes, ticks: 6 },
       y: { domain: [lo - (hi - lo) * 0.08, hi + (hi - lo) * 0.15], label: null, grid: true, tickFormat: function (v) { return L.num(v, 1) + '%'; } },
-      marks: [
+      marks: L.franjas(p.periodos, a.fecha, b.fecha, ancho - 44, true).concat([
         Plot.areaY(ventana, { x: 'fecha', y1: lo - (hi - lo) * 0.08, y2: 'v', fill: C.azul, fillOpacity: 0.1 }),
         Plot.lineY(ventana, { x: 'fecha', y: 'v', stroke: C.azul, strokeWidth: 2.2 }),
         Plot.dot([a, b], { x: 'fecha', y: 'v', r: 4.5, fill: C.azul, stroke: C.papel, strokeWidth: 2 }),
         Plot.text([a, b], { x: 'fecha', y: 'v', text: function (d) { return L.pct(d.v, 1); }, dy: -12, fontWeight: 600, fill: C.tinta }),
         Plot.tip(ventana, Plot.pointerX({ x: 'fecha', y: 'v', title: function (d) { return mes(d.fecha) + ': ' + L.pct(d.v, 1); } }))
-      ]
+      ])
     });
     var g2 = L.plot({
       width: ancho, height: 170, marginLeft: 44, marginBottom: 30,
       x: { label: null, ticks: 8 },
       y: { type: 'log', domain: [0.9, 30], label: null, grid: true, ticks: [1, 3, 10, 25], tickFormat: function (v) { return L.num(v, 0) + '%'; } },
-      marks: [
-        Plot.rectX([0], { x1: a.fecha, x2: b.fecha, fill: C.azul, fillOpacity: 0.08 }),
+      marks: L.franjas(p.periodos, datos[0].fecha, datos[datos.length - 1].fecha, ancho - 44).concat([
+        Plot.rectX([0], { x1: a.fecha, x2: b.fecha, fill: C.azul, fillOpacity: 0.12 }),
         Plot.lineY(datos, { x: 'fecha', y: 'v', stroke: C.gris, strokeWidth: 1.4 }),
         Plot.lineY(ventana, { x: 'fecha', y: 'v', stroke: C.azul, strokeWidth: 2.2 })
-      ]
+      ])
     });
     arriba.textContent = ''; arriba.appendChild(g1);
     abajo.textContent = ''; abajo.appendChild(g2);

@@ -82,7 +82,7 @@
 .anscombe.velado .ans-stage { filter: blur(10px); opacity: .6; pointer-events: none; user-select: none; }
 .ans-velo { position: absolute; inset: 0; display: none; place-items: center; z-index: 3; }
 .anscombe.velado .ans-velo { display: grid; }
-.ans-velo button { font: 600 1rem "Inter", sans-serif; color: var(--band); background: var(--cream); border: 0; border-radius: 999px; padding: .7em 1.3em; cursor: pointer; box-shadow: 0 10px 26px rgba(0, 0, 0, .35); }
+.ans-velo button { font: 600 1rem "Poppins", sans-serif; color: var(--band); background: var(--cream); border: 0; border-radius: 999px; padding: .7em 1.3em; cursor: pointer; box-shadow: 0 10px 26px rgba(0, 0, 0, .35); }
 
 @media (max-width: 460px) {
   .ans-stage .frame { width: 100%; }

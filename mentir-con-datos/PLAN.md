@@ -56,21 +56,20 @@ internet falla.
 - Las fórmulas van en MathML.
 - No hay iframes, porque los embeds de YouTube e Instagram fallan si la página se abre como archivo local.
 
-**Diseño:** `tema.scss` con los tokens del sitio:
-
-| Token | Valor |
-|---|---|
-| Fondo papel | `#F7F6F2` |
-| Tinta | `#1B222A` |
-| Dorado | `#A9832B` |
-| Azul | `#2E5A6E` |
-| Verde | `#2F6B52` |
-| Rojo | `#B23B2E` |
-| Tipografías | Source Serif 4, Inter, IBM Plex Mono |
-
-- Un `labo.mplstyle` con la misma paleta.
-- "Figura N. … *Nota/Fuente*" en cada figura.
-- Antes de escribir los gráficos cargo la guía `dataviz`.
+**Diseño** (definido con Manuel después de la primera versión):
+- **La estética del taller de IA** ([datso653.github.io/taller-ia](https://datso653.github.io/taller-ia/)): papel crema con
+  grano y partículas de colores que flotan detrás de la página, títulos en Noto Serif Display condensada, texto en
+  Poppins, amarillo `#F5C900` y celeste `#A8C5DA` planos, tarjetas con borde negro, pastillas como antetítulo, franjas
+  de color al empezar cada acto y entradas animadas (bloques que suben, títulos palabra por palabra). En modo charla,
+  la clase se recorre como un deck: ← → de parada en parada, con un pie fijo y un contador.
+- **La estructura y los gráficos de El Atlas** ([dschteingart.github.io/el-atlas-charts](https://dschteingart.github.io/el-atlas-charts/)):
+  cada interactivo es un "Gráfico N" con antetítulo, título que cuenta el hallazgo, bajada en itálica (Source Serif 4),
+  controles en botonera, etiquetas directas, franjas por gobierno en las series largas, fuente y firma, descargas en
+  CSV y PNG, navegación ← Gráfico n / N → y un índice final con todos los gráficos. Barras que crecen y líneas que se
+  dibujan al aparecer.
+- Paleta de datos validada con la guía `dataviz`: azul `#2B5797`, terracota `#BE5D32`, verde azulado `#00897B`,
+  mostaza `#B07F00` y ciruela `#8A4F9E`. El mismo estilo en `labo.mplstyle` (Source Sans 3).
+- Se respeta "reducir movimiento": sin partículas ni animaciones.
 
 **Anscombe:** se porta `script.js:254-413` con el CSS de `style.css:332-478, 1066-1089, 1150-1151`. Mismo look y
 comportamiento, sobre la banda verde con grilla. La consola tiene pestañas Python (por defecto) y R (la de tu home).
@@ -123,7 +122,7 @@ aprenden a hacer esto y a que no se los hagan.
 | | **Acto III — Mentir con gráficos** | | | |
 | 10 | Eje Y truncado | Publicidad de Dulce Dato: 4,7 contra 4,4 estrellas con el eje desde 4,3 | Slider del eje + *lie factor* en vivo, desafío "el más alto" | 8 |
 | 11 | Acumulados | "Ya vendimos 3,7 millones de alfajores": ¿crecieron las ventas? | Acumulado ↔ mes a mes: caen desde abril | 6 |
-| 12 | Tortas | Ventas por sabor en 2025 y 2026; la encuesta "¿por qué nos elegís?" que suma 184% | Torta ↔ barras ordenadas | 5 |
+| 12 | Tortas | Ventas por sabor en 2025 y 2026; la encuesta "¿por qué nos elegís?" que suma 184%; la torta 3D de una agencia | Torta ↔ barras ordenadas; torta 3D que se gira e inclina | 5 |
 | 13 | Pictogramas | "Casi duplicamos las ventas": ¿cuántas veces más grande se ve el alfajor? Adiviná | Slider de escala: barra, alfajor agrandado, alfajores apilados | 6 |
 | 14 | Superficie ≠ gente | La distribuidora que "llega al 73% del país": ¿qué % de la gente vive ahí? Adiviná | Mapa de celdas: territorio vs gente (Censo 2022) | 7 |
 | 15 | ⭐ Doble eje y log | ¿Los salarios le ganaron al dólar? ¿El dólar se disparó más en 2002 o en 2023? | Reescalar el 2° eje; lineal ↔ log | 8 |
@@ -133,10 +132,9 @@ aprenden a hacer esto y a que no se los hagan.
 Suma unos 172 min. Los ⭐ son extras de economía.
 
 **Material base por módulo** (es solo para mí, no se muestra en la clase):
-- Fiorino: P8→3 (y el eje del 10), P3→9, P1→10, P2→11, P4→12, P7→13, P5→14.
+- Fiorino: P8→3 (y el eje del 10), P3→9, P1→10, P2→11, P4→12, P6→12 (tortas en 3D), P7→13, P5→14.
 - Unsolicited advice: 02:04→1, 04:48→1 y 2, 07:47→2, 12:01→5, 19:26→6, 16:17→7, 23:03 y 26:59→9, 29:30→epílogo.
 - Zach Star: 05:54 (deserción) y 07:27 (píldora)→6, 02:22, 03:56 y 13:39→7, 10:56→8, 08:36→9, 16:48→10, 04:44→12.
-- La Parte 6 de Fiorino no está en la lista; si existe y la querés, la sumo.
 
 ## 4. Implementación
 

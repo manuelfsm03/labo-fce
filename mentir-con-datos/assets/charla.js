@@ -156,9 +156,69 @@
     recetas.forEach(function (d) { d.open = !charla; });
     try { localStorage.setItem(KEY, modo); } catch (e) { /* sin almacenamiento: no pasa nada */ }
     window.dispatchEvent(new Event('resize'));
+    document.dispatchEvent(new Event('labo:modo'));
+    if (charla) { setTimeout(actualizarBarra, 50); }
   }
   btn.addEventListener('click', function () { aplicar(document.body.classList.contains('charla') ? 'lectura' : 'charla'); });
   document.body.appendChild(btn);
+
+  // ---------- Modo charla como un deck: de parada en parada con ← → (como las diapositivas del taller) ----------
+  var PARADAS = '#title-block-header, .acto-banda, main section.level2 > h2, .gancho, .pregunta, .adivina, .desafio, .charlalo, ' +
+    '.antidoto, figure.fig-atlas, .demo:not(.fig-atlas .demo), .banda, .pyme, .rio, #checklist, #indice-graficos';
+  var barra = el('div', { 'class': 'charla-barra', role: 'navigation', 'aria-label': 'Avanzar por la clase' });
+  var cbTitulo = el('span', { 'class': 'cb-titulo' });
+  var cbCuenta = el('span', { 'class': 'cb-cuenta' });
+  var cbAnt = el('button', { type: 'button', 'aria-label': 'Parada anterior', text: '←' });
+  var cbSig = el('button', { type: 'button', 'aria-label': 'Parada siguiente', text: '→' });
+  [cbTitulo, cbCuenta, cbAnt, cbSig].forEach(function (n) { barra.appendChild(n); });
+  var progreso = el('div', { 'class': 'charla-progreso', 'aria-hidden': 'true' });
+  document.body.appendChild(barra); document.body.appendChild(progreso);
+  function paradas() {
+    return Array.prototype.filter.call(document.querySelectorAll(PARADAS), function (n) { return n.offsetParent !== null || n.getClientRects().length; });
+  }
+  // La parada actual es la que quedó más cerca del borde de arriba (entre las que ya llegaron al tercio superior)
+  function actual(lista) {
+    var linea = window.innerHeight * 0.35, idx = 0, mejor = Infinity;
+    lista.forEach(function (n, i) {
+      var top = n.getBoundingClientRect().top;
+      if (top <= linea && Math.abs(top - 24) <= mejor) { mejor = Math.abs(top - 24); idx = i; }
+    });
+    return idx;
+  }
+  function ir(delta) {
+    var lista = paradas(), i = actual(lista), j = Math.max(0, Math.min(lista.length - 1, i + delta));
+    // Si la parada actual todavía no llegó arriba, "siguiente" primero la acomoda
+    if (delta > 0 && lista[i].getBoundingClientRect().top > 40) { j = i; }
+    lista[j].classList.add('parada-activa');
+    lista[j].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  function actualizarBarra() {
+    if (!document.body.classList.contains('charla')) { return; }
+    var lista = paradas(); if (!lista.length) { return; }
+    var i = actual(lista), modulo = null;
+    document.querySelectorAll('main section.level2 > h2').forEach(function (h) { if (h.getBoundingClientRect().top <= window.innerHeight * 0.35) { modulo = h; } });
+    var donde = modulo ? (modulo.getAttribute('data-modulo') ? 'Módulo ' + modulo.getAttribute('data-modulo') + ' · ' : '') + (modulo.getAttribute('data-titulo') || modulo.textContent) : 'Prólogo';
+    cbTitulo.innerHTML = '';
+    cbTitulo.appendChild(el('b', { text: 'Cómo mentir con datos' }));
+    cbTitulo.appendChild(document.createTextNode(' · Labo FCE-UBA · ' + donde));
+    cbCuenta.textContent = (i + 1) + ' / ' + lista.length;
+    progreso.style.width = (100 * (i + 1) / lista.length) + '%';
+  }
+  cbAnt.addEventListener('click', function () { ir(-1); });
+  cbSig.addEventListener('click', function () { ir(1); });
+  document.addEventListener('keydown', function (e) {
+    if (!document.body.classList.contains('charla') || e.altKey || e.ctrlKey || e.metaKey) { return; }
+    var t = e.target, tag = t && t.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (t && t.isContentEditable)) { return; }
+    if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); ir(1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); ir(-1); }
+  });
+  var esperando = false;
+  window.addEventListener('scroll', function () {
+    if (esperando) { return; }
+    esperando = true;
+    requestAnimationFrame(function () { esperando = false; actualizarBarra(); });
+  }, { passive: true });
   var inicial = 'lectura';
   try { if (new URLSearchParams(location.search).get('modo') === 'charla') { inicial = 'charla'; } else if (localStorage.getItem(KEY) === 'charla') { inicial = 'charla'; } } catch (e) { /* idem */ }
   aplicar(inicial);

@@ -1,164 +1,145 @@
-/* Componentes de charla: preguntas al aula, "adiviná", desafíos, antídotos y modo charla.
-   Tokens del sitio. Todo funciona proyectado y también para estudiar en casa. */
+/* Componentes de charla con la estética del taller de IA: tarjetas con borde negro, pastillas amarillas y
+   celestes, títulos en serif condensada, fondo con grano y partículas, entradas animadas.
+   Todo funciona proyectado (modo charla) y también para estudiar en casa. */
 :root {
-  --papel: #F7F6F2;
-  --papel-2: #EFEDE6;
+  --papel: #F2EEE5;
+  --papel-claro: #FBF9F4;
   --tarjeta: #FFFFFF;
-  --tinta: #1B222A;
-  --tinta-2: #5B6470;
-  --tinta-3: #7B8088;
-  --regla: #DAD5C7;
-  --dorado: #A9832B;
-  --dorado-suave: #ECE6D6;
-  --link: #8A671D;
-  --azul: #2E5A6E;
-  --azul-suave: #DFE3E2;
+  --tinta: #1A1A1A;
+  --tinta-2: #4A4A4A;
+  --tinta-3: #8A8579;
+  --regla: #E0DCC8;
+  --regla-2: #C9C2B2;
+  --amarillo: #F5C900;
+  --amarillo-suave: #FFF4C4;
+  --celeste: #A8C5DA;
+  --celeste-suave: #DDE9F2;
+  --lavanda: #7B9CC9;
+  --terracota: #BE5D32;
   --verde: #2F6B52;
-  --verde-suave: #DFE5DF;
+  --verde-suave: #DFEBE3;
   --rojo: #B23B2E;
-  --rojo-suave: #F3E1DC;
-  --banda: #1F3A2E;
-  --crema: #F7F6F2;
+  --rojo-suave: #F6DFD9;
+  --borde: 2.5px solid var(--tinta);
+  --radio: 14px;
+  --display: "Noto Serif Display", Georgia, serif;
+  --sans: "Poppins", -apple-system, "Segoe UI", sans-serif;
   --ease: .18s ease;
+  --salida: cubic-bezier(.22, 1, .36, 1);
+  --grano: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .9 -.48'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23n%29'/%3E%3C/svg%3E");
 }
 
-/* Etiqueta tipo "kicker" que encabeza cada bloque interactivo */
+/* ---------- Fondo en movimiento: partículas (fondo.js) detrás de todo ---------- */
+#fondo-particulas { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; }
+
+/* ---------- Pastilla que encabeza cada bloque ---------- */
 .bloque-kicker {
-  display: flex; align-items: center; gap: .5em;
-  font: 500 .72rem/1.2 "IBM Plex Mono", monospace;
-  letter-spacing: .12em; text-transform: uppercase;
-  color: var(--tinta-2);
-  margin-bottom: .6rem;
+  display: inline-flex; align-items: center; gap: .45em;
+  font: 700 .7rem/1.2 var(--sans); letter-spacing: .07em; text-transform: uppercase;
+  color: var(--tinta); background: var(--amarillo);
+  border-radius: 999px; padding: .38em .95em .36em .8em;
+  margin-bottom: .8rem;
 }
-.bloque-kicker .ico { font-size: 1.05rem; letter-spacing: 0; }
+.bloque-kicker .ico { font-size: .95rem; letter-spacing: 0; }
+.pregunta > .bloque-kicker, .charlalo > .bloque-kicker { background: var(--tarjeta); box-shadow: inset 0 0 0 2px var(--tinta); }
+.adivina > .bloque-kicker, .antidoto > .bloque-kicker { background: var(--celeste); }
+.desafio > .bloque-kicker { background: var(--tinta); color: var(--amarillo); }
 
-/* ---------- 🎣 Gancho ---------- */
-.gancho {
-  margin: 1.4rem 0 1.6rem;
-  padding: 1.1rem 1.25rem 1.2rem;
+/* ---------- Tarjetas ---------- */
+.gancho, .pregunta, .adivina, .desafio, .charlalo, .antidoto {
+  margin: 1.6rem 0 1.9rem;
+  padding: 1.2rem 1.4rem 1.3rem;
   background: var(--tarjeta);
-  border: 1px solid var(--regla);
-  border-left: 4px solid var(--dorado);
-  border-radius: 4px;
-}
-.gancho > p:last-child { margin-bottom: 0; }
-.titular {
-  display: block;
-  font-family: "Source Serif 4", Georgia, serif;
-  font-weight: 700;
-  font-size: clamp(1.25rem, 2.6vw, 1.6rem);
-  line-height: 1.2;
-  letter-spacing: -.01em;
-  margin: .2rem 0 .4rem;
-}
-.titular::before { content: "“"; color: var(--dorado); margin-right: .05em; }
-.titular::after { content: "”"; color: var(--dorado); margin-left: .05em; }
-.medio { display: block; font: 500 .72rem "IBM Plex Mono", monospace; color: var(--tinta-3); letter-spacing: .06em; text-transform: uppercase; }
-
-/* ---------- 🙋 Pregunta al aula / 🎯 Adiviná ---------- */
-.pregunta, .adivina {
-  margin: 1.4rem 0 1.6rem;
-  padding: 1.1rem 1.25rem 1.2rem;
-  background: var(--azul-suave);
-  border-radius: 6px;
+  border: var(--borde);
+  border-radius: var(--radio);
   position: relative;
 }
-.adivina { background: var(--dorado-suave); }
-.pregunta > p:first-of-type, .adivina > p:first-of-type { font-weight: 600; font-size: 1.06rem; }
+.gancho > p:last-child, .desafio > :last-child, .charlalo > :last-child, .antidoto > :last-child { margin-bottom: 0; }
+.adivina { background: var(--amarillo-suave); }
+.desafio { background-color: var(--amarillo); background-image: var(--grano); }
+.charlalo { border-style: dashed; }
+.antidoto { background: var(--celeste-suave); }
+.antidoto strong:first-child { color: var(--tinta); box-shadow: inset 0 -.42em 0 var(--amarillo); }
 
-.opciones { display: flex; flex-wrap: wrap; gap: .5rem; list-style: none; padding: 0; margin: .8rem 0 0; }
+.titular {
+  display: block;
+  font-family: var(--display); font-stretch: 62.5%; font-weight: 800;
+  font-size: clamp(1.9rem, 4.6vw, 2.75rem); line-height: 1.02; letter-spacing: -.01em;
+  margin: .25rem 0 .55rem;
+}
+.titular::before { content: "“"; color: var(--lavanda); margin-right: .04em; }
+.titular::after { content: "”"; color: var(--lavanda); margin-left: .04em; }
+.medio { display: block; font: 600 .66rem var(--sans); color: var(--tinta-3); letter-spacing: .1em; text-transform: uppercase; }
+
+.pregunta > p:first-of-type, .adivina > p:first-of-type { font-weight: 600; font-size: 1.12rem; line-height: 1.45; }
+
+.opciones { display: flex; flex-wrap: wrap; gap: .55rem; list-style: none; padding: 0; margin: .9rem 0 0; }
 .opciones button {
-  display: inline-flex; align-items: center; gap: .55em;
-  font: 500 .95rem "Inter", sans-serif; color: var(--tinta);
+  display: inline-flex; align-items: center; gap: .6em;
+  font: 500 .95rem var(--sans); color: var(--tinta); text-align: left;
   background: var(--tarjeta);
-  border: 1px solid var(--regla); border-radius: 999px;
-  padding: .42em 1em .42em .45em;
-  cursor: pointer; transition: border-color var(--ease), background var(--ease);
+  border: 2px solid var(--tinta); border-radius: 999px;
+  padding: .4em 1.1em .4em .4em;
+  cursor: pointer; transition: transform var(--ease), background var(--ease);
 }
-.opciones button:hover { border-color: var(--tinta-2); }
+.opciones button:hover { transform: translateY(-2px); }
 .opciones .letra {
-  display: inline-grid; place-items: center;
-  width: 1.65em; height: 1.65em; border-radius: 50%;
-  background: var(--papel-2); font: 600 .78rem "IBM Plex Mono", monospace;
+  display: inline-grid; place-items: center; flex: none;
+  width: 1.8em; height: 1.8em; border-radius: 50%;
+  background: var(--amarillo); font: 700 .78rem var(--sans);
 }
-.opciones button[aria-pressed="true"] { border-color: var(--tinta); background: var(--tinta); color: var(--crema); }
-.opciones button[aria-pressed="true"] .letra { background: var(--crema); color: var(--tinta); }
-.revelado .opciones button.correcta { border-color: var(--verde); box-shadow: 0 0 0 2px var(--verde) inset; }
+.opciones button[aria-pressed="true"] { background: var(--tinta); color: var(--papel-claro); }
+.opciones button[aria-pressed="true"] .letra { background: var(--amarillo); color: var(--tinta); }
+.revelado .opciones button.correcta { box-shadow: 0 0 0 3px var(--verde); }
 .revelado .opciones button.correcta::after { content: "✓"; color: var(--verde); font-weight: 700; margin-left: .2em; }
-.revelado .opciones button[aria-pressed="true"].correcta::after { color: var(--crema); }
+.revelado .opciones button[aria-pressed="true"].correcta::after { color: var(--amarillo); }
 
-.acciones { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin-top: .9rem; }
+.acciones { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin-top: 1rem; }
 .btn-charla {
-  font: 600 .9rem "Inter", sans-serif;
-  color: var(--crema); background: var(--tinta);
-  border: 0; border-radius: 4px; padding: .5em 1em;
-  cursor: pointer; transition: background var(--ease);
+  font: 600 .88rem var(--sans);
+  color: var(--papel-claro); background: var(--tinta);
+  border: 2px solid var(--tinta); border-radius: 999px; padding: .45em 1.15em;
+  cursor: pointer; transition: transform var(--ease), background var(--ease);
 }
-.btn-charla:hover { background: #333c46; }
-.btn-charla.sec { background: transparent; color: var(--tinta); border: 1px solid var(--tinta-2); }
-.btn-charla:focus-visible, .opciones button:focus-visible { outline: 2px solid var(--dorado); outline-offset: 2px; }
+.btn-charla:hover { transform: translateY(-1px); background: #333; }
+.btn-charla.sec { background: var(--tarjeta); color: var(--tinta); }
+.btn-charla.sec:hover { background: var(--amarillo); }
+.btn-charla:focus-visible, .opciones button:focus-visible { outline: 3px solid var(--lavanda); outline-offset: 2px; }
 
 .respuesta {
   margin-top: 1rem;
-  padding: .9rem 1rem;
-  background: var(--tarjeta);
-  border-radius: 4px;
-  border-left: 3px solid var(--verde);
-  transition: filter .25s ease, opacity .25s ease;
+  padding: .95rem 1.1rem;
+  background: var(--papel-claro);
+  border-radius: 10px;
+  border-left: 5px solid var(--amarillo);
+  transition: filter .3s ease, opacity .3s ease;
 }
 .respuesta > :last-child { margin-bottom: 0; }
-.js .oculta {
-  filter: blur(9px);
-  opacity: .55;
-  user-select: none;
-  pointer-events: none;
-}
-@media (prefers-reduced-motion: reduce) { .respuesta { transition: none; } }
+.js .oculta { filter: blur(9px); opacity: .5; user-select: none; pointer-events: none; }
 
 /* Adiviná: control de estimación */
-.estimacion { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem; margin-top: .8rem; }
+.estimacion { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem; margin-top: .9rem; }
+.estimacion label { font: 700 .7rem var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--tinta-2); }
 .estimacion input[type="range"] { flex: 1 1 220px; accent-color: var(--tinta); }
-.estimacion output {
-  min-width: 5.5em; text-align: right;
-  font: 600 1.25rem "IBM Plex Mono", monospace; color: var(--tinta);
-}
-.veredicto { font: 500 .9rem "Inter", sans-serif; color: var(--tinta-2); }
+.estimacion output { min-width: 5.5em; text-align: right; font: 700 1.4rem var(--sans); color: var(--tinta); }
+.veredicto { font: 600 .9rem var(--sans); color: var(--tinta-2); }
 
-/* ---------- ⏱️ Desafío / 💬 Charlalo ---------- */
-.desafio, .charlalo {
-  margin: 1.2rem 0 1.4rem;
-  padding: .9rem 1.15rem 1rem;
-  border: 1px dashed var(--tinta-3);
-  border-radius: 6px;
-}
-.charlalo { border-style: solid; border-color: var(--regla); background: var(--tarjeta); }
-.desafio > :last-child, .charlalo > :last-child { margin-bottom: 0; }
 .reloj {
   margin-left: auto;
-  font: 600 .85rem "IBM Plex Mono", monospace;
-  background: var(--papel-2); color: var(--tinta);
-  border: 1px solid var(--regla); border-radius: 999px;
-  padding: .25em .8em; cursor: pointer;
+  font: 700 .78rem var(--sans);
+  background: var(--tarjeta); color: var(--tinta);
+  border: 2px solid var(--tinta); border-radius: 999px;
+  padding: .2em .8em; cursor: pointer;
 }
-.reloj.corriendo { background: var(--tinta); color: var(--crema); }
-.reloj.listo { background: var(--rojo); color: var(--crema); border-color: var(--rojo); }
-
-/* ---------- 🕵️ Antídoto ---------- */
-.antidoto {
-  margin: 1.6rem 0 2rem;
-  padding: 1rem 1.2rem 1.05rem 1.2rem;
-  background: var(--verde-suave);
-  border-radius: 6px;
-  border-left: 4px solid var(--verde);
-}
-.antidoto > :last-child { margin-bottom: 0; }
-.antidoto strong:first-child { color: var(--verde); }
+.desafio > .bloque-kicker .reloj { margin-left: .6em; }
+.reloj.corriendo { background: var(--tinta); color: var(--amarillo); }
+.reloj.listo { background: var(--rojo); color: #fff; border-color: var(--rojo); }
 
 /* ---------- Estados: trampa / honesto (siempre ícono + rótulo) ---------- */
 .estado {
   display: inline-flex; align-items: center; gap: .35em;
-  font: 600 .74rem "IBM Plex Mono", monospace; letter-spacing: .04em; text-transform: uppercase;
-  padding: .18em .6em; border-radius: 3px;
+  font: 700 .7rem var(--sans); letter-spacing: .06em; text-transform: uppercase;
+  padding: .25em .75em; border-radius: 999px;
 }
 .estado.trampa { color: var(--rojo); background: var(--rojo-suave); }
 .estado.trampa::before { content: "⚠"; }
@@ -169,84 +150,192 @@
 #checklist ol { list-style: none; padding: 0; counter-reset: item; }
 #checklist li {
   counter-increment: item;
-  display: grid; grid-template-columns: auto 1fr; gap: .2rem .8rem; align-items: start;
-  padding: .7rem .2rem; border-bottom: 1px solid var(--regla);
+  display: grid; grid-template-columns: auto 1fr; gap: .2rem .9rem; align-items: start;
+  padding: .8rem .2rem; border-bottom: 1.5px solid var(--regla);
 }
-#checklist input { margin-top: .35rem; width: 1.05rem; height: 1.05rem; accent-color: var(--verde); }
-#checklist .truco { font: 500 .72rem "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--tinta-3); }
+#checklist input { margin-top: .35rem; width: 1.15rem; height: 1.15rem; accent-color: var(--tinta); }
+#checklist .truco { font: 700 .68rem var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--tinta-3); }
 #checklist .truco a { color: inherit; }
 #checklist li.hecho .pregunta-check { color: var(--tinta-3); text-decoration: line-through; }
 
+/* ---------- Portada (bloque del título) ---------- */
+#title-block-header { position: relative; padding: 1.2rem 0 1.6rem; }
+.hero-tag {
+  display: inline-flex; align-items: center; gap: .5em;
+  font: 700 .74rem var(--sans); letter-spacing: .08em; text-transform: uppercase;
+  background-color: var(--amarillo); background-image: var(--grano);
+  border-radius: 0 999px 999px 0; padding: .5em 1.2em .5em 1rem; margin: 0 0 1.4rem -1rem;
+}
+.hero-tag svg { width: 1.2em; height: 1.2em; }
+.hero-formas { position: absolute; inset: 0; pointer-events: none; z-index: -1; }
+.hero-formas span { position: absolute; display: block; background-image: var(--grano); }
+/* Las formas viven en el margen derecho, fuera de la columna de texto */
+.hero-formas { left: 100%; right: auto; width: 300px; }
+.hero-formas .f-circulo { width: 150px; height: 150px; border-radius: 50%; background-color: var(--amarillo); left: 70px; top: 22%; }
+.hero-formas .f-cuadrado { width: 46px; height: 46px; background-color: var(--lavanda); left: 40px; top: 8%; rotate: 8deg; }
+.hero-formas .f-cuadradito { width: 30px; height: 30px; background-color: var(--amarillo); left: 26px; bottom: 16%; rotate: -10deg; }
+.hero-formas .f-arco { width: 120px; height: 160px; border-radius: 60px 60px 0 0; background-color: var(--celeste); left: 110px; bottom: -4%; }
+@media (max-width: 1260px) { .hero-formas { display: none; } }
+
+/* ---------- Franjas de acto (como los "Bloque" del taller) ---------- */
+.acto-banda {
+  position: relative; overflow: hidden;
+  margin: 4.5rem 0 2.6rem; padding: 3.6rem 0 3.2rem;
+  background-color: var(--amarillo); background-image: var(--grano);
+}
+.acto-banda.acto-2 { background-color: #8FAED6; }
+.acto-banda.acto-epilogo { background-color: var(--tinta); color: var(--papel-claro); }
+.acto-interior { position: relative; z-index: 1; max-width: 920px; margin: 0 auto; padding: 0 1.4rem; }
+.acto-pill {
+  display: inline-block; font: 700 .72rem var(--sans); letter-spacing: .1em; text-transform: uppercase;
+  background: var(--tarjeta); color: var(--tinta); border: 2px solid var(--tinta); border-radius: 999px; padding: .3em .95em;
+}
+.acto-banda h1 {
+  font-size: clamp(3rem, 9.5vw, 6.2rem); font-weight: 800; line-height: .92; letter-spacing: -.015em;
+  margin: 1.1rem 0 1rem; border: 0; padding: 0; color: inherit;
+}
+.acto-banda h1 .anchorjs-link { display: none; }
+.acto-banda p { font: 500 1.12rem/1.6 var(--sans); max-width: 46rem; margin: 0; }
+.acto-banda.acto-epilogo .acto-pill { background: var(--amarillo); border-color: var(--amarillo); }
+.acto-deco { position: absolute; z-index: 0; pointer-events: none; }
+.acto-deco.asterisco { right: 7%; top: 16%; width: clamp(54px, 7vw, 92px); color: var(--tarjeta); }
+.acto-deco.cuadro { right: 16%; bottom: 14%; width: clamp(26px, 3vw, 44px); aspect-ratio: 1; background-color: var(--lavanda); background-image: var(--grano); }
+.acto-banda.acto-2 .acto-deco.cuadro { background-color: var(--amarillo); }
+.acto-banda.acto-epilogo .acto-deco.asterisco { color: var(--amarillo); }
+
+/* ---------- Títulos de módulo ---------- */
+.h2-num {
+  display: table; font: 700 .72rem var(--sans); letter-spacing: .08em; text-transform: uppercase;
+  background: var(--amarillo); color: var(--tinta); border-radius: 999px; padding: .32em .95em; margin-bottom: .7rem;
+}
+h2 .w { display: inline-block; }
+
 /* ---------- Mapa de la clase (el camino de un número) ---------- */
-.rio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem; margin: 1.4rem 0 .6rem; position: relative; }
-.rio .tramo { background: var(--tarjeta); border: 1px solid var(--regla); border-radius: 6px; padding: .9rem 1rem; }
-.rio .tramo .n { font: 500 .7rem "IBM Plex Mono", monospace; letter-spacing: .12em; color: var(--dorado); text-transform: uppercase; }
-.rio .tramo h4 { font-size: 1.12rem; margin: .25rem 0 .3rem; }
+.rio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .9rem; margin: 1.6rem 0 .7rem; position: relative; }
+.rio .tramo { background: var(--tarjeta); border: var(--borde); border-radius: var(--radio); padding: 1rem 1.1rem; }
+.rio .tramo:nth-child(1) { background: var(--amarillo-suave); }
+.rio .tramo:nth-child(2) { background: var(--celeste-suave); }
+.rio .tramo .n { display: inline-block; font: 700 .66rem var(--sans); letter-spacing: .1em; text-transform: uppercase; background: var(--tinta); color: var(--papel-claro); border-radius: 999px; padding: .2em .8em; }
+.rio .tramo h4 { font-size: 1.6rem; margin: .5rem 0 .3rem; }
 .rio .tramo p { font-size: .9rem; color: var(--tinta-2); margin: 0; }
-.rio-flecha { display: flex; justify-content: space-between; align-items: center; gap: .6rem; font: 500 .76rem "IBM Plex Mono", monospace; color: var(--tinta-3); margin-bottom: 1.4rem; }
-.rio-flecha .linea { flex: 1; border-top: 1px solid var(--tinta-3); position: relative; }
-.rio-flecha .linea::after { content: ""; position: absolute; right: -1px; top: -5px; border: 5px solid transparent; border-left: 7px solid var(--tinta-3); border-right: 0; }
+.rio-flecha { display: flex; justify-content: space-between; align-items: center; gap: .6rem; font: 600 .72rem var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--tinta-2); margin-bottom: 1.6rem; }
+.rio-flecha .linea { flex: 1; border-top: 2px solid var(--tinta); position: relative; }
+.rio-flecha .linea::after { content: ""; position: absolute; right: -2px; top: -7px; border: 6px solid transparent; border-left: 9px solid var(--tinta); border-right: 0; }
 @media (max-width: 640px) { .rio { grid-template-columns: 1fr; } }
 
 /* ---------- La pyme de la clase ---------- */
 .pyme {
-  display: flex; gap: 1.1rem; align-items: flex-start;
-  margin: 1.4rem 0 1.8rem; padding: 1.1rem 1.25rem;
-  background: var(--dorado-suave); border: 1px solid var(--regla); border-radius: 6px;
+  display: flex; gap: 1.2rem; align-items: flex-start;
+  margin: 1.8rem 0 2rem; padding: 1.3rem 1.4rem;
+  background: var(--tarjeta); border: var(--borde); border-radius: var(--radio);
 }
-.pyme > svg { flex: 0 0 84px; width: 84px; height: auto; margin-top: .3rem; }
-.pyme .pyme-nombre { display: block; font-family: "Source Serif 4", Georgia, serif; font-weight: 700; font-size: 1.35rem; line-height: 1.2; margin: .15rem 0 .4rem; }
-.pyme p { margin: 0 0 .5rem; }
+.pyme > svg { flex: 0 0 96px; width: 96px; height: auto; margin-top: .3rem; }
+.pyme .pyme-nombre { display: block; font-family: var(--display); font-stretch: 62.5%; font-weight: 800; font-size: 2.1rem; line-height: 1; margin: .35rem 0 .55rem; }
+.pyme p { margin: 0 0 .55rem; }
 .pyme p:last-child { margin-bottom: 0; }
-@media (max-width: 560px) { .pyme { flex-direction: column; } .pyme > svg { flex-basis: auto; width: 64px; } }
+@media (max-width: 560px) { .pyme { flex-direction: column; } .pyme > svg { flex-basis: auto; width: 72px; } }
 
 /* ---------- Recursos ---------- */
-.recursos { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: .8rem; margin: 1rem 0 1.6rem; }
-.recurso { display: block; background: var(--tarjeta); border: 1px solid var(--regla); border-radius: 6px; padding: .8rem 1rem; text-decoration: none; color: var(--tinta); transition: border-color var(--ease); }
-.recurso:hover { border-color: var(--tinta-2); }
-.recurso .tipo { font: 500 .68rem "IBM Plex Mono", monospace; letter-spacing: .1em; text-transform: uppercase; color: var(--dorado); }
-.recurso .t { display: block; font-weight: 600; margin: .15rem 0 .2rem; }
-.recurso .d { display: block; font-size: .86rem; color: var(--tinta-2); }
+.recursos { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: .9rem; margin: 1rem 0 1.8rem; }
+.recursos > p { display: contents; }
+.recurso { display: block; background: var(--tarjeta); border: 2px solid var(--tinta); border-radius: 12px; padding: .9rem 1rem; text-decoration: none !important; color: var(--tinta); transition: transform var(--ease), background var(--ease); }
+.recurso:hover { transform: translateY(-3px); background: var(--amarillo-suave); }
+.recurso .tipo { display: inline-block; font: 700 .62rem var(--sans); letter-spacing: .1em; text-transform: uppercase; background: var(--amarillo); border-radius: 999px; padding: .15em .7em; }
+.recurso .t { display: block; font-weight: 600; margin: .45rem 0 .2rem; line-height: 1.35; }
+.recurso .d { display: block; font-size: .84rem; color: var(--tinta-2); line-height: 1.5; }
+
+/* ---------- Recetas plegables ---------- */
+details.receta-plegada { margin: 1.2rem 0 1.6rem; border: 2px solid var(--tinta); border-radius: 12px; background: var(--papel-claro); }
+details.receta-plegada > summary { cursor: pointer; padding: .65rem 1rem; font: 600 .84rem var(--sans); color: var(--tinta); }
+details.receta-plegada[open] > summary { border-bottom: 1.5px solid var(--regla); }
+details.receta-plegada > .receta-cuerpo { padding: .7rem 1rem .3rem; }
+
+/* Nota de uso al principio */
+.uso { margin: 1rem 0 2rem; padding: 1rem 1.2rem; background: var(--tarjeta); border: 2px dashed var(--tinta); border-radius: 12px; font-size: .94rem; }
+.uso > :last-child { margin-bottom: 0; }
+
+/* Tabla resumen de Anscombe */
+table.resumen-anscombe { display: block; overflow-x: auto; width: 100%; margin: .6rem 0 1.2rem; font-size: .9rem; font-variant-numeric: tabular-nums; border-collapse: collapse; }
+table.resumen-anscombe tr, table.resumen-anscombe td, table.resumen-anscombe th { background: transparent !important; box-shadow: none !important; }
+table.resumen-anscombe th { font: 700 .68rem var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--tinta-2); text-align: left; border-bottom: 2px solid var(--tinta); padding: .4rem .5rem .4rem 0; white-space: nowrap; }
+table.resumen-anscombe td { padding: .45rem .5rem .45rem 0; border-bottom: 1px solid var(--regla); white-space: nowrap; }
+table.resumen-anscombe td:first-child { font-family: var(--display); font-stretch: 62.5%; font-weight: 800; font-size: 1.15rem; }
+
+/* Avión de Wald */
+svg.avion { display: block; width: 100%; max-width: 340px; height: auto; margin: .6rem auto .2rem; }
+
+/* ---------- Entradas animadas (animaciones.js) ----------
+   Los keyframes solo definen el "desde": si una animación no llega a correr, nada queda invisible. */
+@keyframes subir { from { opacity: 0; translate: 0 22px; } }
+@keyframes palabra { from { opacity: 0; translate: 0 .45em; rotate: 5deg; } }
+@keyframes aparecer { from { opacity: 0; scale: .96; } }
+@keyframes flotar { 50% { translate: 0 -10px; } }
+@keyframes girar { to { rotate: 360deg; } }
+html.anima .revelable { opacity: 0; }
+html.anima h2.h2-anim:not(.visible) .w, html.anima .escalonado:not(.visible) > * { opacity: 0; }
+html.anima h2.visible .h2-num { animation: aparecer .5s var(--salida) backwards; }
+html.anima .revelable.visible { opacity: 1; animation: subir .7s var(--salida) backwards; animation-delay: var(--retraso, 0s); }
+html.anima h2.visible .w { animation: palabra .7s var(--salida) backwards; animation-delay: calc(.1s + var(--i, 0) * .07s); }
+html.anima .escalonado.visible > * { animation: aparecer .6s var(--salida) backwards; animation-delay: calc(.15s + var(--i, 0) * .07s); }
+html.anima .hero-formas span { animation: flotar 6s ease-in-out infinite; }
+html.anima .hero-formas .f-cuadrado { animation-duration: 7.5s; animation-delay: -2s; }
+html.anima .hero-formas .f-cuadradito { animation-duration: 5s; animation-delay: -1s; }
+html.anima .acto-deco.asterisco { animation: girar 28s linear infinite; }
+html.anima .acto-deco.cuadro { animation: flotar 5.5s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  html.anima .revelable { opacity: 1; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+@media print {
+  html.anima .revelable { opacity: 1 !important; }
+  *, *::before, *::after { animation: none !important; }
+  #fondo-particulas, .modo-toggle, .charla-barra { display: none !important; }
+}
 
 /* ---------- Botón y modo charla ---------- */
 .modo-toggle {
   position: fixed; right: 16px; bottom: 16px; z-index: 1050;
-  font: 600 .86rem "Inter", sans-serif;
-  color: var(--crema); background: var(--banda);
-  border: 0; border-radius: 999px; padding: .6em 1.05em;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, .25);
-  cursor: pointer;
+  font: 600 .86rem var(--sans);
+  color: var(--tinta); background: var(--amarillo);
+  border: 2px solid var(--tinta); border-radius: 999px; padding: .55em 1.1em;
+  box-shadow: 3px 3px 0 var(--tinta);
+  cursor: pointer; transition: transform var(--ease), box-shadow var(--ease);
 }
-.modo-toggle:focus-visible { outline: 2px solid var(--dorado); outline-offset: 3px; }
+.modo-toggle:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--tinta); }
+.modo-toggle:focus-visible { outline: 3px solid var(--lavanda); outline-offset: 3px; }
 
-details.receta-plegada { margin: 1rem 0 1.4rem; border: 1px solid var(--regla); border-radius: 6px; background: var(--tarjeta); }
-details.receta-plegada > summary { cursor: pointer; padding: .6rem .9rem; font: 500 .82rem "IBM Plex Mono", monospace; color: var(--tinta-2); }
-details.receta-plegada[open] > summary { border-bottom: 1px solid var(--regla); }
-details.receta-plegada > .receta-cuerpo { padding: .6rem .9rem .2rem; }
+/* Barra del modo charla: como el pie de las diapositivas del taller (título, módulo, contador y flechas) */
+.charla-barra { display: none; }
+body.charla .charla-barra {
+  display: flex; align-items: center; gap: 1rem;
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 1040;
+  padding: .55rem 1.2rem; background: rgba(242, 238, 229, .94); border-top: 2px solid var(--tinta);
+  font: 500 .8rem var(--sans); color: var(--tinta-2);
+}
+.charla-barra .cb-titulo { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.charla-barra .cb-titulo b { color: var(--tinta); }
+.charla-barra .cb-cuenta { font-weight: 700; color: var(--tinta); font-variant-numeric: tabular-nums; }
+.charla-barra button {
+  width: 2.1rem; height: 2.1rem; border-radius: 50%; border: 2px solid var(--tinta); background: var(--tarjeta);
+  font: 700 .95rem var(--sans); color: var(--tinta); cursor: pointer; display: inline-grid; place-items: center;
+}
+.charla-barra button:hover { background: var(--amarillo); }
+.charla-progreso { display: none; }
+body.charla .charla-progreso { display: block; position: fixed; left: 0; top: 0; height: 5px; background: var(--amarillo); z-index: 1041; width: 0; transition: width .4s var(--salida); box-shadow: 0 1px 0 var(--tinta); }
+body.charla .modo-toggle { bottom: 4.2rem; }
+body.charla .parada-activa { scroll-margin-top: 1.5rem; }
 
-body.charla { font-size: 1.22rem; }
+body.charla { font-size: 1.24rem; padding-bottom: 3.4rem; }
 body.charla #quarto-margin-sidebar, body.charla #quarto-sidebar, body.charla .sidebar.toc-left { display: none !important; }
-body.charla main.content { max-width: 1100px; margin-left: auto; margin-right: auto; grid-column: body-content-start / body-content-end !important; }
+body.charla main.content { max-width: 1120px; margin-left: auto; margin-right: auto; grid-column: body-content-start / body-content-end !important; }
 body.charla .page-columns { grid-template-columns: [screen-start] 1.5em [screen-start-inset page-start page-start-inset body-start-outset body-start body-content-start] minmax(500px, 1fr) [body-content-end body-end body-end-outset page-end-inset page-end screen-end-inset] 1.5em [screen-end] !important; }
 body.charla .solo-lectura { display: none; }
-body.charla .titular { font-size: clamp(1.6rem, 3.4vw, 2.2rem); }
+body.charla .titular { font-size: clamp(2.2rem, 4.6vw, 3.3rem); }
 body.charla .opciones button { font-size: 1.15rem; }
-body.charla .demo { font-size: 1.05rem; }
+body.charla h2 { font-size: clamp(2.8rem, 6vw, 4.2rem); }
+body.charla .acto-banda h1 { font-size: clamp(4rem, 11vw, 7.6rem); }
 .solo-charla { display: none; }
 body.charla .solo-charla { display: block; }
 
-/* Nota de uso al principio */
-.uso { margin: 1rem 0 1.8rem; padding: .9rem 1.1rem; background: var(--tarjeta); border: 1px solid var(--regla); border-left: 3px solid var(--dorado); border-radius: 4px; font-size: .95rem; }
-.uso > :last-child { margin-bottom: 0; }
-
-/* Tabla resumen de Anscombe */
-table.resumen-anscombe { width: 100%; margin: .6rem 0 1.2rem; font-variant-numeric: tabular-nums; border-collapse: collapse; }
-table.resumen-anscombe th { font: 500 .74rem "IBM Plex Mono", monospace; letter-spacing: .04em; color: var(--tinta-2); text-align: left; border-bottom: 1px solid var(--tinta-3); padding: .35rem .5rem .35rem 0; white-space: nowrap; }
-table.resumen-anscombe td { padding: .45rem .5rem .45rem 0; border-bottom: 1px solid var(--regla); white-space: nowrap; }
-table.resumen-anscombe td:first-child { font-family: "Source Serif 4", Georgia, serif; font-weight: 600; }
-
-/* Avión de Wald */
-svg.avion { display: block; width: 100%; max-width: 340px; height: auto; margin: .6rem auto .2rem; }
-/* Tarjetas de recursos: cada link es una celda de la grilla */
-.recursos > p { display: contents; }
-.recurso { text-decoration: none !important; }
+/* En pantallas angostas las decoraciones de las franjas tapan el texto */
+@media (max-width: 760px) { .acto-deco { display: none; } .acto-banda { padding: 2.6rem 0 2.4rem; } }

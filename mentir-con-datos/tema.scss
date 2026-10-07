@@ -1,76 +1,88 @@
 /*-- scss:defaults --*/
-// Tokens del sitio (manuelfsm03.github.io): papel frío, tinta casi negra, dorado trigo, verde campo.
-$papel:      #F7F6F2;
-$papel-2:    #EFEDE6;
-$tinta:      #1B222A;
-$tinta-2:    #5B6470;
-$dorado:     #A9832B;
-$link:       #8A671D;
-$azul:       #2E5A6E;
-$verde:      #2F6B52;
-$verde-hondo:#24523F;
-$rojo:       #B23B2E;
-$regla:      #DAD5C7;
-$banda:      #1F3A2E;
+// Estética del taller de IA: papel crema con grano, tinta casi negra, amarillo y celeste planos, títulos en
+// serif condensada. Los gráficos siguen el estilo de El Atlas (ver assets/demos.css).
+$papel:       #F2EEE5;
+$papel-claro: #FBF9F4;
+$tinta:       #1A1A1A;
+$tinta-2:     #4A4A4A;
+$tinta-3:     #8A8579;
+$amarillo:    #F5C900;
+$celeste:     #A8C5DA;
+$lavanda:     #7B9CC9;
+$terracota:   #BE5D32;
+$link:        #A3471F;
+$verde:       #2F6B52;
+$rojo:        #B23B2E;
+$regla:       #E0DCC8;
+$regla-2:     #C9C2B2;
 
 $body-bg: $papel;
 $body-color: $tinta;
 $link-color: $link;
-$primary: $verde;
+$primary: $tinta;
 $secondary: $tinta-2;
 $danger: $rojo;
 $success: $verde;
 $border-color: $regla;
 
-$font-family-sans-serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+$font-family-sans-serif: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 $font-family-monospace: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-$headings-font-family: "Source Serif 4", Georgia, serif;
-$headings-font-weight: 600;
-$font-size-root: 17px;
-$line-height-base: 1.62;
+$headings-font-family: "Noto Serif Display", Georgia, serif;
+$headings-font-weight: 800;
+$font-size-root: 16.5px;
+$line-height-base: 1.72;
 
 $code-color: $link;
-$code-block-bg: #FBFAF6;
-$code-block-border-left-color: $dorado;
+$code-block-bg: $papel-claro;
+$code-block-border-left-color: $amarillo;
 $toc-color: $tinta-2;
-$toc-font-size: .86rem;
+$toc-font-size: .84rem;
 
 /*-- scss:rules --*/
 body { -webkit-font-smoothing: antialiased; }
 
-h1, h2, h3, h4 { color: $tinta; letter-spacing: -.005em; }
-h1.title { font-style: italic; font-weight: 400; font-size: clamp(2.2rem, 5vw, 3.2rem); line-height: 1.05; }
-.subtitle { font-family: "IBM Plex Mono", monospace; font-size: .8rem !important; letter-spacing: .12em; text-transform: uppercase; color: $dorado; }
+// Grano del papel (ruido fractal en SVG, sin imágenes externas)
+body {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 -.36'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23n%29'/%3E%3C/svg%3E");
+}
 
-// Títulos de módulo con la tilde de "libro contable" del sitio
-h2 { margin-top: 3.2rem; padding-top: 1.4rem; border-top: 1px solid $regla; position: relative; }
-h2.anchored::before { content: ""; position: absolute; left: 0; top: -1px; width: 56px; border-top: 3px solid $dorado; }
-h3 { font-size: 1.22rem; margin-top: 2rem; }
+h1, h2, h3, h4 { color: $tinta; font-stretch: 62.5%; letter-spacing: -.005em; line-height: 1.04; }
+h1.title {
+  font-weight: 800; font-size: clamp(3.4rem, 10vw, 6.6rem); line-height: .9; letter-spacing: -.012em;
+  margin: .4rem 0 .2rem;
+}
+.quarto-title .subtitle, p.subtitle {
+  font-family: "Poppins", sans-serif; font-style: italic; font-weight: 600; font-stretch: normal;
+  font-size: clamp(1.4rem, 3.6vw, 2.3rem) !important; letter-spacing: -.01em; color: $lavanda; margin-top: .1rem;
+}
+.quarto-title-meta-heading { font-family: "Poppins", sans-serif; font-weight: 700; font-size: .68rem; letter-spacing: .1em; color: $tinta-3; }
 
-a { text-decoration-thickness: 1px; text-underline-offset: 2px; }
+// Títulos de módulo: la "pastilla" con el número la arma estetica.js
+h2 { font-size: clamp(2.2rem, 5.4vw, 3.3rem); margin-top: 4.2rem; padding-top: .6rem; border-bottom: 0 !important; padding-bottom: 0; }
+h3 { font-size: clamp(1.55rem, 3.2vw, 1.95rem); font-weight: 700; margin-top: 2.4rem; }
+h4 { font-size: 1.3rem; font-weight: 700; }
+
+a { color: $link; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+strong, b { font-weight: 600; }
 
 // Índice lateral
 #TOC .nav-link, #quarto-margin-sidebar .nav-link { color: $tinta-2; }
-#TOC .nav-link.active { color: $tinta; font-weight: 600; border-left-color: $dorado; }
-.sidebar nav[role="doc-toc"] ul > li > a.active { border-left-color: $dorado; color: $tinta; }
+#TOC .nav-link.active { color: $tinta; font-weight: 600; border-left: 3px solid $amarillo; }
+.sidebar nav[role="doc-toc"] ul > li > a.active { border-left-color: $amarillo; color: $tinta; }
+#toc-title { font-family: "Poppins", sans-serif; font-weight: 700; font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: $tinta-3; }
 
-// Código: papel un tono más claro, filete dorado como en el sitio
-div.sourceCode { border-radius: 4px; border: 1px solid $regla; }
+// Código
+div.sourceCode { border-radius: 10px; border: 1.5px solid $regla; }
 pre code { font-size: .86rem; }
-.code-annotation-gutter-bg, .code-annotation-gutter { background-color: #FBFAF6; }
-dl.code-annotation-container-grid dt { color: $rojo; }
+.code-annotation-gutter-bg, .code-annotation-gutter { background-color: $papel-claro; }
+dl.code-annotation-container-grid dt { color: $terracota; }
 
 // Pestañas "tramposo | honesto"
-.panel-tabset .nav-tabs .nav-link { color: $tinta-2; font-weight: 500; }
-.panel-tabset .nav-tabs .nav-link.active { color: $tinta; background: $papel; border-color: $regla $regla $papel; }
-.panel-tabset .tab-content { border-color: $regla; background: $papel; }
+.panel-tabset .nav-tabs { border-bottom: 1.5px solid $tinta; }
+.panel-tabset .nav-tabs .nav-link { color: $tinta-2; font-weight: 600; border: 0; border-bottom: 3px solid transparent; }
+.panel-tabset .nav-tabs .nav-link.active { color: $tinta; background: transparent; border-bottom-color: $amarillo; }
+.panel-tabset .tab-content { border: 0; background: transparent; }
 
-// Figuras al estilo "Figura N. … Nota / Fuente" del sitio
 .figure-caption, figcaption { color: $tinta-2; font-size: .86rem; }
-.quarto-float-caption-bottom { margin-top: .4rem; }
-
-// Callouts sobrios
-.callout { border-radius: 4px; }
-
-// Tablas de datos
+.callout { border-radius: 10px; }
 table { font-variant-numeric: tabular-nums; }

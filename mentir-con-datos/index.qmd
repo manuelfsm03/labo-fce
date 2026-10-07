@@ -20,10 +20,16 @@ ipc_reg = pd.read_csv("datos/ipc_regiones.csv", parse_dates=["fecha"]).set_index
 var_ipc = ipc_reg.pct_change() * 100
 sal = pd.read_csv("datos/salarios.csv", parse_dates=["fecha"]).set_index("fecha")["salarios_registrados"]
 dol = pd.read_csv("datos/dolar_mensual.csv", parse_dates=["fecha"]).set_index("fecha")["dolar"]
+# Presidencias, para las franjas de las series largas (como en El Atlas). Mes en que cambia el gobierno.
+gobiernos = [{"nombre": n, "corto": c, "desde": d, "hasta": h} for n, c, d, h in [
+    ("MENEM", "MENEM", "1989-07-01", "1999-12-01"), ("DE LA RÚA", "DLR", "1999-12-01", "2002-01-01"),
+    ("DUHALDE", "ED", "2002-01-01", "2003-05-01"), ("N. KIRCHNER", "NK", "2003-05-01", "2007-12-01"),
+    ("C. KIRCHNER", "CFK", "2007-12-01", "2015-12-01"), ("MACRI", "MM", "2015-12-01", "2019-12-01"),
+    ("A. FERNÁNDEZ", "AF", "2019-12-01", "2023-12-01"), ("MILEI", "JM", "2023-12-01", "2030-01-01")]]
 ```
 
 ::: {.uso .solo-lectura}
-**Cómo usar esta página.** Es la clase entera: la podés proyectar o leer a tu ritmo. Abajo a la derecha está el botón **🎤 Modo charla**, que agranda todo y pliega el código para proyectar. Las preguntas tienen la respuesta tapada: jugate antes de tocar **Revelar**. Todo funciona sin internet.
+**Cómo usar esta página.** Es la clase entera: la podés proyectar o leer a tu ritmo. Abajo a la derecha está el botón **🎤 Modo charla**, que agranda todo, pliega el código y te deja avanzar con las flechas ← → como en una presentación. Las preguntas tienen la respuesta tapada: jugate antes de tocar **Revelar**. Todo funciona sin internet.
 :::
 
 ## Prólogo: los números no mienten… ¿o no? {#prologo}
@@ -210,7 +216,13 @@ g.apply(lambda d: d.x.corr(d.y)).round(3)       # las cuatro dan 0,816
 
 # Acto I · Mentir con datos {.unnumbered}
 
-Lo que se elige. Arrancamos por el nacimiento del dato: qué se cuenta como qué, a quién se le pregunta, qué período se muestra y cuántas veces se probó. Acá el gráfico puede ser impecable y la cuenta perfecta: la trampa ya estaba hecha antes. Por eso es la más difícil de ver.
+::: {.acto-banda .column-screen .acto-1}
+::: {.acto-interior}
+[Acto I · Lo que se elige]{.acto-pill}
+
+Arrancamos por el nacimiento del dato: qué se cuenta como qué, a quién se le pregunta, qué período se muestra y cuántas veces se probó. Acá el gráfico puede ser impecable y la cuenta perfecta: la trampa ya estaba hecha antes. Por eso es la más difícil de ver.
+:::
+:::
 
 ::: {.pyme}
 ```{=html}
@@ -308,7 +320,10 @@ grupos_ocupacion = [
     {"nombre": "Desalentados (quieren trabajar, no buscaron)", "n": 3, "regla": "desalentado"},
     {"nombre": "Inactivos (estudian, jubilados, cuidan a alguien)", "n": 27, "estado": "inactivo"},
 ]
-labo.demo("definiciones", grupos=grupos_ocupacion)
+labo.demo("definiciones", grupos=grupos_ocupacion, figura=dict(
+    tema="Definiciones", titulo="Con las mismas 100 personas, la desocupación puede ir de 7% a 23%",
+    bajada="Tasa de desocupación según a quién se cuente como desocupado. Tocá las reglas.",
+    fuente="elaboración propia; 100 personas inventadas, con proporciones parecidas a las de la EPH (INDEC)."))
 ```
 
 Son 100 personas inventadas, con proporciones parecidas a las de la EPH. Con las mismas personas, la "tasa de desocupación" puede ir de 7% a más de 20% según a quién cuentes como desocupado. Lo honesto es usar la definición estándar y, si querés mostrar otra cosa, mostrarla aparte con su nombre: la tasa de subocupación, la de desocupación más desalentados, etc.
@@ -369,7 +384,10 @@ Casi nunca se mide a toda la población: se toma una **muestra**. Ahí se puede 
 #| echo: false
 #| output: asis
 labo.demo("muestra", poblacion=10_000, verdad=0.40, n_aleatoria=400, prob_responde_favor=0.30, prob_responde_contra=0.08,
-          frase="dice que le encanta", eje="% de las respuestas que dicen que les encanta")
+          frase="dice que le encanta", eje="% de las respuestas que dicen que les encanta", figura=dict(
+              tema="Muestras", titulo="La encuesta de Instagram junta más respuestas, pero le erra siempre para el mismo lado",
+              bajada="Porcentaje al que le encanta el alfajor de pistacho, en cada encuesta simulada. De los 10.000 clientes, le encanta al 40%.",
+              fuente="simulación con 10.000 clientes inventados."))
 ```
 
 ::: {.charlalo data-minutos="1"}
@@ -439,7 +457,7 @@ ventana_tv = inflacion["2025-05-01":"2026-03-01"]
 
 ::: {.gancho}
 [Un noticiero argentino, en vivo · datos del INDEC]{.medio}
-[«La inflación no para de subir: así evolucionó mes a mes»]{.titular}
+[La inflación no para de subir: así evolucionó mes a mes]{.titular}
 
 ```{python}
 #| echo: false
@@ -487,7 +505,10 @@ labo.demo("cherry", [{"fecha": f.strftime("%Y-%m-%d"), "v": round(v, 2)} for f, 
               {"nombre": "Desde dic 23", "desde": "2023-12-01", "hasta": inflacion.index[-1].strftime("%Y-%m-%d")},
               {"nombre": "Últimos 6 meses", "desde": inflacion.index[-6].strftime("%Y-%m-%d"), "hasta": inflacion.index[-1].strftime("%Y-%m-%d")},
               {"nombre": "Toda la serie", "desde": inflacion.index[0].strftime("%Y-%m-%d"), "hasta": inflacion.index[-1].strftime("%Y-%m-%d")},
-          ])
+          ], periodos=gobiernos, figura=dict(
+              tema="Cherry picking", titulo="Según la ventana que elijas, la inflación se dispara o se desploma",
+              bajada="Inflación mensual del IPC nacional (%). Arriba, la ventana elegida; abajo, toda la serie en escala logarítmica.",
+              fuente="INDEC, IPC nivel general nacional, vía datos.gob.ar."))
 ```
 
 ::: {.desafio data-minutos="2"}
@@ -564,7 +585,10 @@ Dulce Dato prueba 20 colores para el botón «Comprar» de su tienda online. Cad
 colores_boton = ["violeta", "marrón", "rosa", "azul", "turquesa", "salmón", "rojo", "celeste", "fucsia", "amarillo",
                  "gris", "beige", "cian", "verde", "malva", "crema", "lila", "negro", "durazno", "naranja"]
 labo.demo("p-hacking", colores=colores_boton, alfa=0.05, item="Botón",
-          titular="«¡El botón {color} hace vender más! (p = {p})»")
+          titular="«¡El botón {color} hace vender más! (p = {p})»", figura=dict(
+              tema="p-hacking", titulo="Con 20 tests al 5%, casi siempre aparece un color «ganador»",
+              bajada="Valor p de cada test A/B del botón «Comprar» (escala logarítmica). Ningún color cambia las ventas.",
+              fuente="simulación: con los 20 colores se vende lo mismo."))
 ```
 
 ::: {.charlalo data-minutos="1"}
@@ -595,7 +619,13 @@ for color in colores:                              # 20 tests A/B
 
 # Acto II · Mentir con estadística {.unnumbered}
 
-Lo que se calcula. El dato ya está juntado y nadie lo toca: los números están bien calculados. El truco está en **qué número** se elige para resumir y en **contra qué** se compara.
+::: {.acto-banda .column-screen .acto-2}
+::: {.acto-interior}
+[Acto II · Lo que se calcula]{.acto-pill}
+
+El dato ya está juntado y nadie lo toca: los números están bien calculados. El truco está en **qué número** se elige para resumir y en **contra qué** se compara.
+:::
+:::
 
 ## 5 · El promedio que nadie gana {#promedio}
 
@@ -644,7 +674,10 @@ Cada barra es una persona de Dulce Dato. Mové lo que se paga Marta y mirá qué
 ```{python}
 #| echo: false
 #| output: asis
-labo.demo("promedio", [{"quien": q, "sueldo": round(s * 1e6)} for q, s in plantilla.itertuples(index=False)], duenia="Marta (dueña)")
+labo.demo("promedio", [{"quien": q, "sueldo": round(s * 1e6)} for q, s in plantilla.itertuples(index=False)], duenia="Marta (dueña)", figura=dict(
+    tema="El promedio", titulo=f"{debajo_s} de las 24 personas de Dulce Dato cobran menos que el «sueldo promedio»",
+    bajada="Sueldo mensual de cada persona de la empresa, en millones de pesos, con la media y la mediana.",
+    fuente="datos inventados."))
 ```
 
 ::: {.desafio}
@@ -728,7 +761,10 @@ Si estuvieras tomando esa píldora, ¿qué harías?
 ```{python}
 #| echo: false
 #| output: asis
-labo.demo("riesgo", total=7000, antes=1, despues=2)
+labo.demo("riesgo", total=7000, antes=1, despues=2, figura=dict(
+    tema="Riesgo relativo", titulo="«Duplica el riesgo» puede querer decir un caso más cada 7.000",
+    bajada="Cada cuadradito es una mujer que toma la píldora; los marcados tuvieron una trombosis.",
+    fuente="advertencia del Comité de Seguridad de Medicamentos del Reino Unido (1995). Ilustración con 7.000 casos."))
 ```
 
 "Duplica el riesgo", "reduce a la mitad", "+100%": los **riesgos relativos** suenan enormes cuando el riesgo de base es chiquito. En 2024, un diario británico tituló que las muertes por mordedura de tiburón en el mundo se habían duplicado en 2023. Era cierto: pasaron de 5 a 10. Para decidir hace falta el **riesgo absoluto**: cuántos casos cada 1.000 o cada 10.000 personas.
@@ -790,7 +826,10 @@ mes_fin = labo.mes(d_real.index[-1])
 ```{python}
 #| echo: false
 #| output: asis
-labo.demo("real", [{"fecha": f.strftime("%Y-%m-%d"), "salarios": round(r.salarios, 3), "ipc": round(r.ipc, 3)} for f, r in d_real.iterrows()])
+labo.demo("real", [{"fecha": f.strftime("%Y-%m-%d"), "salarios": round(r.salarios, 3), "ipc": round(r.ipc, 3)} for f, r in d_real.iterrows()], figura=dict(
+    tema="Nominal contra real", titulo=f"En pesos, los salarios se multiplicaron por {labo.coma(nominal_x, 1)}; descontada la inflación, compran {labo.coma(100 - real_fin, 0)}% menos",
+    bajada="Salario registrado nominal y real (deflactado por el IPC), con noviembre de 2023 = 100.",
+    fuente="INDEC, índice de salarios (empleo registrado) e IPC, vía datos.gob.ar."))
 ```
 
 Con inflación, cualquier cosa medida en pesos "sube": salarios, ventas, recaudación, el precio de un alfajor. Un número **nominal** no dice nada hasta que lo comparás con los precios. El número **real** (deflactado) es el que importa. Si el gerente comercial festeja que las ventas de Dulce Dato crecieron 40% en pesos en un año en que los precios subieron 30%, en realidad crecieron menos de 8% (1,40 / 1,30 = 1,077). Y otra vez: el mes desde el que se compara también cambia la historia.
@@ -873,7 +912,10 @@ labo.demo("tasa-base", prevalencia=1.0, sensibilidad=99.0, especificidad=99.0, t
     "kpi": "Si la máquina descarta uno, chance de que esté fallado",
     "cuenta": "De 1.000 alfajores: la máquina descarta {pos} y solo {vp} de ellos están fallados.",
     "aria": "Mil alfajores según lo que hizo la máquina",
-})
+}, figura=dict(
+    tema="Tasa base", titulo="Si la falla es rara, la mitad de los alfajores descartados estaban bien",
+    bajada="1.000 alfajores según lo que hizo la máquina de control de calidad. Mové la tasa de falla y la precisión.",
+    fuente="datos inventados."))
 ```
 
 ::: {.desafio}
@@ -946,7 +988,10 @@ labo.demo("simpson", visitas.to_dict("records"), nombres=["Diego", "Laura"], tex
     "intentos": "visitas", "exitos": "ventas", "categoria": "Tipo de cliente",
     "total": "{a} cierra el {ta} de sus visitas y {b}, el {tb}. Parece que {a} vende mejor.",
     "porcat": "En {k} de {n} tipos de cliente, {b} cierra más que {a}. El tamaño de cada punto es la cantidad de visitas: a {b} le tocaron los clientes difíciles.",
-})
+}, figura=dict(
+    tema="Paradoja de Simpson", titulo="Laura cierra más ventas que Diego con cada tipo de cliente, pero pierde en el total",
+    bajada="Porcentaje de visitas que terminan en venta, por vendedor, en septiembre.",
+    fuente="datos inventados."))
 ```
 
 ::: {.charlalo data-minutos="1"}
@@ -1032,7 +1077,10 @@ Y una quinta, muy de gerentes y de campaña electoral: **atribuirle el resultado
 ```{python}
 #| echo: false
 #| output: asis
-labo.demo("espurias", largo=30)
+labo.demo("espurias", largo=30, figura=dict(
+    tema="Correlación", titulo="Dos series que no tienen nada que ver pueden moverse igual",
+    bajada="Dos series al azar, independientes entre sí, y la correlación de 1.000 pares como ese.",
+    fuente="simulación."))
 ```
 
 ::: {.desafio}
@@ -1063,7 +1111,13 @@ print("pares con |r| > 0,5 (caminatas): ", np.mean(np.abs(r_caminatas) > 0.5))
 
 # Acto III · Mentir con gráficos {.unnumbered}
 
-Lo que se ve. Último paso del camino: el dato ya está elegido y calculado, y alguien lo dibuja. Son los trucos más fáciles de hacer y, por suerte, los más fáciles de detectar si sabés dónde mirar.
+::: {.acto-banda .column-screen .acto-3}
+::: {.acto-interior}
+[Acto III · Lo que se ve]{.acto-pill}
+
+Último paso del camino: el dato ya está elegido y calculado, y alguien lo dibuja. Son los trucos más fáciles de hacer y, por suerte, los más fáciles de detectar si sabés dónde mirar.
+:::
+:::
 
 ## 10 · El eje que no arranca en cero {#eje-y}
 
@@ -1122,7 +1176,10 @@ Mové el control y mirá el *lie factor*. Arranca en la versión de la publicida
 #| echo: false
 #| output: asis
 labo.demo("eje-y", calif.to_dict("records"), comparar=["Dulce Dato", "Marca B"], y0=4.3,
-          eje="Calificación de los clientes (estrellas)", sufijo=" ★", columna="Marca")
+          eje="Calificación de los clientes (estrellas)", sufijo=" ★", columna="Marca", figura=dict(
+              tema="Eje Y", titulo="Con el eje desde 4,3, un 7% de diferencia parece un 300%",
+              bajada="Calificación promedio de los clientes a cinco marcas de alfajores, de 1 a 5 estrellas.",
+              fuente="datos inventados."))
 ```
 
 ::: {.desafio}
@@ -1236,7 +1293,10 @@ labo.demo("acumulado", [
 ], anio="2026", formato="miles",
    ejes={"acumulada": "Ventas acumuladas en el año (miles de alfajores)", "mensual": "Ventas del mes (miles de alfajores)"},
    titulares={"acumulada": "«Dulce Dato no para de crecer: ya vendió {a1} de alfajores en 2026»",
-              "mensual": "«Las ventas de Dulce Dato cayeron todo el año: de {m0} alfajores en enero a {m1} en septiembre»"})
+              "mensual": "«Las ventas de Dulce Dato cayeron todo el año: de {m0} alfajores en enero a {m1} en septiembre»"},
+   figura=dict(tema="Acumulados", titulo="Las ventas acumuladas suben todos los meses, aunque cada mes se vende menos",
+               bajada="Ventas de Dulce Dato en 2026, en miles de alfajores: acumuladas en el año o mes a mes.",
+               fuente="datos inventados."))
 ```
 
 ::: {.charlalo data-minutos="1"}
@@ -1330,7 +1390,10 @@ No es tanto una mentira como una **forma de esconder**. El ojo compara muy bien 
 ```{python}
 #| echo: false
 #| output: asis
-labo.demo("tortas", [{"titulo": "Ventas 2025", "valores": torta_2025}, {"titulo": "Ventas 2026", "valores": torta_2026}], categorias=sabores, columna="Sabor")
+labo.demo("tortas", [{"titulo": "Ventas 2025", "valores": torta_2025}, {"titulo": "Ventas 2026", "valores": torta_2026}], categorias=sabores, columna="Sabor", figura=dict(
+    tema="Tortas", titulo="En torta, el ranking de sabores parece el mismo; en barras se ve que se dio vuelta",
+    bajada="Participación de cada sabor en las ventas de Dulce Dato (% de las unidades), 2025 y 2026.",
+    fuente="datos inventados."))
 ```
 
 ::: {.pregunta data-correcta="2" data-kicker="Pregunta rápida"}
@@ -1343,6 +1406,57 @@ Marta encuestó a sus clientes: "¿Por qué elegís Dulce Dato?". El 61% marcó 
 ::: {.respuesta}
 **No.** Una torta muestra las partes de un todo, y estas respuestas suman 184%: cada cliente podía marcar varias razones. Una torta con eso es directamente un error. Y hay otra trampa escondida: "el 61% nos elige por el precio" es verdad, pero no quiere decir que al resto no le importe. En 2007, en el Reino Unido, Colgate tuvo que retirar el aviso "el 80% de los dentistas recomienda Colgate": cada dentista podía nombrar varias marcas, y otras salían tan bien o mejor. Era verdad, y era engañoso.
 :::
+:::
+
+### ¿Y si encima es en 3D?
+
+```{python}
+#| include: false
+mercado = pd.DataFrame({"nombre": ["Dulce Dato", "Marca A", "Marca B", "Marca C"], "valor": [42, 42, 11, 5]})
+torta3d_gancho = labo.torta_3d_svg(mercado.valor, [labo.AZUL, labo.LADRILLO, labo.VERDE, labo.DORADO],
+                                   etiqueta="Torta en 3D de cuatro marcas: la porción azul, adelante, parece mucho más grande que la terracota, atrás.")
+```
+
+::: {.gancho}
+[La presentación de una agencia de publicidad · inventada]{.medio}
+[Dulce Dato, líder en alfajores del conurbano]{.titular}
+
+La agencia le muestra a Marta la participación de cada marca en el mercado, en una torta en 3D. Dulce Dato es la azul.
+
+```{python}
+#| echo: false
+#| output: asis
+print(torta3d_gancho)
+print('<div class="leyenda">' + "".join(f'<span class="ley-item"><i style="background:{c}"></i>{n}</span>'
+      for n, c in zip(mercado.nombre, [labo.AZUL, labo.LADRILLO, labo.VERDE, labo.DORADO])) + "</div>")
+```
+:::
+
+::: {.pregunta data-correcta="3"}
+¿Quién vende más alfajores, Dulce Dato (azul) o la Marca A (terracota)?
+
+- Dulce Dato, por lejos
+- La Marca A
+- Venden lo mismo
+
+::: {.respuesta}
+**Venden lo mismo: 42% cada una.** En una torta en 3D hay una cámara escondida que mira la torta desde arriba y un poco de costado. Como en la vida real, lo que está más cerca se ve más grande y lo que está lejos, más chico. Encima, a las porciones de adelante se les ve el costado, que suma superficie pintada. Por eso la azul parece más de la mitad de la torta. Y otra cosa: la mostaza (5%) se ve casi igual que la verde (11%), que en realidad es más del doble.
+:::
+:::
+
+La torta 3D distorsiona justo lo único que una torta tenía que mostrar: el tamaño de cada porción. Girala y mirá cómo cambia cuánto "parece" tener cada marca.
+
+```{python}
+#| echo: false
+#| output: asis
+labo.demo("torta-3d", mercado.to_dict("records"), giro=54, inclinacion=26, columna="Marca", figura=dict(
+    tema="Tortas en 3D", titulo="En 3D, una porción de 42% puede parecer más del doble que otra de 42%",
+    bajada="Participación de cuatro marcas en el mercado de alfajores del conurbano (%). El panel calcula qué parte de la torta dibujada ocupa cada una.",
+    fuente="datos inventados."))
+```
+
+::: {.desafio}
+¿Hasta dónde se puede girar la torta para que la Marca A parezca la líder? ¿Con qué inclinación de la cámara desaparece el engaño?
 :::
 
 ::: {.receta}
@@ -1377,7 +1491,7 @@ plt.show()
 :::
 :::
 
-::: {.antidoto data-truco="Tortas" data-pregunta="¿Las porciones se pueden comparar? ¿Suman 100%?"}
+::: {.antidoto data-truco="Tortas" data-pregunta="¿Las porciones se pueden comparar? ¿Suman 100%? ¿Es en 3D?"}
 **Pasá la torta a barras en tu cabeza.** Si las porciones son parecidas o son más de tres, la torta esconde las diferencias. Y si las partes no suman 100%, no es una torta: alguien contó respuestas múltiples.
 :::
 
@@ -1432,7 +1546,10 @@ La solución es vieja: en los años 20, en Viena, Otto Neurath armó el sistema 
 ```{python}
 #| echo: false
 #| output: asis
-labo.demo("pictogramas", k=round(k_alfajor, 2), boton="Las ventas de Dulce Dato")
+labo.demo("pictogramas", k=round(k_alfajor, 2), boton="Las ventas de Dulce Dato", figura=dict(
+    tema="Pictogramas", titulo="Si el dato casi se duplica, el alfajor dibujado se ve casi cuatro veces más grande",
+    bajada="Tres formas de dibujar el mismo crecimiento: barras, un ícono agrandado e íconos apilados.",
+    fuente="datos inventados (de 2,5 a 4,8 millones de alfajores por año)."))
 ```
 
 ::: {.desafio}
@@ -1523,7 +1640,10 @@ Las alternativas honestas: pintar con intensidad según la población, usar cír
 ```{python}
 #| echo: false
 #| output: asis
-labo.demo("mapa", prov.to_dict("records"), inicial=menos_pobladas)
+labo.demo("mapa", prov.to_dict("records"), inicial=menos_pobladas, figura=dict(
+    tema="Mapas", titulo=f"Las 19 provincias menos pobladas: {labo.coma(pct_sup_19, 0)}% del territorio y {labo.coma(pct_pob_19, 0)}% de la gente",
+    bajada="Provincias pintadas, en superficie y en población. Tocá una provincia para pintarla o despintarla.",
+    fuente="INDEC, Censo 2022 (resultados definitivos); IGN, superficie continental."))
 ```
 
 ::: {.desafio}
@@ -1599,7 +1719,10 @@ Desde noviembre de 2023, ¿qué subió más: los salarios o el dólar?
 ```{python}
 #| echo: false
 #| output: asis
-labo.demo("doble-eje", [{"fecha": f.strftime("%Y-%m-%d"), "salarios": round(r.salarios, 2), "dolar": round(r.dolar, 2)} for f, r in sd.iterrows()])
+labo.demo("doble-eje", [{"fecha": f.strftime("%Y-%m-%d"), "salarios": round(r.salarios, 2), "dolar": round(r.dolar, 2)} for f, r in sd.iterrows()], figura=dict(
+    tema="Doble eje", titulo="Con dos ejes, quien arma el gráfico elige qué línea queda arriba",
+    bajada="Índice de salarios registrados y dólar oficial desde noviembre de 2023: con dos ejes o en base 100 sobre uno solo.",
+    fuente="INDEC (índice de salarios) y BCRA (dólar oficial), vía datos.gob.ar."))
 ```
 
 Para comparar dos series en unidades distintas hay una sola forma honesta: **llevar las dos a base 100** en el mismo mes y ponerlas en un solo eje. Ahí se ve cuánto subió cada una en porcentaje. Pero ojo: con base en noviembre de 2023 gana el dólar, y con base un mes después, ganan los salarios. El mes base también se elige: es el cherry picking del módulo 3.
@@ -1626,7 +1749,10 @@ episodios = [
     {"desde": "2001-12-01", "hasta": "2002-06-01", "veces": round(dol_m["2002-06-01"] / dol_m["2001-12-01"], 2), "rotulo": "2002", "v0": dol_m["2001-12-01"], "v1": dol_m["2002-06-01"]},
     {"desde": "2023-11-01", "hasta": "2024-02-01", "veces": round(dol_m["2024-02-01"] / dol_m["2023-11-01"], 2), "rotulo": "2023/24", "v0": dol_m["2023-11-01"], "v1": dol_m["2024-02-01"], "lado": "izq"},
 ]
-labo.demo("escala-log", [{"fecha": f.strftime("%Y-%m-%d"), "dolar": round(v, 3)} for f, v in dol_m.items()], episodios=episodios)
+labo.demo("escala-log", [{"fecha": f.strftime("%Y-%m-%d"), "dolar": round(v, 3)} for f, v in dol_m.items()], episodios=episodios, periodos=gobiernos, figura=dict(
+    tema="Escala logarítmica", titulo="En escala lineal, el salto del dólar de 2002 casi no se ve",
+    bajada="Dólar oficial, promedio mensual, en pesos por dólar. Las franjas marcan cada gobierno.",
+    fuente="BCRA, vía datos.gob.ar."))
 ```
 
 En escala lineal, la misma distancia vertical es la misma cantidad de **pesos**. En escala logarítmica, es el mismo **porcentaje**. Para precios, el dólar o cualquier cosa que crece a tasa constante, la logarítmica es la que permite comparar épocas. La lineal no miente, pero hace parecer que antes "no pasaba nada".
@@ -1672,6 +1798,14 @@ plt.show()
 :::
 
 # Epílogo · Manual de defensa personal {.unnumbered}
+
+::: {.acto-banda .column-screen .acto-epilogo}
+::: {.acto-interior}
+[Epílogo]{.acto-pill}
+
+Qué preguntar, qué mirar y, al final, ponerte del otro lado: armar vos los gráficos tramposos para aprender a cazarlos.
+:::
+:::
 
 ## El encandilamiento de los números {#encandilamiento}
 
@@ -1737,6 +1871,13 @@ serie.plot(ax=der, kind=tipo, title="Titular 2: ...")
 plt.show()
 ```
 
+## Todos los gráficos {#todos-los-graficos}
+
+Los gráficos interactivos de la clase, en orden. Cada uno se puede descargar como imagen o con sus datos en CSV.
+
+::: {#indice-graficos}
+:::
+
 ## Recursos {#recursos}
 
 Las fuentes de esta clase y otras para seguir. Los ejemplos y las ideas vienen de estos materiales; los datos de la economía son públicos y los de Dulce Dato, inventados.
@@ -1744,12 +1885,12 @@ Las fuentes de esta clase y otras para seguir. Los ejemplos y las ideas vienen d
 ### Los videos que inspiraron la clase
 
 ::: {.recursos}
-[[Serie en Instagram]{.tipo} [Santi Fiorino · «Los datos no mienten, pero se puede mentir»]{.t} [Partes 1 a 5, 7 y 8: el eje Y, los acumulados, las correlaciones, las tortas, los mapas, los pictogramas y el cherry picking.]{.d}](https://www.instagram.com/santifiorino.py/){.recurso}
+[[Serie en Instagram]{.tipo} [Santi Fiorino · «Los datos no mienten, pero se puede mentir»]{.t} [Partes 1 a 8: el eje Y, los acumulados, las correlaciones, las tortas (y las tortas en 3D), los mapas, los pictogramas y el cherry picking.]{.d}](https://www.instagram.com/santifiorino.py/){.recurso}
 [[Video · 19 min]{.tipo} [Zach Star · This is How Easy It Is to Lie With Statistics]{.t} [Porcentajes y la deserción escolar, la píldora de 1995, causalidad, Berkeley y la falacia del fiscal.]{.d}](https://www.youtube.com/watch?v=bVG2OQp6jEQ){.recurso}
 [[Video · 33 min]{.tipo} [Unsolicited advice · How to Lie With Statistics (and get away with it)]{.t} [Definiciones, muestras, promedios, tasa base, proporciones y atribución.]{.d}](https://www.youtube.com/watch?v=f4yZJVdJCG4){.recurso}
 :::
 
-Los reels de Fiorino, uno por uno: [eje Y](https://www.instagram.com/reel/C-YxMXXPmRq/) · [acumulados](https://www.instagram.com/reel/C-jCdPRvOqJ/) · [correlaciones](https://www.instagram.com/reel/C-v5hBXvOKB/) · [tortas](https://www.instagram.com/reel/C_Jvc83vC8B/) · [mapas](https://www.instagram.com/reel/C_ePCJ9vmMa/) · [pictogramas](https://www.instagram.com/reel/DZgHjHzRt3K/) · [cherry picking](https://www.instagram.com/reel/DZ8crWBxjtK/).
+Los reels de Fiorino, uno por uno: [eje Y](https://www.instagram.com/reel/C-YxMXXPmRq/) · [acumulados](https://www.instagram.com/reel/C-jCdPRvOqJ/) · [correlaciones](https://www.instagram.com/reel/C-v5hBXvOKB/) · [tortas](https://www.instagram.com/reel/C_Jvc83vC8B/) · [mapas](https://www.instagram.com/reel/C_ePCJ9vmMa/) · [tortas en 3D](https://www.instagram.com/reel/DEIZf4ppEGE/) · [pictogramas](https://www.instagram.com/reel/DZgHjHzRt3K/) · [cherry picking](https://www.instagram.com/reel/DZ8crWBxjtK/).
 
 ### Libros
 

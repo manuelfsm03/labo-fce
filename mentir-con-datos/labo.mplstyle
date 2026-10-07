@@ -1,7 +1,7 @@
-# Estilo de los gráficos de la clase: papel, tinta y paleta del sitio.
-font.family: Inter
-font.size: 11
-text.color: 1B222A
+# Estilo de los gráficos de la clase: el de El Atlas (Source Sans 3, grilla suave, etiquetas grises) con la paleta de la clase.
+font.family: Source Sans 3
+font.size: 11.5
+text.color: 1A1A1A
 
 figure.figsize: 7, 3.4
 figure.facecolor: none
@@ -12,41 +12,42 @@ savefig.bbox: tight
 svg.fonttype: path
 
 axes.facecolor: none
-axes.edgecolor: C9C4B6
-axes.linewidth: 0.8
+axes.edgecolor: C9C2B2
+axes.linewidth: 0.9
 axes.spines.top: False
 axes.spines.right: False
-axes.titlesize: 12.5
-axes.titleweight: 600
+axes.spines.left: False
+axes.titlesize: 13
+axes.titleweight: 700
 axes.titlelocation: left
 axes.titlepad: 12
-axes.labelsize: 10
-axes.labelcolor: 5B6470
+axes.labelsize: 10.5
+axes.labelcolor: 4A4A4A
 axes.grid: True
 axes.grid.axis: y
 axes.axisbelow: True
-axes.prop_cycle: cycler('color', ['22689A', 'BD871C', '25855B', '8B4486', 'BD432F'])
+axes.prop_cycle: cycler('color', ['2B5797', 'BE5D32', '00897B', 'B07F00', '8A4F9E'])
 
-grid.color: E4E0D5
-grid.linewidth: 0.8
+grid.color: E7E1D3
+grid.linewidth: 0.9
 grid.linestyle: -
 
-xtick.color: C9C4B6
-ytick.color: C9C4B6
-xtick.labelcolor: 5B6470
-ytick.labelcolor: 5B6470
-xtick.labelsize: 9.5
-ytick.labelsize: 9.5
+xtick.color: C9C2B2
+ytick.color: C9C2B2
+xtick.labelcolor: 8A8579
+ytick.labelcolor: 8A8579
+xtick.labelsize: 10
+ytick.labelsize: 10
 xtick.major.size: 3
 ytick.major.size: 0
 xtick.major.pad: 5
 ytick.major.pad: 6
 
-lines.linewidth: 2
+lines.linewidth: 2.2
 lines.solid_capstyle: round
 lines.solid_joinstyle: round
 lines.markersize: 6
 patch.linewidth: 0
 
 legend.frameon: False
-legend.fontsize: 9.5
+legend.fontsize: 10
