@@ -16,7 +16,7 @@ Clases del Laboratorio de Métodos Cuantitativos (FCE-UBA). Cada clase va en su 
 ## Flujo de trabajo
 
 - Los cambios se hacen en la rama de la sesión y, cuando están verificados, se mergean a `main` sin preguntar (definido por Manuel).
-- La clase está publicada para los alumnos en https://manuelfsm03.github.io/mentir-con-datos/, desde su propio repo público, `manuelfsm03/mentir-con-datos` (rama `gh-pages`, solo la página). No va en la página personal de Manuel. Al mergear a `main` un cambio de la clase, se actualiza también la versión publicada: `./publicar.sh` y push de `gh-pages`.
+- La clase está publicada para los alumnos en https://manuelfsm03.github.io/labo-fce/mentir-con-datos/, desde este mismo repo: la rama `gh-pages` tiene solo las páginas armadas (definido por Manuel). No va en su página personal. Al mergear a `main` un cambio de la clase, se actualiza también la versión publicada con `./publicar.sh`.
 
 ## Cómo mentir con datos
 
