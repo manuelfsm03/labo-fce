@@ -1402,6 +1402,10 @@ Que dos cosas se muevan juntas no dice que una cause la otra. Hay al menos cuatr
 
 Y una quinta, muy de gerentes y de campaña electoral: **atribuirle el resultado a quien estaba ahí**. "Cambiamos el envoltorio y las ventas subieron 30%": era mayo, y empezaba el frío. "Asumió fulano y se cayó la actividad." Que algo pase *después* no quiere decir que pase *por eso* (*post hoc, ergo propter hoc*). En 2009 cualquier opositor podía mostrar que con el gobierno de turno se habían perdido empleos y cerrado empresas, en medio de una crisis financiera mundial. Y vale al revés: el que gobierna culpa al contexto de todo lo malo y se adjudica todo lo bueno.
 
+::: {.guino}
+**Un guiño, por si les pica la curiosidad.** Pasar de "se mueven juntas" a "una causa la otra" es una disciplina entera: la **inferencia causal**. En economía cambió la forma de investigar en los últimos treinta años, con experimentos naturales, diferencias en diferencias, variables instrumentales y regresión discontinua. Se la llama la *revolución de la credibilidad*, y le valió el Nobel de 2021 a David Card, Joshua Angrist y Guido Imbens. A mí, particularmente, es el área que más me gusta y en la que me quiero especializar. Para arrancar: [inferencia causal](https://en.wikipedia.org/wiki/Causal_inference) y [revolución de la credibilidad](https://en.wikipedia.org/wiki/Credibility_revolution) en Wikipedia (en inglés), y dos libros gratis en internet: [*Causal Inference: The Mixtape*](https://mixtape.scunning.com/) y [*The Effect*](https://theeffectbook.net/).
+:::
+
 ::::
 
 ### Hacelo vos: fabricá tu correlación espuria
@@ -2367,12 +2371,23 @@ Los reels de Fiorino, uno por uno: [eje Y](https://www.instagram.com/reel/C-YxMX
 [[Datos]{.tipo} [API de Series de Tiempo · datos.gob.ar]{.t} [De acá salen casi todas las series de la clase.]{.d}](https://datosgobar.github.io/series-tiempo-ar-api/){.recurso}
 :::
 
+### Para seguir: inferencia causal
+
+::: {.recursos}
+[[Wikipedia · en inglés]{.tipo} [Causal inference]{.t} [Qué es, de dónde viene y los métodos principales para pasar de correlación a causalidad.]{.d}](https://en.wikipedia.org/wiki/Causal_inference){.recurso}
+[[Wikipedia · en inglés]{.tipo} [Credibility revolution]{.t} [Cómo cambió la economía empírica desde los años 90: mejores diseños de investigación.]{.d}](https://en.wikipedia.org/wiki/Credibility_revolution){.recurso}
+[[Libro gratis]{.tipo} [Scott Cunningham · Causal Inference: The Mixtape]{.t} [Los métodos de la revolución de la credibilidad, con código.]{.d}](https://mixtape.scunning.com/){.recurso}
+[[Libro gratis]{.tipo} [Nick Huntington-Klein · The Effect]{.t} [Una introducción amable al diseño de investigación y la causalidad.]{.d}](https://theeffectbook.net/){.recurso}
+[[Premio Nobel · 2021]{.tipo} [Card, Angrist e Imbens]{.t} [El Nobel de economía por los experimentos naturales y el análisis causal.]{.d}](https://www.nobelprize.org/prizes/economic-sciences/2021/press-release/){.recurso}
+:::
+
 ### Papers
 
 - Anscombe, F. J. (1973). Graphs in Statistical Analysis. *The American Statistician*, 27(1), 17–21. [doi:10.1080/00031305.1973.10478966](https://doi.org/10.1080/00031305.1973.10478966)
 - Bickel, P. J., Hammel, E. A. y O'Connell, J. W. (1975). Sex Bias in Graduate Admissions: Data from Berkeley. *Science*, 187(4175), 398–404. [doi:10.1126/science.187.4175.398](https://doi.org/10.1126/science.187.4175.398)
 - Goodhart, C. A. E. (1981). Problems of Monetary Management: The U.K. Experience. En A. S. Courakis (ed.), *Inflation, Depression, and Economic Policy in the West*. Mansell. (El trabajo original es de 1975.)
 - Granger, C. W. J. y Newbold, P. (1974). Spurious regressions in econometrics. *Journal of Econometrics*, 2(2), 111–120. [doi:10.1016/0304-4076(74)90034-7](https://doi.org/10.1016/0304-4076(74)90034-7)
+- Angrist, J. D. y Pischke, J.-S. (2010). The Credibility Revolution in Empirical Economics: How Better Research Design Is Taking the Con out of Econometrics. *Journal of Economic Perspectives*, 24(2), 3–30. [doi:10.1257/jep.24.2.3](https://doi.org/10.1257/jep.24.2.3)
 - Cavallo, A. (2013). Online and official price indexes: Measuring Argentina's inflation. *Journal of Monetary Economics*, 60(2), 152–165. [doi:10.1016/j.jmoneco.2012.10.002](https://doi.org/10.1016/j.jmoneco.2012.10.002)
 - Matejka, J. y Fitzmaurice, G. (2017). Same Stats, Different Graphs (el *Datasaurus*). *CHI 2017*. [doi:10.1145/3025453.3025912](https://doi.org/10.1145/3025453.3025912)
 - Strathern, M. (1997). 'Improving ratings': audit in the British University system. *European Review*, 5(3), 305–321. (La frase "cuando una medida se convierte en meta, deja de ser una buena medida".)
