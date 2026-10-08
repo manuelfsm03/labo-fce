@@ -2278,18 +2278,12 @@ Todos los antídotos de la clase, en una lista. Tildá los que ya te salen de me
     - **B** · Los sueldos de Dulce Dato: uno para Marta y otro para el delegado, en la paritaria.
     - **C** · La encuesta a los clientes: uno para la agencia de publicidad y otro para la competencia.
     - **D** · La inflación mensual del INDEC (datos reales): uno para el gobierno y otro para la oposición.
-2. Con el código de abajo (en Colab), hagan **dos gráficos de la misma serie con titulares opuestos**. Usen al menos dos trucos de la clase en cada uno.
+2. Con el código que está en la página de la clase, abajo de esta consigna (en Colab), hagan **dos gráficos de la misma serie con titulares opuestos**. Usen al menos dos trucos de la clase en cada uno.
 3. Intercambien los gráficos con otro grupo. Con el checklist en la mano, cada grupo tiene que encontrar los trucos del otro.
 4. Puntos: uno por cada truco descubierto. Los autores se llevan un punto por cada truco que nadie vio.
 :::
 
 ::::
-
-:::: {.diapo .codigo}
-
-::: {.solo-charla}
-**El código, para copiar en Colab.** Cambien la letra de `grupo` por la de su grupo.
-:::
 
 ```{python}
 #| eval: false
@@ -2321,7 +2315,6 @@ serie.plot(ax=der, kind=tipo, title="Titular 2: ...")
 plt.show()
 ```
 
-::::
 
 ## Todos los gráficos {#todos-los-graficos}
 

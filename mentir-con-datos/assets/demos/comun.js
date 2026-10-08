@@ -7,7 +7,7 @@ window.Labo = (function () {
     azul: '#2B5797', ladrillo: '#BE5D32', verde: '#00897B', dorado: '#B07F00', ciruela: '#8A4F9E',
     gris: '#A8A398', grisClaro: '#DCD6C8', tinta: '#1A1A1A', tinta2: '#4A4A4A', tinta3: '#8A8579',
     papel: '#FBF9F4', grilla: '#ECE7D8', eje: '#C9C2B2', trampa: '#B23B2E', honesto: '#2F6B52',
-    amarillo: '#F5C900', celeste: '#A8C5DA'
+    pistacho: '#BFD46A', frutilla: '#F2A49C'
   };
   var registro = {};
 

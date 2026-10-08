@@ -1,5 +1,5 @@
-/* Componentes de charla con la estética del taller de IA: tarjetas con borde negro, pastillas amarillas y
-   celestes, títulos en serif condensada, fondo con grano y partículas, entradas animadas.
+/* Componentes de charla con la filosofía del taller de IA y una paleta propia (pistacho, frutilla, chocolate):
+   tarjetas con borde negro, pastillas de color, títulos en serif condensada, fondo con grano y partículas, entradas animadas.
    Todo funciona proyectado (modo charla) y también para estudiar en casa. */
 :root {
   --papel: #F2EEE5;
@@ -10,11 +10,13 @@
   --tinta-3: #8A8579;
   --regla: #E0DCC8;
   --regla-2: #C9C2B2;
-  --amarillo: #F5C900;
-  --amarillo-suave: #FFF4C4;
-  --celeste: #A8C5DA;
-  --celeste-suave: #DDE9F2;
-  --lavanda: #7B9CC9;
+  /* Paleta propia, de alfajor: pistacho, frutilla, chocolate y dulce de leche */
+  --pistacho: #BFD46A;
+  --pistacho-suave: #EEF3D2;
+  --frutilla: #F2A49C;
+  --frutilla-suave: #FBE5E1;
+  --chocolate: #5B3428;
+  --dulce: #D9A05B;
   --terracota: #BE5D32;
   --verde: #2F6B52;
   --verde-suave: #DFEBE3;
@@ -36,14 +38,14 @@
 .bloque-kicker {
   display: inline-flex; align-items: center; gap: .45em;
   font: 700 .7rem/1.2 var(--sans); letter-spacing: .07em; text-transform: uppercase;
-  color: var(--tinta); background: var(--amarillo);
+  color: var(--tinta); background: var(--pistacho);
   border-radius: 999px; padding: .38em .95em .36em .8em;
   margin-bottom: .8rem;
 }
 .bloque-kicker .ico { font-size: .95rem; letter-spacing: 0; }
 .pregunta > .bloque-kicker, .charlalo > .bloque-kicker { background: var(--tarjeta); box-shadow: inset 0 0 0 2px var(--tinta); }
-.adivina > .bloque-kicker, .antidoto > .bloque-kicker { background: var(--celeste); }
-.desafio > .bloque-kicker { background: var(--tinta); color: var(--amarillo); }
+.adivina > .bloque-kicker, .antidoto > .bloque-kicker { background: var(--frutilla); }
+.desafio > .bloque-kicker { background: var(--tinta); color: var(--pistacho); }
 
 /* ---------- Tarjetas ---------- */
 .gancho, .pregunta, .adivina, .desafio, .charlalo, .antidoto {
@@ -55,11 +57,11 @@
   position: relative;
 }
 .gancho > p:last-child, .desafio > :last-child, .charlalo > :last-child, .antidoto > :last-child { margin-bottom: 0; }
-.adivina { background: var(--amarillo-suave); }
-.desafio { background-color: var(--amarillo); background-image: var(--grano); }
+.adivina { background: var(--pistacho-suave); }
+.desafio { background-color: var(--pistacho); background-image: var(--grano); }
 .charlalo { border-style: dashed; }
-.antidoto { background: var(--celeste-suave); }
-.antidoto strong:first-child { color: var(--tinta); box-shadow: inset 0 -.42em 0 var(--amarillo); }
+.antidoto { background: var(--frutilla-suave); }
+.antidoto strong:first-child { color: var(--tinta); box-shadow: inset 0 -.42em 0 var(--pistacho); }
 
 .titular {
   display: block;
@@ -67,8 +69,8 @@
   font-size: clamp(1.9rem, 4.6vw, 2.75rem); line-height: 1.02; letter-spacing: -.01em;
   margin: .25rem 0 .55rem;
 }
-.titular::before { content: "“"; color: var(--lavanda); margin-right: .04em; }
-.titular::after { content: "”"; color: var(--lavanda); margin-left: .04em; }
+.titular::before { content: "“"; color: var(--chocolate); margin-right: .04em; }
+.titular::after { content: "”"; color: var(--chocolate); margin-left: .04em; }
 .medio { display: block; font: 600 .66rem var(--sans); color: var(--tinta-3); letter-spacing: .1em; text-transform: uppercase; }
 
 .pregunta > p:first-of-type, .adivina > p:first-of-type { font-weight: 600; font-size: 1.12rem; line-height: 1.45; }
@@ -86,13 +88,13 @@
 .opciones .letra {
   display: inline-grid; place-items: center; flex: none;
   width: 1.8em; height: 1.8em; border-radius: 50%;
-  background: var(--amarillo); font: 700 .78rem var(--sans);
+  background: var(--pistacho); font: 700 .78rem var(--sans);
 }
 .opciones button[aria-pressed="true"] { background: var(--tinta); color: var(--papel-claro); }
-.opciones button[aria-pressed="true"] .letra { background: var(--amarillo); color: var(--tinta); }
+.opciones button[aria-pressed="true"] .letra { background: var(--pistacho); color: var(--tinta); }
 .revelado .opciones button.correcta { box-shadow: 0 0 0 3px var(--verde); }
 .revelado .opciones button.correcta::after { content: "✓"; color: var(--verde); font-weight: 700; margin-left: .2em; }
-.revelado .opciones button[aria-pressed="true"].correcta::after { color: var(--amarillo); }
+.revelado .opciones button[aria-pressed="true"].correcta::after { color: var(--pistacho); }
 
 .acciones { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin-top: 1rem; }
 .btn-charla {
@@ -103,15 +105,15 @@
 }
 .btn-charla:hover { transform: translateY(-1px); background: #333; }
 .btn-charla.sec { background: var(--tarjeta); color: var(--tinta); }
-.btn-charla.sec:hover { background: var(--amarillo); }
-.btn-charla:focus-visible, .opciones button:focus-visible { outline: 3px solid var(--lavanda); outline-offset: 2px; }
+.btn-charla.sec:hover { background: var(--pistacho); }
+.btn-charla:focus-visible, .opciones button:focus-visible { outline: 3px solid var(--chocolate); outline-offset: 2px; }
 
 .respuesta {
   margin-top: 1rem;
   padding: .95rem 1.1rem;
   background: var(--papel-claro);
   border-radius: 10px;
-  border-left: 5px solid var(--amarillo);
+  border-left: 5px solid var(--pistacho);
   transition: filter .3s ease, opacity .3s ease;
 }
 .respuesta > :last-child { margin-bottom: 0; }
@@ -132,7 +134,7 @@
   padding: .2em .8em; cursor: pointer;
 }
 .desafio > .bloque-kicker .reloj { margin-left: .6em; }
-.reloj.corriendo { background: var(--tinta); color: var(--amarillo); }
+.reloj.corriendo { background: var(--tinta); color: var(--pistacho); }
 .reloj.listo { background: var(--rojo); color: #fff; border-color: var(--rojo); }
 
 /* ---------- Estados: trampa / honesto (siempre ícono + rótulo) ---------- */
@@ -163,7 +165,7 @@
 .hero-tag {
   display: inline-flex; align-items: center; gap: .5em;
   font: 700 .74rem var(--sans); letter-spacing: .08em; text-transform: uppercase;
-  background-color: var(--amarillo); background-image: var(--grano);
+  background-color: var(--pistacho); background-image: var(--grano);
   border-radius: 0 999px 999px 0; padding: .5em 1.2em .5em 1rem; margin: 0 0 1.4rem -1rem;
 }
 .hero-tag svg { width: 1.2em; height: 1.2em; }
@@ -171,20 +173,20 @@
 .hero-formas span { position: absolute; display: block; background-image: var(--grano); }
 /* Las formas viven en el margen derecho, fuera de la columna de texto */
 .hero-formas { left: 100%; right: auto; width: 300px; }
-.hero-formas .f-circulo { width: 150px; height: 150px; border-radius: 50%; background-color: var(--amarillo); left: 70px; top: 22%; }
-.hero-formas .f-cuadrado { width: 46px; height: 46px; background-color: var(--lavanda); left: 40px; top: 8%; rotate: 8deg; }
-.hero-formas .f-cuadradito { width: 30px; height: 30px; background-color: var(--amarillo); left: 26px; bottom: 16%; rotate: -10deg; }
-.hero-formas .f-arco { width: 120px; height: 160px; border-radius: 60px 60px 0 0; background-color: var(--celeste); left: 110px; bottom: -4%; }
+.hero-formas .f-circulo { width: 150px; height: 150px; border-radius: 50%; background-color: var(--pistacho); left: 70px; top: 22%; }
+.hero-formas .f-cuadrado { width: 46px; height: 46px; background-color: var(--frutilla); left: 40px; top: 8%; rotate: 8deg; }
+.hero-formas .f-cuadradito { width: 30px; height: 30px; background-color: var(--pistacho); left: 26px; bottom: 16%; rotate: -10deg; }
+.hero-formas .f-arco { width: 120px; height: 160px; border-radius: 60px 60px 0 0; background-color: var(--dulce); left: 110px; bottom: -4%; }
 @media (max-width: 1260px) { .hero-formas { display: none; } }
 
 /* ---------- Franjas de acto (como los "Bloque" del taller) ---------- */
 .acto-banda {
   position: relative; overflow: hidden;
   margin: 4.5rem 0 2.6rem; padding: 3.6rem 0 3.2rem;
-  background-color: var(--amarillo); background-image: var(--grano);
+  background-color: var(--pistacho); background-image: var(--grano);
 }
-.acto-banda.acto-2 { background-color: #8FAED6; }
-.acto-banda.acto-epilogo { background-color: var(--tinta); color: var(--papel-claro); }
+.acto-banda.acto-2 { background-color: var(--frutilla); }
+.acto-banda.acto-epilogo { background-color: var(--chocolate); color: var(--papel-claro); }
 .acto-interior { position: relative; z-index: 1; max-width: 920px; margin: 0 auto; padding: 0 1.4rem; }
 .acto-pill {
   display: inline-block; font: 700 .72rem var(--sans); letter-spacing: .1em; text-transform: uppercase;
@@ -196,25 +198,25 @@
 }
 .acto-banda h1 .anchorjs-link { display: none; }
 .acto-banda p { font: 500 1.12rem/1.6 var(--sans); max-width: 46rem; margin: 0; }
-.acto-banda.acto-epilogo .acto-pill { background: var(--amarillo); border-color: var(--amarillo); }
+.acto-banda.acto-epilogo .acto-pill { background: var(--pistacho); border-color: var(--pistacho); }
 .acto-deco { position: absolute; z-index: 0; pointer-events: none; }
 .acto-deco.asterisco { right: 7%; top: 16%; width: clamp(54px, 7vw, 92px); color: var(--tarjeta); }
-.acto-deco.cuadro { right: 16%; bottom: 14%; width: clamp(26px, 3vw, 44px); aspect-ratio: 1; background-color: var(--lavanda); background-image: var(--grano); }
-.acto-banda.acto-2 .acto-deco.cuadro { background-color: var(--amarillo); }
-.acto-banda.acto-epilogo .acto-deco.asterisco { color: var(--amarillo); }
+.acto-deco.cuadro { right: 16%; bottom: 14%; width: clamp(26px, 3vw, 44px); aspect-ratio: 1; background-color: var(--dulce); background-image: var(--grano); }
+.acto-banda.acto-2 .acto-deco.cuadro { background-color: var(--pistacho); }
+.acto-banda.acto-epilogo .acto-deco.asterisco { color: var(--pistacho); }
 
 /* ---------- Títulos de módulo ---------- */
 .h2-num {
   display: table; font: 700 .72rem var(--sans); letter-spacing: .08em; text-transform: uppercase;
-  background: var(--amarillo); color: var(--tinta); border-radius: 999px; padding: .32em .95em; margin-bottom: .7rem;
+  background: var(--pistacho); color: var(--tinta); border-radius: 999px; padding: .32em .95em; margin-bottom: .7rem;
 }
 h2 .w { display: inline-block; }
 
 /* ---------- Mapa de la clase (el camino de un número) ---------- */
 .rio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .9rem; margin: 1.6rem 0 .7rem; position: relative; }
 .rio .tramo { background: var(--tarjeta); border: var(--borde); border-radius: var(--radio); padding: 1rem 1.1rem; }
-.rio .tramo:nth-child(1) { background: var(--amarillo-suave); }
-.rio .tramo:nth-child(2) { background: var(--celeste-suave); }
+.rio .tramo:nth-child(1) { background: var(--pistacho-suave); }
+.rio .tramo:nth-child(2) { background: var(--frutilla-suave); }
 .rio .tramo .n { display: inline-block; font: 700 .66rem var(--sans); letter-spacing: .1em; text-transform: uppercase; background: var(--tinta); color: var(--papel-claro); border-radius: 999px; padding: .2em .8em; }
 .rio .tramo h4 { font-size: 1.6rem; margin: .5rem 0 .3rem; }
 .rio .tramo p { font-size: .9rem; color: var(--tinta-2); margin: 0; }
@@ -239,8 +241,8 @@ h2 .w { display: inline-block; }
 .recursos { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: .9rem; margin: 1rem 0 1.8rem; }
 .recursos > p { display: contents; }
 .recurso { display: block; background: var(--tarjeta); border: 2px solid var(--tinta); border-radius: 12px; padding: .9rem 1rem; text-decoration: none !important; color: var(--tinta); transition: transform var(--ease), background var(--ease); }
-.recurso:hover { transform: translateY(-3px); background: var(--amarillo-suave); }
-.recurso .tipo { display: inline-block; font: 700 .62rem var(--sans); letter-spacing: .1em; text-transform: uppercase; background: var(--amarillo); border-radius: 999px; padding: .15em .7em; }
+.recurso:hover { transform: translateY(-3px); background: var(--pistacho-suave); }
+.recurso .tipo { display: inline-block; font: 700 .62rem var(--sans); letter-spacing: .1em; text-transform: uppercase; background: var(--pistacho); border-radius: 999px; padding: .15em .7em; }
 .recurso .t { display: block; font-weight: 600; margin: .45rem 0 .2rem; line-height: 1.35; }
 .recurso .d { display: block; font-size: .84rem; color: var(--tinta-2); line-height: 1.5; }
 
@@ -296,13 +298,13 @@ html.anima .acto-deco.cuadro { animation: flotar 5.5s ease-in-out infinite; }
 .modo-toggle {
   position: fixed; right: 16px; bottom: 16px; z-index: 1050;
   font: 600 .86rem var(--sans);
-  color: var(--tinta); background: var(--amarillo);
+  color: var(--tinta); background: var(--pistacho);
   border: 2px solid var(--tinta); border-radius: 999px; padding: .55em 1.1em;
   box-shadow: 3px 3px 0 var(--tinta);
   cursor: pointer; transition: transform var(--ease), box-shadow var(--ease);
 }
 .modo-toggle:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--tinta); }
-.modo-toggle:focus-visible { outline: 3px solid var(--lavanda); outline-offset: 3px; }
+.modo-toggle:focus-visible { outline: 3px solid var(--chocolate); outline-offset: 3px; }
 
 /* ---------- Modo charla: la clase en diapositivas (charla.js) ----------
    Cada diapositiva se arma en un lienzo de 1280 px de ancho y charla.js la escala para llenar la pantalla: las medidas
@@ -328,7 +330,7 @@ body.charla .solo-charla { display: block; }
 }
 .diapo-cabeza { flex: none; margin-bottom: 22px; }
 .diapo-donde { display: flex; align-items: center; gap: 12px; font: 500 15px/1.3 var(--sans); color: var(--tinta-3); }
-.diapo-pill { font: 700 12.5px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--tinta); background: var(--amarillo); border-radius: 999px; padding: .4em 1em .36em; }
+.diapo-pill { font: 700 12.5px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--tinta); background: var(--pistacho); border-radius: 999px; padding: .4em 1em .36em; }
 .diapo-seccion { font: 700 15px/1.3 var(--sans); color: var(--tinta); }
 .diapo-seccion::before { content: "·"; margin-right: 12px; color: var(--tinta-3); }
 .diapo-titulo { font: 800 58px/1 var(--display); font-stretch: 62.5%; letter-spacing: -.01em; margin: 14px 0 0; color: var(--tinta); }
@@ -382,7 +384,7 @@ body.charla .solo-charla { display: block; }
 #mazo .anchorjs-link { display: none; }
 #mazo math[display="block"] { font-size: 1.2em; margin: 14px 0; }
 
-/* Código: el del ejercicio final (las recetas no van al modo charla) */
+/* Por si alguna diapositiva trae código */
 #mazo div.sourceCode { margin: 10px 0 0; }
 #mazo pre code { font-size: 15.5px; line-height: 1.5; }
 #mazo .cell-output pre code { font-size: 15px; }
@@ -393,7 +395,7 @@ body.charla .solo-charla { display: block; }
 #mazo .tipo-antidoto .antidoto { width: 100%; max-width: 980px; margin: 0 auto; padding: 32px 42px 36px; }
 #mazo .tipo-antidoto .antidoto p { font-size: 24px; line-height: 1.5; }
 #mazo .tipo-antidoto .antidoto strong:first-child { display: block; font: 800 50px/1.02 var(--display); font-stretch: 62.5%; box-shadow: none; margin-bottom: 14px; }
-#mazo .tipo-antidoto .antidoto strong:first-child span { box-shadow: inset 0 -.38em 0 var(--amarillo); }
+#mazo .tipo-antidoto .antidoto strong:first-child span { box-shadow: inset 0 -.38em 0 var(--pistacho); }
 
 /* Portada */
 #mazo .tipo-portada #title-block-header { padding: 0; margin: 0; max-width: 820px; }
@@ -408,9 +410,9 @@ body.charla .solo-charla { display: block; }
 #mazo .hero-formas .f-arco { width: 160px; height: 210px; border-radius: 80px 80px 0 0; left: 150px; bottom: -14%; }
 
 /* Franjas de acto: la diapositiva entera toma el color del acto */
-.diapositiva.tipo-acto { background-color: var(--amarillo); background-image: var(--grano); }
-.diapositiva.tipo-acto.acto-2 { background-color: #8FAED6; }
-.diapositiva.tipo-acto.acto-epilogo { background-color: var(--tinta); }
+.diapositiva.tipo-acto { background-color: var(--pistacho); background-image: var(--grano); }
+.diapositiva.tipo-acto.acto-2 { background-color: var(--frutilla); }
+.diapositiva.tipo-acto.acto-epilogo { background-color: var(--chocolate); }
 .diapositiva.tipo-acto .diapo-lienzo { color: inherit; padding-left: 110px; }
 .diapositiva.tipo-acto.acto-epilogo .diapo-lienzo { color: var(--papel-claro); }
 #mazo .acto-banda { margin: 0; padding: 0; background: none; overflow: visible; position: static; }
@@ -422,7 +424,7 @@ body.charla .solo-charla { display: block; }
 #mazo .acto-deco.asterisco { right: 9%; top: 14%; width: 132px; }
 #mazo .acto-deco.cuadro { right: 7%; bottom: 13%; width: 58px; }
 
-/* Tapa de cada módulo: el título palabra por palabra y, a la derecha, el número calado sobre un círculo amarillo */
+/* Tapa de cada módulo: el título palabra por palabra y, a la derecha, el número calado sobre un círculo pistacho */
 .tapa { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 30px; align-items: center; min-height: 520px; padding-left: 24px; }
 .tapa-texto { display: flex; flex-direction: column; align-items: flex-start; }
 .tapa-acto { font: 700 13px var(--sans); letter-spacing: .1em; text-transform: uppercase; background: var(--tarjeta); color: var(--tinta); border: 2px solid var(--tinta); border-radius: 999px; padding: .34em 1em; margin-bottom: 26px; }
@@ -430,7 +432,7 @@ body.charla .solo-charla { display: block; }
 .tapa-titulo { font: 800 108px/.93 var(--display); font-stretch: 62.5%; letter-spacing: -.015em; margin: 0; padding: 0; border: 0; color: var(--tinta); }
 .tapa-titulo .w { display: inline-block; }
 .tapa-marca { position: relative; height: 360px; display: grid; place-items: center; }
-.tapa-marca::before { content: ""; position: absolute; left: 10px; top: 24px; width: 230px; height: 230px; border-radius: 50%; background-color: var(--amarillo); background-image: var(--grano); }
+.tapa-marca::before { content: ""; position: absolute; left: 10px; top: 24px; width: 230px; height: 230px; border-radius: 50%; background-color: var(--pistacho); background-image: var(--grano); }
 .tapa-num { position: relative; font: 900 300px/1 var(--display); font-stretch: 62.5%; color: transparent; -webkit-text-stroke: 3px var(--tinta); }
 .tapa-asterisco { position: relative; width: 250px; color: var(--tinta); }
 .tapa-asterisco svg { display: block; width: 100%; height: auto; }
@@ -532,16 +534,16 @@ body.charla .charla-barra {
 }
 .charla-barra .cb-titulo { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .charla-barra .cb-titulo b { color: var(--tinta); }
-.charla-barra .cb-aviso { font: 600 13.5px var(--sans); color: var(--tinta); background: var(--amarillo); border-radius: 999px; padding: .3em .95em; white-space: nowrap; }
+.charla-barra .cb-aviso { font: 600 13.5px var(--sans); color: var(--tinta); background: var(--pistacho); border-radius: 999px; padding: .3em .95em; white-space: nowrap; }
 .charla-barra .cb-aviso:empty { display: none; }
 .charla-barra .cb-cuenta { font-weight: 700; color: var(--tinta); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .charla-barra button {
   width: 2.2rem; height: 2.2rem; flex: none; border-radius: 50%; border: 2px solid var(--tinta); background: var(--tarjeta);
   font: 700 1rem var(--sans); color: var(--tinta); cursor: pointer; display: inline-grid; place-items: center;
 }
-.charla-barra button:hover:not(:disabled) { background: var(--amarillo); }
+.charla-barra button:hover:not(:disabled) { background: var(--pistacho); }
 .charla-barra button:disabled { opacity: .35; cursor: default; }
-body.charla .charla-progreso { display: block; position: fixed; left: 0; top: 0; height: 5px; background: var(--amarillo); z-index: 1041; width: 0; transition: width .4s var(--salida); box-shadow: 0 1px 0 var(--tinta); }
+body.charla .charla-progreso { display: block; position: fixed; left: 0; top: 0; height: 5px; background: var(--pistacho); z-index: 1041; width: 0; transition: width .4s var(--salida); box-shadow: 0 1px 0 var(--tinta); }
 body.charla .modo-toggle { bottom: 8px; right: 14px; z-index: 1045; font-size: .8rem; padding: .42em 1em; box-shadow: 2px 2px 0 var(--tinta); }
 @media (max-width: 700px) {
   body.charla .charla-barra { padding-right: 160px; gap: 8px; }

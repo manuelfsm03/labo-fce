@@ -8,7 +8,7 @@ Una clase de unas 3 horas sobre cómo se manipulan los números para que cuenten
 
 Sigue el camino de un número: primero lo que se **elige** (datos), después lo que se **calcula** (estadística) y al final lo que se **ve** (gráficos). Casi todos los ejemplos son de gestión, con una pyme inventada que cruza toda la clase (**Dulce Dato**, una fábrica de alfajores), y algunos son de economía, con datos argentinos reales.
 
-- **Para los alumnos:** el link **https://manuelfsm03.github.io/labo/mentir-con-datos/** (publicada en GitHub Pages). También sirve el archivo `mentir-con-datos/mentir-con-datos.html`, que funciona sin internet: se abre con doble clic.
+- **Para los alumnos:** el link **https://manuelfsm03.github.io/mentir-con-datos/** (publicada en GitHub Pages). También sirve el archivo `mentir-con-datos/mentir-con-datos.html`, que funciona sin internet: se abre con doble clic.
 - **Para proyectar:** el mismo archivo, con el botón **🎤 Modo charla** (abajo a la derecha). La clase se convierte en unas 110 diapositivas que se ajustan a la pantalla (sin las recetas de Python, que quedan en la página para estudiar), y cada una trae todo lo de ese momento: el gráfico junto con la pregunta sobre ese gráfico, el interactivo junto con su consigna.
   - Se avanza con ← → o con un control remoto (RePág/AvPág). En las preguntas, → primero destapa la respuesta y después pasa a la siguiente diapositiva.
   - Esc vuelve a la página en el mismo lugar, y lo que se tocó en los interactivos queda.
@@ -17,11 +17,11 @@ Sigue el camino de un número: primero lo que se **elige** (datos), después lo 
 
 ### Publicación
 
-La página publicada vive en el repo del sitio, `manuelfsm03.github.io`, en la carpeta `labo/`. El repo `labo-fce` es privado y en una cuenta gratuita GitHub no publica páginas de repos privados. Para actualizarla:
+La página se publica desde su propio repo público, `manuelfsm03/mentir-con-datos`, que tiene solo la página ya armada (el código fuente sigue privado acá). Para actualizarla:
 
 1. Renderizar la clase.
-2. Correr `./publicar.sh ../manuelfsm03.github.io`, que copia la página y la imagen para compartir el link.
-3. Commitear y pushear el sitio a `main`.
+2. Correr `./publicar.sh ../mentir-con-datos` sobre la rama `gh-pages` de ese repo. Copia la página y la imagen para compartir el link.
+3. Commitear y pushear `gh-pages`.
 
 ### Cronograma docente
 

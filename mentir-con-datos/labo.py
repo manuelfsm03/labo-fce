@@ -12,8 +12,8 @@ from matplotlib import font_manager
 
 AQUI = Path(__file__).parent
 
-# Paleta categórica: azul, terracota (la de El Atlas), verde azulado, mostaza (el amarillo del taller de IA,
-# oscurecido para que se lea sobre papel) y ciruela. Validada con el validador de la guía dataviz sobre el
+# Paleta categórica: azul, terracota (la de El Atlas), verde azulado, mostaza (un amarillo oscurecido
+# para que se lea sobre papel) y ciruela. Validada con el validador de la guía dataviz sobre el
 # papel #F2EEE5: banda de luminosidad, croma, separación para daltonismo (adyacentes ≥ 10,5), piso de visión
 # normal (≥ 19) y contraste ≥ 3:1. DORADO es la mostaza y LADRILLO la terracota: se conservan los nombres
 # para no tocar el resto del código.

@@ -57,10 +57,12 @@ internet falla.
 - No hay iframes, porque los embeds de YouTube e Instagram fallan si la página se abre como archivo local.
 
 **Diseño** (definido con Manuel después de la primera versión):
-- **La estética del taller de IA** ([datso653.github.io/taller-ia](https://datso653.github.io/taller-ia/)): papel crema con
+- **La filosofía del taller de IA** ([datso653.github.io/taller-ia](https://datso653.github.io/taller-ia/)): papel crema con
   grano y partículas de colores que flotan detrás de la página, títulos en Noto Serif Display condensada, texto en
-  Poppins, amarillo `#F5C900` y celeste `#A8C5DA` planos, tarjetas con borde negro, pastillas como antetítulo, franjas
-  de color al empezar cada acto y entradas animadas (bloques que suben, títulos palabra por palabra).
+  Poppins, colores planos, tarjetas con borde negro, pastillas como antetítulo, franjas de color al empezar cada acto y
+  entradas animadas (bloques que suben, títulos palabra por palabra).
+- **Paleta propia, no la del taller** (definido con Manuel: que no parezca una copia). Colores de alfajor: pistacho
+  `#BFD46A`, frutilla `#F2A49C`, chocolate `#5B3428` y dulce de leche `#D9A05B`.
 - **La estructura y los gráficos de El Atlas** ([dschteingart.github.io/el-atlas-charts](https://dschteingart.github.io/el-atlas-charts/)):
   cada interactivo es un "Gráfico N" con antetítulo, título que cuenta el hallazgo, bajada en itálica (Source Serif 4),
   controles en botonera, etiquetas directas, franjas por gobierno en las series largas, fuente y firma, descargas en

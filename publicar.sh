@@ -1,29 +1,11 @@
 #!/usr/bin/env bash
-# Copia la clase ya renderizada al sitio de GitHub Pages: el repo manuelfsm03.github.io, carpeta labo/.
-# Queda en https://manuelfsm03.github.io/labo/mentir-con-datos/ cuando se pushea el sitio (rama main).
-# Uso: ./publicar.sh ../manuelfsm03.github.io
+# Copia la clase ya renderizada al repo público donde se publica: manuelfsm03/mentir-con-datos (GitHub Pages, rama
+# gh-pages). Queda en https://manuelfsm03.github.io/mentir-con-datos/ cuando se pushea esa rama.
+# Uso: ./publicar.sh ../mentir-con-datos
 set -euo pipefail
 cd "$(dirname "$0")"
-sitio="${1:?Pasá la ruta del repo manuelfsm03.github.io}"
-destino="$sitio/labo/mentir-con-datos"
-mkdir -p "$destino"
+destino="${1:?Pasá la ruta del repo mentir-con-datos (rama gh-pages)}"
 cp mentir-con-datos/mentir-con-datos.html "$destino/index.html"
 cp mentir-con-datos/tarjeta.jpg "$destino/tarjeta.jpg"
-# labo/ sola lleva a la clase (cuando haya más clases, acá va la lista)
-if [ ! -f "$sitio/labo/index.html" ]; then
-  cat > "$sitio/labo/index.html" <<'HTML'
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Laboratorio de Métodos Cuantitativos · FCE-UBA</title>
-<meta http-equiv="refresh" content="0; url=mentir-con-datos/">
-<link rel="canonical" href="https://manuelfsm03.github.io/labo/mentir-con-datos/">
-</head>
-<body>
-<p><a href="mentir-con-datos/">Cómo mentir con datos (y cómo darte cuenta)</a></p>
-</body>
-</html>
-HTML
-fi
-echo "Listo: $destino. Falta commitear y pushear el sitio (rama main)."
+touch "$destino/.nojekyll"
+echo "Listo: $destino. Falta commitear y pushear la rama gh-pages."

@@ -1,14 +1,14 @@
 /*-- scss:defaults --*/
-// Estética del taller de IA: papel crema con grano, tinta casi negra, amarillo y celeste planos, títulos en
+// Filosofía del taller de IA con paleta propia: papel crema con grano, tinta casi negra, pistacho y frutilla planos, títulos en
 // serif condensada. Los gráficos siguen el estilo de El Atlas (ver assets/demos.css).
 $papel:       #F2EEE5;
 $papel-claro: #FBF9F4;
 $tinta:       #1A1A1A;
 $tinta-2:     #4A4A4A;
 $tinta-3:     #8A8579;
-$amarillo:    #F5C900;
-$celeste:     #A8C5DA;
-$lavanda:     #7B9CC9;
+$pistacho:    #BFD46A;
+$frutilla:    #F2A49C;
+$chocolate:   #5B3428;
 $terracota:   #BE5D32;
 $link:        #A3471F;
 $verde:       #2F6B52;
@@ -34,7 +34,7 @@ $line-height-base: 1.72;
 
 $code-color: $link;
 $code-block-bg: $papel-claro;
-$code-block-border-left-color: $amarillo;
+$code-block-border-left-color: $pistacho;
 $toc-color: $tinta-2;
 $toc-font-size: .84rem;
 
@@ -53,7 +53,7 @@ h1.title {
 }
 .quarto-title .subtitle, p.subtitle {
   font-family: "Poppins", sans-serif; font-style: italic; font-weight: 600; font-stretch: normal;
-  font-size: clamp(1.4rem, 3.6vw, 2.3rem) !important; letter-spacing: -.01em; color: $lavanda; margin-top: .1rem;
+  font-size: clamp(1.4rem, 3.6vw, 2.3rem) !important; letter-spacing: -.01em; color: $chocolate; margin-top: .1rem;
 }
 .quarto-title-meta-heading { font-family: "Poppins", sans-serif; font-weight: 700; font-size: .68rem; letter-spacing: .1em; color: $tinta-3; }
 
@@ -67,8 +67,8 @@ strong, b { font-weight: 600; }
 
 // Índice lateral
 #TOC .nav-link, #quarto-margin-sidebar .nav-link { color: $tinta-2; }
-#TOC .nav-link.active { color: $tinta; font-weight: 600; border-left: 3px solid $amarillo; }
-.sidebar nav[role="doc-toc"] ul > li > a.active { border-left-color: $amarillo; color: $tinta; }
+#TOC .nav-link.active { color: $tinta; font-weight: 600; border-left: 3px solid $pistacho; }
+.sidebar nav[role="doc-toc"] ul > li > a.active { border-left-color: $pistacho; color: $tinta; }
 #toc-title { font-family: "Poppins", sans-serif; font-weight: 700; font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: $tinta-3; }
 
 // Código
@@ -80,7 +80,7 @@ dl.code-annotation-container-grid dt { color: $terracota; }
 // Pestañas "tramposo | honesto"
 .panel-tabset .nav-tabs { border-bottom: 1.5px solid $tinta; }
 .panel-tabset .nav-tabs .nav-link { color: $tinta-2; font-weight: 600; border: 0; border-bottom: 3px solid transparent; }
-.panel-tabset .nav-tabs .nav-link.active { color: $tinta; background: transparent; border-bottom-color: $amarillo; }
+.panel-tabset .nav-tabs .nav-link.active { color: $tinta; background: transparent; border-bottom-color: $pistacho; }
 .panel-tabset .tab-content { border: 0; background: transparent; }
 
 .figure-caption, figcaption { color: $tinta-2; font-size: .86rem; }
