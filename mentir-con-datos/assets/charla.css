@@ -382,20 +382,12 @@ body.charla .solo-charla { display: block; }
 #mazo .anchorjs-link { display: none; }
 #mazo math[display="block"] { font-size: 1.2em; margin: 14px 0; }
 
-/* Código: las recetas y el ejercicio final */
-#mazo details.receta-plegada { margin: 0; border: 0; background: none; }
-#mazo details.receta-plegada > summary { display: none; }
-#mazo details.receta-plegada > .receta-cuerpo { padding: 0; }
-#mazo .receta > p { font-size: 19px; }
+/* Código: el del ejercicio final (las recetas no van al modo charla) */
 #mazo div.sourceCode { margin: 10px 0 0; }
 #mazo pre code { font-size: 15.5px; line-height: 1.5; }
 #mazo .cell-output pre code { font-size: 15px; }
 #mazo .cell-annotation dd, #mazo .cell-annotation dt { font-size: 15px; }
 #mazo .panel-tabset .nav-link { font-size: 16px; }
-#mazo .receta .cell:has(> .cell-output-display img) { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 4px 26px; align-items: center; }
-#mazo .receta .cell:has(> .cell-output-display img) > * { grid-column: 1; }
-#mazo .receta .cell:has(> .cell-output-display img) > .cell-output-display { grid-column: 2; grid-row: 1 / span 3; margin: 0; }
-#mazo .receta .cell-output-display img { display: block; max-width: 100%; max-height: 470px; width: auto; height: auto; margin: 0 auto; }
 
 /* Antídoto: la diapositiva es la frase */
 #mazo .tipo-antidoto .antidoto { width: 100%; max-width: 980px; margin: 0 auto; padding: 32px 42px 36px; }
@@ -502,8 +494,6 @@ body.charla .solo-charla { display: block; }
 #mazo.angosto .banda { padding: 16px; }
 #mazo.angosto .banda-inner { grid-template-columns: minmax(0, 1fr); }
 #mazo.angosto .banda .lema { font-size: 32px; }
-#mazo.angosto .receta .cell:has(> .cell-output-display img) { grid-template-columns: minmax(0, 1fr); }
-#mazo.angosto .receta .cell:has(> .cell-output-display img) > .cell-output-display { grid-column: 1; grid-row: auto; }
 #mazo.angosto math[display="block"] { display: block; overflow-x: auto; }
 #mazo.angosto #checklist ol { columns: 1; }
 #mazo.angosto .indice-graficos { grid-template-columns: repeat(2, minmax(0, 1fr)); }

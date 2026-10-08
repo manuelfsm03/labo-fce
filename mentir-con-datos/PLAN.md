@@ -85,7 +85,7 @@ comportamiento, sobre la banda verde con grilla. La consola tiene pestañas Pyth
   - En el `.qmd` se arman con `::: {.diapo}`. Con `.dos` van en dos columnas: imagen a la izquierda, interacción a la
     derecha. `.media` y `.ancha` dan más lugar al gráfico; `.frase` agranda los textos cortos.
   - Son diapositivas solas la portada, las franjas de acto, una tapa por módulo (número grande calado, como las placas
-    del taller), cada receta (código a la izquierda y el gráfico que sale, a la derecha) y cada antídoto.
+    del taller) y cada antídoto. Las recetas de Python no van a la charla (definido con Manuel): quedan en la página.
   - Cada diapositiva se arma en un lienzo de 1280 px de ancho y se escala para llenar la pantalla. Si no entra, se
     achica hasta entrar entera. En el celular usa el ancho de la pantalla y scrollea.
   - Mientras está tapada, la respuesta ocupa poco; al destaparla, la diapositiva se reacomoda.
@@ -108,7 +108,7 @@ final lo que se *ve* (gráficos).
 2. 🙋 **Votación o predicción del aula**, antes de revelar.
 3. **El truco**: corto.
 4. 🎛️ **Hacelo vos**: interactivo con desafío.
-5. 🧪 **La receta**: Python tramposo vs honesto; en modo charla, una diapositiva aparte.
+5. 🧪 **La receta**: Python tramposo vs honesto; no aparece en el modo charla, es para estudiar en casa.
 6. 🕵️ **Antídoto**.
 
 **Apertura de la clase (dentro del prólogo):** "Un gráfico, dos titulares". La misma serie aparece graficada dos veces

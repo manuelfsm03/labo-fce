@@ -114,15 +114,13 @@
   document.querySelectorAll('.charlalo').forEach(function (b) { kicker(b, '💬', b.getAttribute('data-kicker') || 'Charlalo con quien tengas al lado'); reloj(b); revelador(b); });
   document.querySelectorAll('.antidoto').forEach(function (b) { kicker(b, '🕵️', 'Antídoto' + (b.getAttribute('data-truco') ? ' · ' + b.getAttribute('data-truco') : '')); });
 
-  // Recetas: se pliegan en modo charla, se abren para leer
-  var recetas = [];
+  // Recetas: plegables y abiertas para leer. No van al modo charla: el código queda para estudiar en la página
   document.querySelectorAll('.receta').forEach(function (r) {
     var d = el('details', { 'class': 'receta-plegada', open: '' }, [el('summary', { text: r.getAttribute('data-titulo') || '🧪 La receta en Python' })]);
     var cuerpo = el('div', { 'class': 'receta-cuerpo' });
     r.parentNode.insertBefore(d, r);
     cuerpo.appendChild(r);
     d.appendChild(cuerpo);
-    recetas.push(d);
   });
 
   // Checklist del epílogo: junta todos los antídotos con link a su módulo
@@ -149,7 +147,7 @@
   // ---------- Modo charla: la clase en diapositivas ----------
   // Cada diapositiva tiene todo lo que hace falta para su momento: el gráfico junto con la pregunta sobre ese gráfico,
   // el interactivo junto con su consigna. En el .qmd se arman con ::: {.diapo} (con .dos, en dos columnas). También son
-  // diapositivas la portada, las franjas de acto, una tapa por módulo, cada receta y cada antídoto.
+  // diapositivas la portada, las franjas de acto, una tapa por módulo y cada antídoto. Las recetas de Python no van.
   // Al entrar al modo charla los bloques se mudan a #mazo (dejan una marca en su lugar) y al salir vuelven, así que los
   // interactivos conservan lo que se tocó. Cada diapositiva se arma en un lienzo de 1280 px de ancho que se escala para
   // llenar la pantalla; si no entra, se achica hasta entrar entera.
@@ -211,7 +209,7 @@
     if (tipo === 'tapa') { cuerpo.appendChild(tapa(nodo, ctx)); d.nodo = null; }
     else if (tipo !== 'portada' && tipo !== 'acto') {
       // Arriba de todo, el módulo; si la diapositiva arranca una sección, también su título
-      var titulo = tipo === 'receta' ? texto(nodo.querySelector('summary')) : texto(ctx.titulo);
+      var titulo = texto(ctx.titulo);
       var esElModulo = ctx.titulo && ctx.titulo === ctx.modulo;
       var conFigura = tipo === 'contenido' && (nodo.matches('.ancha') || nodo.querySelector('figure.fig-atlas'));
       var donde = el('div', { 'class': 'diapo-donde' }, [u.pill ? el('span', { 'class': 'diapo-pill', text: u.pill }) : null, el('span', { text: esElModulo ? '' : u.nombre })].filter(Boolean));
@@ -237,7 +235,7 @@
     mazo = el('div', { id: 'mazo', role: 'region', 'aria-roledescription': 'presentación', 'aria-label': 'Cómo mentir con datos, en diapositivas' });
     document.body.appendChild(mazo);
     var ctx = { acto: '', modulo: null, titulo: null };
-    var SEL = '#title-block-header, .acto-banda, main section.level2 > h2, main section.level3 > h3, .diapo, details.receta-plegada, .antidoto';
+    var SEL = '#title-block-header, .acto-banda, main section.level2 > h2, main section.level3 > h3, .diapo, .antidoto';
     document.querySelectorAll(SEL).forEach(function (n) {
       if (n.parentElement && n.parentElement.closest('.diapo, .acto-banda, details.receta-plegada')) { return; }
       if (n.matches('h2')) {
@@ -253,7 +251,7 @@
         return;
       }
       if (n.id === 'title-block-header') { agregar('portada', n, ctx); return; }
-      agregar(n.matches('details') ? 'receta' : (n.matches('.antidoto') ? 'antidoto' : 'contenido'), n, ctx);
+      agregar(n.matches('.antidoto') ? 'antidoto' : 'contenido', n, ctx);
       ctx.titulo = null;
     });
   }
@@ -363,7 +361,6 @@
   function entrar(desde) {
     if (!mazo) { armarMazo(); }
     var i = desde != null ? desde : desdeLectura();
-    recetas.forEach(function (r) { r.open = true; });
     diapos.forEach(mudar);
     document.body.classList.add('charla');
     enCharla = true;
