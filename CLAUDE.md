@@ -13,6 +13,10 @@ Clases del Laboratorio de Métodos Cuantitativos (FCE-UBA). Cada clase va en su 
 - La paleta de datos se valida con la guía `dataviz` antes de usarla.
 - Todo dato inventado se dice inventado en la misma página.
 
+## Flujo de trabajo
+
+- Los cambios se hacen en la rama de la sesión y, cuando están verificados, se mergean a `main` sin preguntar (definido por Manuel).
+
 ## Cómo mentir con datos
 
 - El orden es **datos → cálculos/estadística → gráficos**: el camino de un número, desde que nace hasta el titular.
