@@ -95,7 +95,7 @@
 #mazo .banda p { font-size: 16.5px; margin-bottom: 10px; }
 #mazo .banda .kicker { margin-bottom: 8px; }
 /* El desafío va adentro de la banda, al lado del gráfico (así en la diapositiva se ven juntos) */
-.banda .desafio { margin: 1.4rem 0 0; color: #1A1A1A; }
-.banda .desafio p { color: #1A1A1A; margin: 0; }
+.banda .desafio { margin: 1.4rem 0 0; color: #FBF9F4; border-color: #FBF9F4; }
+.banda .desafio p { color: #FBF9F4; margin: 0; }
 #mazo .banda .desafio { margin-top: 14px; padding: 14px 18px 16px; }
 #mazo .banda .desafio p { font-size: 17px; }

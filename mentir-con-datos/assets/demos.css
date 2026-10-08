@@ -61,7 +61,7 @@
   width: 2.1rem; height: 2.1rem; border-radius: 50%; border: 1.5px solid var(--fig-regla-2); background: #fff;
   font: 600 1rem var(--fig-sans); color: var(--fig-tinta); cursor: pointer; display: inline-grid; place-items: center;
 }
-.fig-nav button:hover:not(:disabled) { border-color: var(--fig-tinta); background: #EEF3D2; }
+.fig-nav button:hover:not(:disabled) { border-color: var(--fig-tinta); background: #E1EBDD; }
 .fig-nav button:disabled { opacity: .35; cursor: default; }
 .fig-todos { font: 600 .82rem var(--fig-sans); color: var(--fig-acento); text-decoration: none; }
 .fig-todos:hover { text-decoration: underline; }
@@ -184,7 +184,7 @@ svg.picto-gancho { display: block; width: 100%; max-width: 420px; height: auto; 
 .ig-mini { height: 140px; background: #fff; border-bottom: 1.5px solid var(--fig-regla); display: grid; place-items: center; overflow: hidden; padding: 8px; }
 .ig-mini svg, .ig-mini img { max-width: 100%; max-height: 124px; height: auto; display: block; }
 .ig-vacio { display: flex; flex-direction: column; align-items: center; gap: .2rem; font: 500 .78rem var(--fig-sans); color: var(--fig-tinta-3); }
-.ig-vacio svg { width: 34px; height: 34px; color: #9DB443; }
+.ig-vacio svg { width: 34px; height: 34px; color: #3B6B38; }
 .ig-vacio b { font: 600 .7rem var(--fig-sans); letter-spacing: .14em; text-transform: uppercase; color: var(--fig-tinta-2); }
 .ig-cuerpo { padding: .8rem .95rem .9rem; display: flex; flex-direction: column; gap: .35rem; flex: 1; }
 .ig-num { font: 600 .66rem var(--fig-sans); letter-spacing: .18em; text-transform: uppercase; color: var(--fig-tinta-3); }

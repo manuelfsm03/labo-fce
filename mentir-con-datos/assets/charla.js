@@ -192,7 +192,7 @@
       var w = el('span', { 'class': 'w', text: p }); w.style.setProperty('--i', i); h.appendChild(w);
     });
     textoTapa.appendChild(h);
-    // A la derecha, el número del módulo calado sobre un círculo pistacho (en el prólogo, el asterisco del taller)
+    // A la derecha, el número del módulo calado sobre un círculo celeste (en el prólogo, el asterisco del taller)
     var marca = el('div', { 'class': 'tapa-marca', 'aria-hidden': 'true' });
     if (n) { marca.appendChild(el('span', { 'class': 'tapa-num', text: n.length < 2 ? '0' + n : n })); }
     else { var a = el('span', { 'class': 'tapa-asterisco' }); a.innerHTML = window.LaboAsterisco || ''; marca.appendChild(a); }

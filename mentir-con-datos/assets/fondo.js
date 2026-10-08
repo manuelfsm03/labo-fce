@@ -9,9 +9,9 @@
   cv.setAttribute('aria-hidden', 'true');
   document.body.insertBefore(cv, document.body.firstChild);
   var ctx = cv.getContext('2d'), W = 0, H = 0, dpr = 1, puntos = [];
-  // tinta, pistacho, frutilla y dulce de leche, con transparencia
-  var COLORES = ['rgba(26,26,26,.16)', 'rgba(26,26,26,.10)', 'rgba(191,212,106,.65)', 'rgba(191,212,106,.42)',
-                 'rgba(242,164,156,.60)', 'rgba(217,160,91,.50)', 'rgba(26,26,26,.07)'];
+  // tinta, verde bosque, celeste y dulce de leche, con transparencia
+  var COLORES = ['rgba(26,26,26,.16)', 'rgba(26,26,26,.10)', 'rgba(59,107,56,.45)', 'rgba(59,107,56,.28)',
+                 'rgba(156,207,230,.70)', 'rgba(217,160,91,.50)', 'rgba(26,26,26,.07)'];
   function charla() { return document.body.classList.contains('charla'); }
   function iniciar() {
     dpr = Math.min(2, window.devicePixelRatio || 1);
