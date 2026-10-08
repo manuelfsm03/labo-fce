@@ -93,7 +93,7 @@ La clase sigue el camino que recorre un número. Primero alguien *elige* qué me
 
 #### Lo que se elige {.unnumbered .unlisted}
 
-Qué se mide, a quién se le pregunta, qué período se muestra, cuántas veces se probó.
+Qué se mide, a quién se le pregunta, qué período se muestra, cuántas veces se probó, qué se premia.
 :::
 ::: {.tramo}
 [Acto II]{.n}
@@ -233,7 +233,7 @@ g.apply(lambda d: d.x.corr(d.y)).round(3)       # las cuatro dan 0,816
 ::: {.acto-interior}
 [Acto I · Lo que se elige]{.acto-pill}
 
-Arrancamos por el nacimiento del dato: qué se cuenta como qué, a quién se le pregunta, qué período se muestra y cuántas veces se probó. Acá el gráfico puede ser impecable y la cuenta perfecta: la trampa ya estaba hecha antes. Por eso es la más difícil de ver.
+Arrancamos por el nacimiento del dato: qué se cuenta como qué, a quién se le pregunta, qué período se muestra, cuántas veces se probó y qué pasa cuando un número se vuelve meta. Acá el gráfico puede ser impecable y la cuenta perfecta: la trampa ya estaba hecha antes. Por eso es la más difícil de ver.
 :::
 :::
 
@@ -706,6 +706,156 @@ for color in colores:                              # 20 tests A/B
 **Preguntá cuántas cosas probaron.** Un resultado "significativo" entre muchos intentos puede ser pura suerte. Desconfiá de los hallazgos sorprendentes que nadie replicó.
 :::
 
+## 5 · Cuando la medida se vuelve meta {#goodhart}
+
+```{python}
+#| include: false
+# Clientes nuevos y ventas de Dulce Dato, oct 2024 a sep 2026 (inventados). Los dos siguen a la demanda (el frío y
+# algo de azar): en invierno se venden más alfajores y aparecen más clientes. En oct 2025 Marta empieza a pagarle al
+# gerente un bono por cliente nuevo.
+rng_g = np.random.default_rng(11)
+meses_g = pd.date_range("2024-10-01", "2026-09-01", freq="MS")
+demanda_g = np.cos(2 * np.pi * (meses_g.month - 7) / 12) + np.convolve(rng_g.normal(0, 0.5, len(meses_g) + 2), np.ones(3) / 3, "valid")
+sin_bono = pd.DataFrame({"fecha": meses_g,
+                         "clientes": (42 + 9 * demanda_g + rng_g.normal(0, 2, len(meses_g))).round(1),
+                         "ventas": (390 + 25 * demanda_g + rng_g.normal(0, 5, len(meses_g))).round(1)})
+inicio_bono, peso_bono = pd.Timestamp("2025-10-01"), 0.6
+# El efecto del bono (la misma cuenta que el interactivo): crece de a poco cada mes desde que arranca
+meses_con_bono = np.maximum(0, (sin_bono.fecha.dt.year - 2025) * 12 + sin_bono.fecha.dt.month - 10 + 1)
+con_bono = sin_bono.assign(clientes=sin_bono.clientes + peso_bono * 22 * meses_con_bono,
+                           ventas=sin_bono.ventas - peso_bono * 7 * meses_con_bono)
+antes_g, despues_g = con_bono[con_bono.fecha < inicio_bono], con_bono[con_bono.fecha >= inicio_bono]
+record_g = con_bono.clientes.iloc[-1]
+# Contra el mismo mes del año anterior (sin bono), así el frío no cambia la comparación
+hace_un_anio = con_bono.set_index("fecha").loc["2025-09-01"]
+caida_ventas_g = 100 * (1 - con_bono.ventas.iloc[-1] / hace_un_anio.ventas)
+veces_g = record_g / hace_un_anio.clientes
+```
+
+:::: {.diapo .dos}
+
+::: {.gancho}
+[El tablero del gerente comercial · inventado]{.medio}
+[Récord: `{python} labo.coma(record_g, 0)` clientes nuevos en septiembre]{.titular}
+
+```{python}
+#| echo: false
+#| fig-alt: "Barras de los clientes nuevos de Dulce Dato por mes: rondan los 40 hasta septiembre de 2025 y después suben sin parar hasta casi 200."
+fig, ax = plt.subplots(figsize=(7, 3))
+colores_g = [AZUL] * (len(con_bono) - 1) + [DORADO]
+ax.bar(con_bono.fecha, con_bono.clientes, width=22, color=colores_g)
+ax.annotate(labo.coma(record_g, 0), (con_bono.fecha.iloc[-1], record_g), textcoords="offset points", xytext=(0, 5),
+            ha="center", fontweight=600)
+ax.set_xticks(con_bono.fecha[::3], [labo.mes(f, "corto") for f in con_bono.fecha[::3]])
+ax.set_title("Clientes nuevos por mes", loc="left")
+plt.show()
+```
+:::
+
+::: {.pregunta data-correcta="2"}
+¿Le renovarías el bono al gerente?
+
+- Sí, se lo ganó: es un récord
+- Depende: hay que ver qué pasó con las ventas
+- No: los bonos nunca funcionan
+
+::: {.respuesta}
+**Depende, y en este caso no.** Desde octubre de 2025 el gerente cobra un bono por cada cliente nuevo, y aprendió a fabricarlos. Abre una cuenta distinta para cada sucursal de un mismo supermercado, regala una caja a kioscos que compran una vez y no vuelven, y pasa más tiempo buscando clientes chiquitos que atendiendo a los grandes. Contra septiembre del año pasado, los clientes nuevos se multiplicaron por `{python} labo.coma(veces_g, 0)`. Las ventas, en cambio, cayeron `{python} labo.coma(caida_ventas_g, 0)`% contra el mismo mes.
+:::
+:::
+
+::::
+
+### El truco
+
+:::: {.diapo}
+
+Se conoce como **ley de Goodhart**, por Charles Goodhart, un economista del Banco de Inglaterra que la formuló en 1975: cualquier regularidad estadística tiende a desarmarse apenas se la usa para controlar algo. La versión que se hizo famosa es de la antropóloga Marilyn Strathern: **cuando una medida se convierte en meta, deja de ser una buena medida.**
+
+Antes del bono, los clientes nuevos eran un buen termómetro de Dulce Dato: subían cuando se vendía más. En cuanto se empezó a pagar por ese número, el gerente encontró formas de moverlo sin mover lo que importa. No hace falta que nadie mienta: alcanza con que cada uno haga lo que le conviene.
+
+Pasa en todos lados. El call center que mide cuánto duran las llamadas, y los operadores cortan rápido. La guardia evaluada por cuánto espera la gente, y los pacientes esperan en la ambulancia, afuera, donde no cuentan (pasó en el Reino Unido con la meta de cuatro horas). Y el viejo chiste de la fábrica soviética de clavos: si la meta es en toneladas, fabrica un clavo gigante; si es en unidades, millones de clavitos que no sirven.
+
+::::
+
+### ⭐ El dinero que dejó de avisar
+
+:::: {.diapo}
+
+::: {.pregunta data-correcta="2"}
+En el Reino Unido de los años 70, la cantidad de dinero en la economía y la inflación se movían bastante juntas. En 1980, para bajar la inflación, el gobierno de Margaret Thatcher le puso una meta a la cantidad de dinero. ¿Qué pasó?
+
+- La cantidad de dinero creció dentro de la meta y la inflación bajó
+- La cantidad de dinero se pasó de la meta y, aun así, la inflación bajó
+- La cantidad de dinero cumplió la meta, pero la inflación siguió alta
+
+::: {.respuesta}
+**Se pasó de la meta y, aun así, la inflación bajó.** El agregado elegido (se llamaba £M3) tenía que crecer entre 7% y 11% en el primer año, y creció casi 20%. Bancos y ahorristas cambiaron cómo guardaban y prestaban la plata, y £M3 dejó de decir lo que decía antes. La inflación bajó de 18% en 1980 a menos de 5% en 1983, por otras razones: una recesión fuerte y tasas de interés altísimas. A mediados de la década, el gobierno abandonó la meta. Goodhart lo había anticipado justamente para estos agregados de dinero: la regularidad se desarmó cuando se la quiso usar para controlar.
+:::
+:::
+
+::::
+
+La versión argentina, más brutal, la vimos en el módulo 1: cuando el número de inflación se volvió una meta política, en 2007, directamente se intervino a quien lo medía.
+
+### Hacelo vos
+
+:::: {.diapo .dos .ancha}
+
+```{python}
+#| echo: false
+#| output: asis
+labo.demo("goodhart", [{"fecha": f.strftime("%Y-%m-%d"), "clientes": c, "ventas": v}
+                       for f, c, v in sin_bono[["fecha", "clientes", "ventas"]].itertuples(index=False)],
+          desde=inicio_bono.strftime("%Y-%m-%d"), peso=peso_bono, figura=dict(
+              tema="Ley de Goodhart", titulo="Desde que el bono paga por cliente nuevo, los clientes se disparan y las ventas bajan",
+              bajada="Clientes nuevos y ventas de Dulce Dato por mes, con el promedio del año sin bono = 100. Mové cuánto del bono depende de los clientes nuevos.",
+              fuente="datos inventados."))
+```
+
+::: {.desafio}
+¿Con qué peso del bono el tablero muestra el doble de clientes nuevos que un mes típico? ¿Cuánto cayeron las ventas para ese momento? Miren la correlación: ¿en qué momento los clientes nuevos dejan de avisar cómo van las ventas?
+:::
+
+::::
+
+:::: {.diapo}
+
+::: {.charlalo data-minutos="1"}
+Piensen un número que se volvió meta en la facultad o en un trabajo: las notas, la cantidad de papers, las ventas del mes, los seguidores, las horas en la oficina. ¿Cómo se lo puede inflar sin mejorar lo que se quería medir?
+:::
+
+::::
+
+::: {.receta}
+```{python}
+import numpy as np
+import pandas as pd
+
+rng = np.random.default_rng(11)
+meses = pd.date_range("2024-10-01", "2026-09-01", freq="MS")
+frio = np.cos(2 * np.pi * (meses.month - 7) / 12)                  # en invierno se venden más alfajores
+demanda = frio + np.convolve(rng.normal(0, 0.5, len(meses) + 2), np.ones(3) / 3, "valid")   # y algo de azar
+datos = pd.DataFrame({"clientes": 42 + 9 * demanda + rng.normal(0, 2, len(meses)),
+                      "ventas": 390 + 25 * demanda + rng.normal(0, 5, len(meses))}, index=meses)
+
+con_bono = datos.index >= "2025-10-01"
+meses_con_bono = np.cumsum(con_bono)                                # 1, 2, 3... desde que arranca el bono
+datos["clientes"] += 0.6 * 22 * meses_con_bono                      # <1>
+datos["ventas"] -= 0.6 * 7 * meses_con_bono                         # <2>
+
+print("Correlación sin bono:", round(datos[~con_bono].corr().iloc[0, 1], 2))
+print("Correlación con bono:", round(datos[con_bono].corr().iloc[0, 1], 2))   # <3>
+```
+1. Clientes "fabricados": cada mes con bono aparecen más cuentas que compran una vez.
+2. Y las ventas bajan un poco: descuentos para enganchar clientes y menos tiempo para los grandes.
+3. La relación entre las dos series, que era la razón para mirar los clientes nuevos, se da vuelta.
+:::
+
+::: {.antidoto data-truco="Metas" data-pregunta="¿Alguien gana algo si este número sube? ¿Se puede mover sin mover lo que importa?"}
+**Preguntá quién cobra por ese número.** Cuando un indicador se usa para premiar o castigar, la gente aprende a moverlo. Mirá también lo que el indicador tenía que reflejar, y no te quedes con una sola medida.
+:::
+
 # Acto II · Mentir con estadística {.unnumbered}
 
 ::: {.acto-banda .column-screen .acto-2}
@@ -716,7 +866,7 @@ El dato ya está juntado y nadie lo toca: los números están bien calculados. E
 :::
 :::
 
-## 5 · El promedio que nadie gana {#promedio}
+## 6 · El promedio que nadie gana {#promedio}
 
 ```{python}
 #| include: false
@@ -814,7 +964,7 @@ print(f"sin la dueña -> media: {sin_duenia.mean():.2f} | mediana: {np.median(si
 **Preguntá qué promedio es.** Con datos asimétricos (sueldos, ingresos, patrimonio, precios), la media la tiran los de arriba. La mediana cuenta qué le pasa a la persona del medio.
 :::
 
-## 6 · Porcentajes que asustan {#porcentajes}
+## 7 · Porcentajes que asustan {#porcentajes}
 
 ### ¿Subió 5% o 100%?
 
@@ -1008,7 +1158,7 @@ plt.show()
 **Pedí la base.** "El doble" de 1 en 7.000 sigue siendo poquísimo: pedí el riesgo absoluto. Distinguí porcentaje de puntos porcentuales y preguntá sobre qué se calcula cada porcentaje. Y con inflación, cualquier monto en pesos tiene que venir deflactado.
 :::
 
-## 7 · La máquina que acierta el 99% {#tasa-base}
+## 8 · La máquina que acierta el 99% {#tasa-base}
 
 :::: {.diapo .dos}
 
@@ -1098,7 +1248,7 @@ for falla in [0.001, 0.01, 0.1, 0.3]:
 **Preguntá por la tasa base.** "Acierta el 99%" no dice nada sin saber cuán común es lo que se busca. Y no confundas P(evidencia | inocente) con P(inocente | evidencia).
 :::
 
-## 8 · Juntos dicen una cosa, separados otra {#simpson}
+## 9 · Juntos dicen una cosa, separados otra {#simpson}
 
 ```{python}
 #| include: false
@@ -1192,7 +1342,7 @@ print(visitas[["cliente", "diego", "laura"]].round(2))                       # <
 **Pedí los datos por grupo.** Cuando un total compara grupos que son muy distintos por dentro, la conclusión puede darse vuelta al separarlos. Preguntá qué tercera variable puede estar mezclando todo.
 :::
 
-## 9 · Correlación no es causalidad {#correlacion}
+## 10 · Correlación no es causalidad {#correlacion}
 
 ```{python}
 #| include: false
@@ -1228,7 +1378,7 @@ plt.show()
 ¿Cuánto da la correlación entre las dos series?
 
 ::: {.respuesta}
-**r = `{python} labo.coma(r_vigen, 2)`.** Casi perfecta. Y obviamente no hay ninguna relación. Miren los datos: son solo 7 años, y la "contaminación" son uno o dos días malos por año. Con tan pocos puntos y cruzando miles de series, siempre aparece alguna que coincide: Vigen cruzó más de 25.000 variables. (Y miren el gráfico: tiene dos ejes. A eso volvemos en el módulo 15.)
+**r = `{python} labo.coma(r_vigen, 2)`.** Casi perfecta. Y obviamente no hay ninguna relación. Miren los datos: son solo 7 años, y la "contaminación" son uno o dos días malos por año. Con tan pocos puntos y cruzando miles de series, siempre aparece alguna que coincide: Vigen cruzó más de 25.000 variables. (Y miren el gráfico: tiene dos ejes. A eso volvemos en el módulo 16.)
 :::
 :::
 
@@ -1305,7 +1455,7 @@ print("pares con |r| > 0,5 (caminatas): ", np.mean(np.abs(r_caminatas) > 0.5))
 :::
 :::
 
-## 10 · El eje que no arranca en cero {#eje-y}
+## 11 · El eje que no arranca en cero {#eje-y}
 
 ```{python}
 #| include: false
@@ -1426,7 +1576,7 @@ plt.show()
 **Mirá dónde arranca el eje.** En barras, la altura *es* el dato: tienen que arrancar en cero. En líneas se puede hacer zoom, siempre que la diferencia que se agranda importe de verdad. Y si el eje no tiene números, desconfiá.
 :::
 
-## 11 · Lo que se acumula siempre sube {#acumulados}
+## 12 · Lo que se acumula siempre sube {#acumulados}
 
 ```{python}
 #| include: false
@@ -1554,7 +1704,7 @@ plt.show()
 **Preguntá si es un acumulado.** Un total acumulado solo sube. Para saber si algo mejora o empeora, mirá cuánto cambia por período: la pendiente, no la altura.
 :::
 
-## 12 · La torta, para el postre {#tortas}
+## 13 · La torta, para el postre {#tortas}
 
 ```{python}
 #| include: false
@@ -1733,7 +1883,7 @@ plt.show()
 **Pasá la torta a barras en tu cabeza.** Si las porciones son parecidas o son más de tres, la torta esconde las diferencias. Y si las partes no suman 100%, no es una torta: alguien contó respuestas múltiples.
 :::
 
-## 13 · Dibujitos que crecen al cuadrado {#pictogramas}
+## 14 · Dibujitos que crecen al cuadrado {#pictogramas}
 
 ```{python}
 #| include: false
@@ -1846,7 +1996,7 @@ plt.show()
 **Desconfiá de los dibujos que se agrandan.** Si un ícono crece en alto y en ancho, su área crece al cuadrado. Lo honesto es repetir el mismo ícono, no agrandarlo.
 :::
 
-## 14 · Más superficie no es más gente {#mapas}
+## 15 · Más superficie no es más gente {#mapas}
 
 ```{python}
 #| include: false
@@ -1935,7 +2085,7 @@ plt.show()
 **En un mapa, preguntá cuánta gente hay debajo del color.** El territorio no vota, no consume y no se enferma. Para hablar de personas, usá mapas por población o directamente barras.
 :::
 
-## 15 · ⭐ Dos ejes y una escala a medida {#doble-eje}
+## 16 · ⭐ Dos ejes y una escala a medida {#doble-eje}
 
 ```{python}
 #| include: false
@@ -2228,9 +2378,11 @@ Los reels de Fiorino, uno por uno: [eje Y](https://www.instagram.com/reel/C-YxMX
 
 - Anscombe, F. J. (1973). Graphs in Statistical Analysis. *The American Statistician*, 27(1), 17–21. [doi:10.1080/00031305.1973.10478966](https://doi.org/10.1080/00031305.1973.10478966)
 - Bickel, P. J., Hammel, E. A. y O'Connell, J. W. (1975). Sex Bias in Graduate Admissions: Data from Berkeley. *Science*, 187(4175), 398–404. [doi:10.1126/science.187.4175.398](https://doi.org/10.1126/science.187.4175.398)
+- Goodhart, C. A. E. (1981). Problems of Monetary Management: The U.K. Experience. En A. S. Courakis (ed.), *Inflation, Depression, and Economic Policy in the West*. Mansell. (El trabajo original es de 1975.)
 - Granger, C. W. J. y Newbold, P. (1974). Spurious regressions in econometrics. *Journal of Econometrics*, 2(2), 111–120. [doi:10.1016/0304-4076(74)90034-7](https://doi.org/10.1016/0304-4076(74)90034-7)
 - Cavallo, A. (2013). Online and official price indexes: Measuring Argentina's inflation. *Journal of Monetary Economics*, 60(2), 152–165. [doi:10.1016/j.jmoneco.2012.10.002](https://doi.org/10.1016/j.jmoneco.2012.10.002)
 - Matejka, J. y Fitzmaurice, G. (2017). Same Stats, Different Graphs (el *Datasaurus*). *CHI 2017*. [doi:10.1145/3025453.3025912](https://doi.org/10.1145/3025453.3025912)
+- Strathern, M. (1997). 'Improving ratings': audit in the British University system. *European Review*, 5(3), 305–321. (La frase "cuando una medida se convierte en meta, deja de ser una buena medida".)
 
 ### Datos usados en esta clase
 

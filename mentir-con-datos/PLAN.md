@@ -123,24 +123,25 @@ aprenden a hacer esto y a que no se los hagan.
 | 2 | Muestras | Encuesta en el Instagram de la marca: "al 71% le encanta el alfajor de pistacho". ¿Lo lanzan? Aviones de Wald | Encuesta en Instagram vs muestra aleatoria | 8 |
 | 3 | Cherry picking | El gráfico de un noticiero con la inflación de mayo de 2025 a marzo de 2026. Dos equipos con la misma serie | Selector de inicio y fin sobre la inflación mensual del INDEC | 8 |
 | 4 | p-hacking | **Experimento en vivo**: cada uno tira una moneda 10 veces. ¿Alguien sacó 8 caras o más? | 20 colores del botón «Comprar» de la tienda online: tests A/B al 5% (xkcd 882) | 8 |
+| 5 | Ley de Goodhart | El tablero del gerente: "Récord de clientes nuevos". ¿Le renuevan el bono? ⭐ La meta de dinero (£M3) del Reino Unido en 1980: se pasó de la meta y la inflación bajó igual | Peso del bono por cliente nuevo: los clientes se disparan, las ventas bajan y la correlación se desarma | 8 |
 | | **Acto II — Mentir con estadística** | | | |
-| 5 | El promedio | "En esta empresa el sueldo promedio es de 2,1 millones": ¿cuánto cobra la persona del medio? Adiviná | Los 24 sueldos de la pyme: lo que se paga la dueña mueve la media y casi no la mediana | 7 |
-| 6 | Porcentajes | **La deserción escolar pasa de 5% a 10%: ¿subió 5% o 100%?** De 1 a 2 en un millón. La píldora de 1995. Las cuentas de la pyme: −50% y +50%, margen contra markup | Riesgo relativo ↔ absoluto. ⭐ Nominal vs real con el IPC del INDEC | 10 |
-| 7 | Tasa base | La máquina de control de calidad que "acierta el 99%": ¿qué chance hay de que un alfajor descartado esté fallado? Adiviná. Collins y Sally Clark | 1.000 alfajores con la tasa de falla y la precisión de la máquina | 8 |
-| 8 | Simpson | ¿A quién le dan el premio al mejor vendedor, a Diego o a Laura? Berkeley 1973 | Todo junto ↔ por tipo de cliente | 8 |
-| 9 | Correlación ≠ causalidad | "Adiviná el r" de Messi y Gainesville. Publicidad y ventas, los exhibidores, el envoltorio nuevo | Fabricá tu espuria: *random walks* | 12 |
+| 6 | El promedio | "En esta empresa el sueldo promedio es de 2,1 millones": ¿cuánto cobra la persona del medio? Adiviná | Los 24 sueldos de la pyme: lo que se paga la dueña mueve la media y casi no la mediana | 7 |
+| 7 | Porcentajes | **La deserción escolar pasa de 5% a 10%: ¿subió 5% o 100%?** De 1 a 2 en un millón. La píldora de 1995. Las cuentas de la pyme: −50% y +50%, margen contra markup | Riesgo relativo ↔ absoluto. ⭐ Nominal vs real con el IPC del INDEC | 10 |
+| 8 | Tasa base | La máquina de control de calidad que "acierta el 99%": ¿qué chance hay de que un alfajor descartado esté fallado? Adiviná. Collins y Sally Clark | 1.000 alfajores con la tasa de falla y la precisión de la máquina | 8 |
+| 9 | Simpson | ¿A quién le dan el premio al mejor vendedor, a Diego o a Laura? Berkeley 1973 | Todo junto ↔ por tipo de cliente | 8 |
+| 10 | Correlación ≠ causalidad | "Adiviná el r" de Messi y Gainesville. Publicidad y ventas, los exhibidores, el envoltorio nuevo | Fabricá tu espuria: *random walks* | 12 |
 | | *Pausa* | | | 10 |
 | | **Acto III — Mentir con gráficos** | | | |
-| 10 | Eje Y truncado | Publicidad de Dulce Dato: 4,7 contra 4,4 estrellas con el eje desde 4,3 | Slider del eje + *lie factor* en vivo, desafío "el más alto" | 8 |
-| 11 | Acumulados | "Ya vendimos 3,7 millones de alfajores": ¿crecieron las ventas? | Acumulado ↔ mes a mes: caen desde abril | 6 |
-| 12 | Tortas | Ventas por sabor en 2025 y 2026; la encuesta "¿por qué nos elegís?" que suma 184%; la torta 3D de una agencia | Torta ↔ barras ordenadas; torta 3D que se gira e inclina | 5 |
-| 13 | Pictogramas | "Casi duplicamos las ventas": ¿cuántas veces más grande se ve el alfajor? Adiviná | Slider de escala: barra, alfajor agrandado, alfajores apilados | 6 |
-| 14 | Superficie ≠ gente | La distribuidora que "llega al 73% del país": ¿qué % de la gente vive ahí? Adiviná | Mapa de celdas: territorio vs gente (Censo 2022) | 7 |
-| 15 | ⭐ Doble eje y log | ¿Los salarios le ganaron al dólar? ¿El dólar se disparó más en 2002 o en 2023? | Reescalar el 2° eje; lineal ↔ log | 8 |
+| 11 | Eje Y truncado | Publicidad de Dulce Dato: 4,7 contra 4,4 estrellas con el eje desde 4,3 | Slider del eje + *lie factor* en vivo, desafío "el más alto" | 8 |
+| 12 | Acumulados | "Ya vendimos 3,7 millones de alfajores": ¿crecieron las ventas? | Acumulado ↔ mes a mes: caen desde abril | 6 |
+| 13 | Tortas | Ventas por sabor en 2025 y 2026; la encuesta "¿por qué nos elegís?" que suma 184%; la torta 3D de una agencia | Torta ↔ barras ordenadas; torta 3D que se gira e inclina | 5 |
+| 14 | Pictogramas | "Casi duplicamos las ventas": ¿cuántas veces más grande se ve el alfajor? Adiviná | Slider de escala: barra, alfajor agrandado, alfajores apilados | 6 |
+| 15 | Superficie ≠ gente | La distribuidora que "llega al 73% del país": ¿qué % de la gente vive ahí? Adiviná | Mapa de celdas: territorio vs gente (Censo 2022) | 7 |
+| 16 | ⭐ Doble eje y log | ¿Los salarios le ganaron al dólar? ¿El dólar se disparó más en 2002 o en 2023? | Reescalar el 2° eje; lineal ↔ log | 8 |
 | | **Epílogo — Manual de defensa personal** | "El encandilamiento de los números" (precisión falsa), checklist que junta todos los antídotos, ejercicio **"Sé el villano"** en grupos (ventas, sueldos y encuesta de Dulce Dato, o la inflación del INDEC) y ronda de "detectá la trampa" del otro grupo | | 33 |
 | | **Recursos** | Links a los reels, los videos, Anscombe 1973, Vigen, Datasaurus, Huff, Tufte, Cairo (*How Charts Lie*), Bergstrom y West (*Calling Bullshit*), The Economist (*Mistakes, we've drawn a few*), Chequeado, Our World in Data, xkcd, datos.gob.ar e INDEC | | — |
 
-Suma unos 172 min. Los ⭐ son extras de economía.
+Suma unos 180 min. Los ⭐ son extras de economía.
 
 **Material base por módulo** (es solo para mí, no se muestra en la clase):
 - Fiorino: P8→3 (y el eje del 10), P3→9, P1→10, P2→11, P4→12, P6→12 (tortas en 3D), P7→13, P5→14.

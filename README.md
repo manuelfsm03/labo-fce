@@ -28,10 +28,10 @@ La página publicada vive en el repo del sitio, `manuelfsm03.github.io`, en la c
 | Bloque | Min | Qué pasa |
 |---|---|---|
 | Prólogo | 12 | Dos titulares con el mismo dato. Tabla de Anscombe → "¿cómo se imaginan los gráficos?" → se destapa el cuarteto y alguien pasa a arrastrar un punto |
-| Acto I · Datos (1–4) | 32 | Se presenta Dulce Dato. Definiciones y los clientes de la pyme (8) · muestras, el alfajor de pistacho y los aviones de Wald (8) · cherry picking en equipos (8) · p-hacking con monedas y el botón de la tienda online (8) |
-| Acto II · Estadística (5–9) | 45 | Promedio y los sueldos de la pyme (7) · porcentajes: la deserción escolar, la píldora, margen y markup, y ⭐ nominal vs real (10) · tasa base y la máquina que acierta el 99% (8) · Simpson y el premio al mejor vendedor (8) · correlaciones espurias (12) |
+| Acto I · Datos (1–5) | 40 | Se presenta Dulce Dato. Definiciones y los clientes de la pyme (8) · muestras, el alfajor de pistacho y los aviones de Wald (8) · cherry picking en equipos (8) · p-hacking con monedas y el botón de la tienda online (8) · ley de Goodhart: el bono por cliente nuevo y ⭐ la meta de dinero del Reino Unido en 1980 (8) |
+| Acto II · Estadística (6–10) | 45 | Promedio y los sueldos de la pyme (7) · porcentajes: la deserción escolar, la píldora, margen y markup, y ⭐ nominal vs real (10) · tasa base y la máquina que acierta el 99% (8) · Simpson y el premio al mejor vendedor (8) · correlaciones espurias (12) |
 | Pausa | 10 | |
-| Acto III · Gráficos (10–15) | 40 | Eje Y truncado (8) · acumulados (6) · tortas, también en 3D (5) · pictogramas (6) · mapas (7) · ⭐ doble eje y escala log (8) |
+| Acto III · Gráficos (11–16) | 40 | Eje Y truncado (8) · acumulados (6) · tortas, también en 3D (5) · pictogramas (6) · mapas (7) · ⭐ doble eje y escala log (8) |
 | Epílogo | 33 | El encandilamiento de los números (5) · checklist (3) · **Sé el villano** en grupos (20) · cierre (5) |
 
 **Si falta tiempo**, los ⭐ son extras de economía y se pueden saltear (la página los deja para leer después). **Para preparar:** que traigan una moneda (o usen el celular) para el módulo 4, y que tengan Colab a mano para el ejercicio final.
