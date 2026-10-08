@@ -22,6 +22,7 @@ format:
       - assets/charla.css
       - assets/anscombe.css
       - assets/demos.css
+    include-in-header: assets/meta.html
     include-after-body: assets/scripts.html
     page-layout: article
     toc: true
