@@ -4,12 +4,12 @@ Clases del **Laboratorio de Métodos Cuantitativos** (FCE-UBA).
 
 ## Cómo mentir con datos (y cómo darte cuenta)
 
-Una clase de unas 3 horas sobre cómo se manipulan los números para que cuenten lo que uno quiere, y cómo darse cuenta cuando nos lo hacen a nosotros. Está en [`mentir-con-datos/`](mentir-con-datos/).
+Una clase de 2 horas sobre cómo se manipulan los números para que cuenten lo que uno quiere, y cómo darse cuenta cuando nos lo hacen a nosotros. Está en [`mentir-con-datos/`](mentir-con-datos/).
 
 Sigue el camino de un número: primero lo que se **elige** (datos), después lo que se **calcula** (estadística) y al final lo que se **ve** (gráficos). Casi todos los ejemplos son de gestión, con una pyme inventada que cruza toda la clase (**Dulce Dato**, una fábrica de alfajores), y algunos son de economía, con datos argentinos reales.
 
 - **Para los alumnos:** el link **https://manuelfsm03.github.io/labo-fce/mentir-con-datos/** (publicada en GitHub Pages). También sirve el archivo `mentir-con-datos/mentir-con-datos.html`, que funciona sin internet: se abre con doble clic.
-- **Para proyectar:** el mismo archivo, con el botón **🎤 Modo charla** (abajo a la derecha). La clase se convierte en unas 110 diapositivas que se ajustan a la pantalla (sin las recetas de Python, que quedan en la página para estudiar), y cada una trae todo lo de ese momento: el gráfico junto con la pregunta sobre ese gráfico, el interactivo junto con su consigna.
+- **Para proyectar:** el mismo archivo, con el botón **🎤 Modo charla** (abajo a la derecha). La clase se convierte en algo más de 100 diapositivas que se ajustan a la pantalla (sin las recetas de Python, que quedan en la página para estudiar), y cada una trae todo lo de ese momento: el gráfico junto con la pregunta sobre ese gráfico, el interactivo junto con su consigna.
   - Se avanza con ← → o con un control remoto (RePág/AvPág). En las preguntas, → primero destapa la respuesta y después pasa a la siguiente diapositiva.
   - Esc vuelve a la página en el mismo lugar, y lo que se tocó en los interactivos queda.
   - Se puede abrir directo en ese modo agregando `?modo=charla` al final de la dirección, o en una diapositiva puntual con `?modo=charla&diapo=24`.
@@ -23,14 +23,13 @@ La página se publica con GitHub Pages desde este mismo repo. La rama `gh-pages`
 
 | Bloque | Min | Qué pasa |
 |---|---|---|
-| Prólogo | 12 | Dos titulares con el mismo dato. Tabla de Anscombe → "¿cómo se imaginan los gráficos?" → se destapa el cuarteto y alguien pasa a arrastrar un punto |
-| Acto I · Datos (1–5) | 40 | Se presenta Dulce Dato. Definiciones y los clientes de la pyme (8) · muestras, el alfajor de pistacho y los aviones de Wald (8) · cherry picking en equipos (8) · p-hacking con monedas y el botón de la tienda online (8) · ley de Goodhart: el bono por cliente nuevo y ⭐ la meta de dinero del Reino Unido en 1980 (8) |
-| Acto II · Estadística (6–10) | 45 | Promedio y los sueldos de la pyme (7) · porcentajes: la deserción escolar, la píldora, margen y markup, y ⭐ nominal vs real (10) · tasa base y la máquina que acierta el 99% (8) · Simpson y el premio al mejor vendedor (8) · correlaciones espurias (12) |
-| Pausa | 10 | |
-| Acto III · Gráficos (11–16) | 40 | Eje Y truncado (8) · acumulados (6) · tortas, también en 3D (5) · pictogramas (6) · mapas (7) · ⭐ doble eje y escala log (8) |
-| Epílogo | 33 | El encandilamiento de los números (5) · checklist (3) · **Sé el villano** en grupos (20) · cierre (5) |
+| Prólogo | 8 | Dos titulares con el mismo dato. Tabla de Anscombe → "¿cómo se imaginan los gráficos?" → se destapa el cuarteto y alguien pasa a arrastrar un punto |
+| Acto I · Datos (1–4) | 27 | Se presenta Dulce Dato. Definiciones: los clientes de la pyme, la EPH y ⭐ el INDEC intervenido (6) · muestras: el alfajor de pistacho y los aviones de Wald (7) · cherry picking: los noticieros del prólogo y el juego en equipos (5) · ley de Goodhart: el video, el bono por cliente nuevo y ⭐ la meta de dinero del Reino Unido en 1980 (9) |
+| Acto II · Estadística (5–9) | 32 | Promedio y los sueldos de la pyme (5) · porcentajes: la deserción escolar, la píldora, −50% y +50%, y ⭐ nominal vs real (8) · tasa base y la máquina que acierta el 99% (6) · Simpson y el premio al mejor vendedor (5) · correlaciones espurias (8) |
+| Acto III · Gráficos (10–15) | 28 | Eje Y truncado (6) · acumulados (4) · tortas, también en 3D (6) · pictogramas (4) · mapas (4) · ⭐ doble eje y escala log (4) |
+| Epílogo | 18 | El encandilamiento de los números y el checklist (3) · **Sé el villano** en grupos (15) |
 
-**Si falta tiempo**, los ⭐ son extras de economía y se pueden saltear (la página los deja para leer después). **Para preparar:** que traigan una moneda (o usen el celular) para el módulo 4, y que tengan Colab a mano para el ejercicio final.
+Suman unos 113 minutos sin pausa: quedan unos minutos de margen para preguntas dentro de las 2 horas. **Si hace falta una pausa o falta tiempo**, los ⭐ son extras de economía y se pueden saltear (unos 10 minutos; la página los deja para leer después). **Para preparar:** que tengan Colab a mano para el ejercicio final.
 
 ### Cómo se arma la página
 

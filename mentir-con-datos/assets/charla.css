@@ -185,6 +185,19 @@
 .hero-formas .f-cuadradito { width: 30px; height: 30px; background-color: var(--bosque); left: 26px; bottom: 16%; rotate: -10deg; }
 .hero-formas .f-arco { width: 120px; height: 160px; border-radius: 60px 60px 0 0; background-color: var(--dulce); left: 110px; bottom: -4%; }
 @media (max-width: 1260px) { .hero-formas { display: none; } }
+/* La foto de la portada: una tarjeta pegada al costado, sobre las formas. En pantallas angostas va abajo del título, chica. */
+figure.hero-foto { margin: 0; background: var(--tarjeta); border: var(--borde); border-radius: 6px; padding: 8px 8px 10px; box-shadow: 5px 5px 0 var(--tinta); }
+.hero-foto img { display: block; width: 100%; height: auto; border-radius: 2px; }
+.hero-foto figcaption { margin-top: 8px; font: 400 .72rem/1.35 var(--sans); color: var(--tinta-2); }
+.hero-foto figcaption b { display: block; font-size: .82rem; color: var(--tinta); }
+@media (min-width: 1261px) {
+  figure.hero-foto { position: absolute; left: calc(100% + 34px); top: 0; width: 220px; rotate: 3deg; z-index: 1; }
+}
+@media (max-width: 1260px) {
+  figure.hero-foto { display: flex; align-items: center; gap: .8rem; max-width: 21rem; margin-top: 1.4rem; rotate: -1.5deg; }
+  .hero-foto img { width: 84px; flex: none; }
+  .hero-foto figcaption { margin-top: 0; }
+}
 
 /* ---------- Franjas de acto (como los "Bloque" del taller) ---------- */
 .acto-banda {
@@ -415,6 +428,10 @@ body.charla .solo-charla { display: block; }
 #mazo .hero-formas { display: block; left: auto; right: -330px; width: 330px; }
 #mazo .hero-formas .f-circulo { width: 230px; height: 230px; left: 40px; top: 20%; }
 #mazo .hero-formas .f-arco { width: 160px; height: 210px; border-radius: 80px 80px 0 0; left: 150px; bottom: -14%; }
+#mazo .tipo-portada .hero-foto { display: block; position: absolute; left: auto; right: -318px; top: 6px; width: 262px; max-width: none; margin: 0; rotate: 3deg; z-index: 1; padding: 10px 10px 12px; }
+#mazo .tipo-portada .hero-foto img { width: 100%; }
+#mazo .tipo-portada .hero-foto figcaption { margin-top: 10px; font-size: 14px; }
+#mazo .tipo-portada .hero-foto figcaption b { font-size: 17px; }
 
 /* Franjas de acto: la diapositiva entera toma el color del acto */
 .diapositiva.tipo-acto { background-color: var(--bosque); background-image: var(--grano); color: var(--papel-claro); }
@@ -497,6 +514,10 @@ body.charla .solo-charla { display: block; }
 #mazo.angosto .tipo-portada .subtitle { font-size: 24px !important; }
 #mazo.angosto .hero-tag { margin-left: -16px; padding-left: 16px; font-size: 11px; }
 #mazo.angosto .hero-formas, #mazo.angosto .acto-deco { display: none; }
+#mazo.angosto .tipo-portada .hero-foto { position: static; display: flex; align-items: center; gap: 12px; width: auto; max-width: 340px; margin-top: 22px; rotate: -1.5deg; padding: 8px; }
+#mazo.angosto .tipo-portada .hero-foto img { width: 84px; flex: none; }
+#mazo.angosto .tipo-portada .hero-foto figcaption { margin-top: 0; font-size: 12.5px; }
+#mazo.angosto .tipo-portada .hero-foto figcaption b { font-size: 14px; }
 .diapositiva.tipo-acto #mazo.angosto .diapo-lienzo, #mazo.angosto .diapositiva.tipo-acto .diapo-lienzo { padding-left: 18px; }
 #mazo.angosto .acto-banda h1 { font-size: 56px; }
 #mazo.angosto .acto-banda p { font-size: 17px; }

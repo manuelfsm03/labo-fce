@@ -4,6 +4,5 @@ jupyter
 pandas
 numpy
 matplotlib
-statsmodels
 requests
 pyyaml

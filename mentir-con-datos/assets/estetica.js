@@ -28,6 +28,9 @@
     titulo.insertBefore(tag, titulo.firstChild);
     var formas = el('div', { 'class': 'hero-formas', 'aria-hidden': 'true' }, ['f-circulo', 'f-cuadrado', 'f-cuadradito', 'f-arco'].map(function (c) { return el('span', { 'class': c }); }));
     document.getElementById('title-block-header').appendChild(formas);
+    // La foto de la portada viene del .qmd (así se embebe) y se muda al costado del título
+    var foto = document.getElementById('hero-foto');
+    if (foto) { document.getElementById('title-block-header').appendChild(foto); }
   }
 
   // ---------- Franjas de acto: el h1 entra a la franja que viene del .qmd ----------

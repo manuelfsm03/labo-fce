@@ -8,7 +8,7 @@ uno quiere, y cómo darse cuenta cuando nos lo hacen a nosotros. El material bas
 Santi Fiorino, el cuarteto de Anscombe de su home y Spurious Correlations de Tyler Vigen.
 
 **Definido con Manuel:**
-- La clase dura unas 3 horas, con todos los módulos en vivo y un ejercicio final.
+- La clase dura 2 horas, sin pausa, con todos los módulos en vivo y un ejercicio final (era de 3 horas; Manuel pidió recortar las redundancias para llegar a 2).
 - **Orden:** datos → cálculos/estadística → gráficos. La clase sigue el camino de un número, desde que nace hasta que
   llega al titular.
 - **Ejemplos:** algunos económicos, con datos argentinos reales, y muchos **de gestión**, como si se tratara de una
@@ -119,31 +119,29 @@ aprenden a hacer esto y a que no se los hagan.
 
 | # | Módulo | 🎣 Gancho + 🙋 interacción | 🎛️ Hacelo vos | Min |
 |---|---|---|---|---|
-| 0 | **Prólogo: "Los números no mienten… ¿o no?"** | Dos titulares opuestos con la misma inflación. Después, cuatro tablas con la misma media, varianza y r: "¿cómo se imaginan el gráfico?" y se revela | Anscombe: un alumno arrastra un punto y el aula canta el R² | 12 |
+| 0 | **Prólogo: "Los números no mienten… ¿o no?"** | Dos titulares opuestos con la misma inflación. Después, cuatro tablas con la misma media, varianza y r: "¿cómo se imaginan el gráfico?" y se revela | Anscombe: un alumno arrastra un punto y el aula canta el R² | 8 |
 | | **Acto I — Mentir con datos** (arranca con la ficha de Dulce Dato) | | | |
-| 1 | Definiciones | "Tenemos 4.800 clientes": ¿cuántos clientes tiene Dulce Dato? ¿Es desocupado quien trabajó una hora? ⭐ ¿Cuánta inflación hubo en 2010? | Toggles de definición que mueven la tasa de desocupación; receta de "clientes activos" con pandas | 8 |
-| 2 | Muestras | Encuesta en el Instagram de la marca: "al 71% le encanta el alfajor de pistacho". ¿Lo lanzan? Aviones de Wald | Encuesta en Instagram vs muestra aleatoria | 8 |
-| 3 | Cherry picking | El gráfico de un noticiero con la inflación de mayo de 2025 a marzo de 2026. Dos equipos con la misma serie | Selector de inicio y fin sobre la inflación mensual del INDEC | 8 |
-| 4 | p-hacking | **Experimento en vivo**: cada uno tira una moneda 10 veces. ¿Alguien sacó 8 caras o más? | 20 colores del botón «Comprar» de la tienda online: tests A/B al 5% (xkcd 882) | 8 |
-| 5 | Ley de Goodhart | El tablero del gerente: "Récord de clientes nuevos". ¿Le renuevan el bono? ⭐ La meta de dinero (£M3) del Reino Unido en 1980: se pasó de la meta y la inflación bajó igual | Peso del bono por cliente nuevo: los clientes se disparan, las ventas bajan y la correlación se desarma | 8 |
+| 1 | Definiciones | "Tenemos 4.800 clientes": ¿cuántos clientes tiene Dulce Dato? ¿Es desocupado quien trabajó una hora? ⭐ ¿Cuánta inflación hubo en 2010? (el INDEC intervenido; Moreno, el de la foto de la portada) | Toggles de definición que mueven la tasa de desocupación; receta de "clientes activos" con pandas | 6 |
+| 2 | Muestras | Encuesta en el Instagram de la marca: "al 71% le encanta el alfajor de pistacho". ¿Lo lanzan? Aviones de Wald | Encuesta en Instagram vs muestra aleatoria | 7 |
+| 3 | Cherry picking | Sin gancho propio: retoma los dos noticieros del prólogo (mayo de 2025 a marzo de 2026) y le pone nombre. Dos equipos con la misma serie | Selector de inicio y fin sobre la inflación mensual del INDEC | 5 |
+| 4 | Ley de Goodhart | Arranca con un video de Luquitas Rodríguez con Pedro Rosemblat. El tablero del gerente: "Récord de clientes nuevos". ¿Le renuevan el bono? ⭐ La meta de dinero (£M3) del Reino Unido en 1980: se pasó de la meta y la inflación bajó igual | Peso del bono por cliente nuevo: los clientes se disparan, las ventas bajan y la correlación se desarma | 9 |
 | | **Acto II — Mentir con estadística** | | | |
-| 6 | El promedio | "En esta empresa el sueldo promedio es de 2,1 millones": ¿cuánto cobra la persona del medio? Adiviná | Los 24 sueldos de la pyme: lo que se paga la dueña mueve la media y casi no la mediana | 7 |
-| 7 | Porcentajes | **La deserción escolar pasa de 5% a 10%: ¿subió 5% o 100%?** De 1 a 2 en un millón. La píldora de 1995. Las cuentas de la pyme: −50% y +50%, margen contra markup | Riesgo relativo ↔ absoluto. ⭐ Nominal vs real con el IPC del INDEC | 10 |
-| 8 | Tasa base | La máquina de control de calidad que "acierta el 99%": ¿qué chance hay de que un alfajor descartado esté fallado? Adiviná. Collins y Sally Clark | 1.000 alfajores con la tasa de falla y la precisión de la máquina | 8 |
-| 9 | Simpson | ¿A quién le dan el premio al mejor vendedor, a Diego o a Laura? Berkeley 1973 | Todo junto ↔ por tipo de cliente | 8 |
-| 10 | Correlación ≠ causalidad | "Adiviná el r" de Messi y Gainesville. Publicidad y ventas, los exhibidores, el envoltorio nuevo | Fabricá tu espuria: *random walks* | 12 |
-| | *Pausa* | | | 10 |
+| 5 | El promedio | "En esta empresa el sueldo promedio es de 2,1 millones": ¿cuánto cobra la persona del medio? Adiviná | Los 24 sueldos de la pyme: lo que se paga la dueña mueve la media y casi no la mediana | 5 |
+| 6 | Porcentajes | **La deserción escolar pasa de 5% a 10%: ¿subió 5% o 100%?** La píldora de 1995. Las cuentas de la pyme: −50% y +50% (y, en la respuesta, margen contra markup) | Riesgo relativo ↔ absoluto. ⭐ Nominal vs real con el IPC del INDEC | 8 |
+| 7 | Tasa base | La máquina de control de calidad que "acierta el 99%": ¿qué chance hay de que un alfajor descartado esté fallado? Adiviná. La falacia del fiscal (Sally Clark), en el truco | 1.000 alfajores con la tasa de falla y la precisión de la máquina | 6 |
+| 8 | Simpson | ¿A quién le dan el premio al mejor vendedor, a Diego o a Laura? Berkeley 1973 | Todo junto ↔ por tipo de cliente | 5 |
+| 9 | Correlación ≠ causalidad | "Adiviná el r" de Messi y Gainesville. Publicidad y ventas, los exhibidores, el envoltorio nuevo. Guiño a la inferencia causal | Fabricá tu espuria: *random walks* | 8 |
 | | **Acto III — Mentir con gráficos** | | | |
-| 11 | Eje Y truncado | Publicidad de Dulce Dato: 4,7 contra 4,4 estrellas con el eje desde 4,3 | Slider del eje + *lie factor* en vivo, desafío "el más alto" | 8 |
-| 12 | Acumulados | "Ya vendimos 3,7 millones de alfajores": ¿crecieron las ventas? | Acumulado ↔ mes a mes: caen desde abril | 6 |
-| 13 | Tortas | Ventas por sabor en 2025 y 2026; la encuesta "¿por qué nos elegís?" que suma 184%; la torta 3D de una agencia | Torta ↔ barras ordenadas; torta 3D que se gira e inclina | 5 |
-| 14 | Pictogramas | "Casi duplicamos las ventas": ¿cuántas veces más grande se ve el alfajor? Adiviná | Slider de escala: barra, alfajor agrandado, alfajores apilados | 6 |
-| 15 | Superficie ≠ gente | La distribuidora que "llega al 73% del país": ¿qué % de la gente vive ahí? Adiviná | Mapa de celdas: territorio vs gente (Censo 2022) | 7 |
-| 16 | ⭐ Doble eje y log | ¿Los salarios le ganaron al dólar? ¿El dólar se disparó más en 2002 o en 2023? | Reescalar el 2° eje; lineal ↔ log | 8 |
-| | **Epílogo — Manual de defensa personal** | "El encandilamiento de los números" (precisión falsa), checklist que junta todos los antídotos, ejercicio **"Sé el villano"** en grupos (ventas, sueldos y encuesta de Dulce Dato, o la inflación del INDEC) y ronda de "detectá la trampa" del otro grupo | | 33 |
-| | **Recursos** | Links a los reels, los videos, Anscombe 1973, Vigen, Datasaurus, Huff, Tufte, Cairo (*How Charts Lie*), Bergstrom y West (*Calling Bullshit*), The Economist (*Mistakes, we've drawn a few*), Chequeado, Our World in Data, xkcd, datos.gob.ar e INDEC | | — |
+| 10 | Eje Y truncado | Publicidad de Dulce Dato: 4,7 contra 4,4 estrellas con el eje desde 4,3 | Slider del eje + *lie factor* en vivo, desafío "el más alto" | 6 |
+| 11 | Acumulados | "Ya vendimos 3,7 millones de alfajores": ¿crecieron las ventas? | Acumulado ↔ mes a mes: caen desde abril | 4 |
+| 12 | Tortas | Ventas por sabor en 2025 y 2026; la torta 3D de una agencia | Torta ↔ barras ordenadas; torta 3D que se gira e inclina | 6 |
+| 13 | Pictogramas | "Casi duplicamos las ventas": ¿cuántas veces más grande se ve el alfajor? Adiviná | Slider de escala: barra, alfajor agrandado, alfajores apilados | 4 |
+| 14 | Superficie ≠ gente | La distribuidora que "llega al 73% del país": ¿qué % de la gente vive ahí? Adiviná | Mapa de celdas: territorio vs gente (Censo 2022) | 4 |
+| 15 | ⭐ Doble eje y log | ¿Los salarios le ganaron al dólar? ¿El dólar se disparó más en 2002 o en 2023? Cada pregunta va junto a su interactivo | Reescalar el 2° eje; lineal ↔ log | 4 |
+| | **Epílogo — Manual de defensa personal** | "El encandilamiento de los números", checklist que junta todos los antídotos y ejercicio **"Sé el villano"** en grupos (ventas, sueldos y encuesta de Dulce Dato, o la inflación del INDEC): 10 minutos para hacer los gráficos y la ronda de "detectá la trampa" del otro grupo | | 18 |
+| | **Recursos** | Links a los reels, los videos, Anscombe 1973, Vigen, Datasaurus, Huff, Tufte, Cairo (*How Charts Lie*), Bergstrom y West (*Calling Bullshit*), The Economist (*Mistakes, we've drawn a few*), Chequeado, Our World in Data, datos.gob.ar e INDEC | | — |
 
-Suma unos 180 min. Los ⭐ son extras de economía.
+Suma unos 113 min, sin pausa, con margen para preguntas dentro de las 2 horas. El p-hacking (monedas y tests A/B) se sacó entero a pedido de Manuel. Los ⭐ son extras de economía: si hace falta una pausa, se saltean (unos 10 min).
 
 **Material base por módulo** (es solo para mí, no se muestra en la clase):
 - Fiorino: P8→3 (y el eje del 10), P3→9, P1→10, P2→11, P4→12, P6→12 (tortas en 3D), P7→13, P5→14.
@@ -160,7 +158,7 @@ habilites. Trabajo en `ccr-83a17c47-aj2ozp` y mergeo a `main` cuando me digas. N
 ```
 labo-fce/
 ├── README.md                      # qué hay + cronograma docente (tabla de minutos)
-├── requirements.txt               # quarto-cli 1.10, jupyter, pandas, numpy, matplotlib, statsmodels, requests
+├── requirements.txt               # quarto-cli 1.10, jupyter, pandas, numpy, matplotlib, requests
 └── mentir-con-datos/
     ├── PLAN.md                    # este plan, asentado
     ├── _quarto.yml                # html, embed-resources, toc, code-copy, html-math-method: mathml
@@ -205,7 +203,6 @@ labo-fce/
 - Chequeos numéricos:
   - Anscombe: medias 9 y 7,50, r = 0,816 e ŷ = 3,00 + 0,50x.
   - Tasa base: el valor predictivo positivo es 50% con 1%/99%/99%.
-  - Monedas: P(≥8 caras en 10) ≈ 5,5% para uno y ≈ 89% de que aparezca al menos uno entre 40.
   - Vigen: el r coincide con el publicado.
   - IPC: el último dato coincide con la API.
 - Transcripciones cotejadas con los capítulos y los cuadros.
