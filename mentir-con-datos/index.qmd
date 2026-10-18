@@ -1085,7 +1085,13 @@ tasa_laura = 100 * visitas.b_si.sum() / visitas.b_n.sum()
 
 :::: {.diapo}
 
-Es la **paradoja de Simpson**: una tendencia que aparece en cada grupo se invierte (o desaparece) cuando juntás los grupos. Pasa cuando hay una tercera variable (acá, qué clientes le tocaron a cada uno) que está relacionada con las otras dos. Con dos hospitales pasa lo mismo: si al A van los casos más graves, puede tener más muertes en total y ser mejor con cada tipo de paciente.
+Es la **paradoja de Simpson**: una tendencia que aparece en cada grupo se invierte (o desaparece) cuando juntás los grupos. Pasa cuando hay una tercera variable (acá, qué clientes le tocaron a cada uno) relacionada con las otras dos. El ejemplo clásico es el del ejercicio y el colesterol. Mirando a todos juntos, parece que el que hace más ejercicio tiene más colesterol; separando por edad, en cada grupo pasa lo contrario. La edad mueve las dos cosas: los más grandes hacen más ejercicio y también tienen más colesterol.
+
+```{=html}
+<figure class="imagen-clase">
+  <img src="assets/simpson-ejercicio.png" width="898" height="312" alt="La misma nube de puntos de ejercicio y colesterol dibujada dos veces. Todos juntos, la recta sube. Separados por edad, de 10 a 50 años, dentro de cada grupo la recta baja.">
+</figure>
+```
 
 Un caso real: en el otoño de 1973, la Universidad de California en Berkeley admitió en el posgrado al 44% de los hombres y solo al 35% de las mujeres que se postularon. ¿Discriminaba? Un equipo de estadísticos (Bickel, Hammel y O'Connell, 1975) miró departamento por departamento: en la mayoría, las mujeres entraban en igual o **mayor** proporción que los hombres. Se postulaban más a los departamentos más difíciles, donde entraba poca gente de cualquier sexo.
 
@@ -2093,6 +2099,7 @@ Los reels de Fiorino, uno por uno: [eje Y](https://www.instagram.com/reel/C-YxMX
 [[Wikipedia · en inglés]{.tipo} [Credibility revolution]{.t} [Cómo cambió la economía empírica desde los años 90: mejores diseños de investigación.]{.d}](https://en.wikipedia.org/wiki/Credibility_revolution){.recurso}
 [[Libro gratis]{.tipo} [Scott Cunningham · Causal Inference: The Mixtape]{.t} [Los métodos de la revolución de la credibilidad, con código.]{.d}](https://mixtape.scunning.com/){.recurso}
 [[Libro gratis]{.tipo} [Nick Huntington-Klein · The Effect]{.t} [Una introducción amable al diseño de investigación y la causalidad.]{.d}](https://theeffectbook.net/){.recurso}
+[[Libro · 2018]{.tipo} [Judea Pearl y Dana Mackenzie · The Book of Why]{.t} [La causalidad contada para todo público. De acá sale el dibujo del ejercicio y el colesterol.]{.d}](https://en.wikipedia.org/wiki/The_Book_of_Why){.recurso}
 [[Premio Nobel · 2021]{.tipo} [Card, Angrist e Imbens]{.t} [El Nobel de economía por los experimentos naturales y el análisis causal.]{.d}](https://www.nobelprize.org/prizes/economic-sciences/2021/press-release/){.recurso}
 :::
 
@@ -2110,5 +2117,7 @@ Los reels de Fiorino, uno por uno: [eje Y](https://www.instagram.com/reel/C-YxMX
 ### Datos usados en esta clase
 
 IPC, índice de salarios y Censo 2022: **INDEC**. Dólar oficial: **BCRA**. Superficie de las provincias: **IGN**. Series bajadas de la API de **datos.gob.ar** en octubre de 2026. Correlación de Messi y Gainesville: **Tyler Vigen** (CC BY 4.0). Admisiones de Berkeley: Bickel y otros (1975). **Dulce Dato es inventada**, igual que todos sus números, las encuestas, el ejemplo de la deserción y las personas del módulo 1; lo dice cada vez.
+
+El dibujo del ejercicio y el colesterol del módulo 8 es de *The Book of Why*, de Judea Pearl y Dana Mackenzie (2018), con las etiquetas traducidas.
 
 Foto de la portada: [Guillermo Moreno, 2018](https://commons.wikimedia.org/wiki/File:Guillermo_Moreno.jpg), de Niamfrifruli, vía Wikimedia Commons, con licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.es) (recortada).

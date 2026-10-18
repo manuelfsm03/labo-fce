@@ -130,7 +130,7 @@ aprenden a hacer esto y a que no se los hagan.
 | 5 | El promedio | "En esta empresa el sueldo promedio es de 2,1 millones": ¿cuánto cobra la persona del medio? Adiviná | Los 24 sueldos de la pyme: lo que se paga la dueña mueve la media y casi no la mediana | 5 |
 | 6 | Porcentajes | **La deserción escolar pasa de 5% a 10%: ¿subió 5% o 100%?** La píldora de 1995. Las cuentas de la pyme: −50% y +50% (y, en la respuesta, margen contra markup) | Riesgo relativo ↔ absoluto. ⭐ Nominal vs real con el IPC del INDEC | 8 |
 | 7 | Tasa base | La máquina de control de calidad que "acierta el 99%": ¿qué chance hay de que un alfajor descartado esté fallado? Adiviná. La falacia del fiscal (Sally Clark), en el truco | 1.000 alfajores con la tasa de falla y la precisión de la máquina | 6 |
-| 8 | Simpson | ¿A quién le dan el premio al mejor vendedor, a Diego o a Laura? Berkeley 1973 | Todo junto ↔ por tipo de cliente | 5 |
+| 8 | Simpson | ¿A quién le dan el premio al mejor vendedor, a Diego o a Laura? En el truco, el dibujo del ejercicio y el colesterol (*The Book of Why*, con las etiquetas en castellano) y Berkeley 1973 | Todo junto ↔ por tipo de cliente | 5 |
 | 9 | Correlación ≠ causalidad | "Adiviná el r" de Messi y Gainesville. Publicidad y ventas, los exhibidores, el envoltorio nuevo. Guiño a la inferencia causal | Fabricá tu espuria: *random walks* | 8 |
 | | **Acto III — Mentir con gráficos** | | | |
 | 10 | Eje Y truncado | Publicidad de Dulce Dato: 4,7 contra 4,4 estrellas con el eje desde 4,3 | Slider del eje + *lie factor* en vivo, desafío "el más alto" | 6 |
