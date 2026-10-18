@@ -310,7 +310,10 @@
     if (!diapos.length) { return; }
     i = Math.max(0, Math.min(diapos.length - 1, i));
     var antes = diapos[actual], d = diapos[i];
-    if (antes && antes !== d) { antes.s.classList.remove('activa', 'entra'); }
+    if (antes && antes !== d) {
+      antes.s.classList.remove('activa', 'entra');
+      antes.s.querySelectorAll('video').forEach(function (v) { v.pause(); });   // el video no sigue sonando en la diapositiva siguiente
+    }
     actual = i;
     d.s.classList.add('activa');
     var foco = document.activeElement;
@@ -409,7 +412,7 @@
     if (!enCharla || e.altKey || e.ctrlKey || e.metaKey) { return; }
     var t = e.target, tag = t && t.tagName;
     var campo = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (t && t.isContentEditable);
-    var boton = tag === 'BUTTON' || tag === 'A' || tag === 'SUMMARY';
+    var boton = tag === 'BUTTON' || tag === 'A' || tag === 'SUMMARY' || tag === 'VIDEO';   // con el video enfocado, la barra espaciadora le da play
     var k = e.key, accion = null;
     // El control remoto manda RePág/AvPág: siempre mueven las diapositivas, aunque haya un control con el foco
     if (k === 'PageDown') { accion = avanzar; }

@@ -155,6 +155,14 @@
 #mazo .guino { font-size: 15.5px; padding: 12px 16px; }
 #mazo .guino p { font-size: inherit; }
 
+/* Video de la clase (la intro de Goodhart): una tarjeta con borde negro, como las demás */
+.video-clase { margin: 1rem 0 1.4rem; }
+.video-clase video { display: block; width: 100%; height: auto; background: #000; border: var(--borde); border-radius: var(--radio); box-shadow: 5px 5px 0 var(--tinta); }
+.video-clase figcaption { margin-top: .9rem; font: 400 .9rem/1.5 var(--sans); color: var(--tinta-2); }
+#mazo .video-clase { max-width: 900px; margin: 6px auto 0; }
+#mazo .video-clase figcaption { font-size: 20px; color: var(--tinta); }
+#mazo.angosto .video-clase figcaption { font-size: 16px; }
+
 /* ---------- Checklist del epílogo ---------- */
 #checklist ol { list-style: none; padding: 0; counter-reset: item; }
 #checklist li {
@@ -277,11 +285,6 @@ details.receta-plegada > .receta-cuerpo { padding: .7rem 1rem .3rem; }
 .uso > :last-child { margin-bottom: 0; }
 
 /* Tabla resumen de Anscombe */
-table.resumen-anscombe { display: block; overflow-x: auto; width: 100%; margin: .6rem 0 1.2rem; font-size: .9rem; font-variant-numeric: tabular-nums; border-collapse: collapse; }
-table.resumen-anscombe tr, table.resumen-anscombe td, table.resumen-anscombe th { background: transparent !important; box-shadow: none !important; }
-table.resumen-anscombe th { font: 700 .68rem var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--tinta-2); text-align: left; border-bottom: 2px solid var(--tinta); padding: .4rem .5rem .4rem 0; white-space: nowrap; }
-table.resumen-anscombe td { padding: .45rem .5rem .45rem 0; border-bottom: 1px solid var(--regla); white-space: nowrap; }
-table.resumen-anscombe td:first-child { font-family: var(--display); font-stretch: 62.5%; font-weight: 800; font-size: 1.15rem; }
 
 /* Avión de Wald */
 svg.avion { display: block; width: 100%; max-width: 340px; height: auto; margin: .6rem auto .2rem; }
@@ -483,9 +486,6 @@ body.charla .solo-charla { display: block; }
 #mazo .rio .tramo h4 { font-size: 36px; }
 #mazo .rio .tramo p { font-size: 18px; }
 #mazo .rio-flecha { font-size: 13px; margin: 0; }
-#mazo table.resumen-anscombe { font-size: 16.5px; }
-#mazo table.resumen-anscombe th { font-size: 11px; white-space: normal; }
-#mazo table.resumen-anscombe td:first-child { font-size: 24px; }
 #mazo .pyme { margin: 0 auto; max-width: 900px; padding: 30px 34px; gap: 28px; }
 #mazo .pyme > svg { flex-basis: 130px; width: 130px; }
 #mazo .pyme .pyme-nombre { font-size: 52px; }

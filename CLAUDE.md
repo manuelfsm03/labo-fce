@@ -6,6 +6,7 @@ Clases del Laboratorio de Métodos Cuantitativos (FCE-UBA). Cada clase va en su 
 
 - **Ejemplos:** algunos económicos, con datos argentinos reales, y muchos **de gestión**, como si se tratara de una pyme. En *Cómo mentir con datos* la pyme es Dulce Dato, una fábrica de alfajores inventada que aparece en casi todos los módulos.
 - **Tono de charla:** cada módulo abre con un gancho y tiene momentos de interacción con el aula (votaciones, "adiviná el número", desafíos, consignas en parejas).
+- **Textos que suenen humanos** (definido por Manuel): como se habla en clase, sin estructuras con tufillo a IA, como "Las dos, y conviene decirlo bien", "No es X: es Y", "No hace falta X. Alcanza con Y" o remates de frase hecha al final de cada párrafo.
 - **Fuentes:** no se muestran dentro de los módulos; van todas a una sección final de **Recursos**.
 - **Formato:** página HTML autocontenida, hecha con Quarto, que funcione sin internet. El código de los ejemplos va en Python.
 - **Diseño:** la filosofía visual del taller de IA (https://datso653.github.io/taller-ia/): papel con grano, partículas en movimiento, serif condensada, tarjetas con borde negro y animaciones, pero con **paleta propia** (Manuel no quiere que parezca una copia): verde bosque, celeste cielo, chocolate y dulce de leche. La estructura y el tipo de gráficos, los de El Atlas de Daniel Schteingart (https://dschteingart.github.io/el-atlas-charts/): cada gráfico con antetítulo, título que cuenta el hallazgo, bajada, fuente, firma y descargas.

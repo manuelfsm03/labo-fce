@@ -8,6 +8,7 @@ uno quiere, y cómo darse cuenta cuando nos lo hacen a nosotros. El material bas
 Santi Fiorino, el cuarteto de Anscombe de su home y Spurious Correlations de Tyler Vigen.
 
 **Definido con Manuel:**
+- Los textos se escriben como habla Manuel en clase, sin estructuras que suenen a IA (nada de "Las dos, y conviene decirlo bien", "No es X: es Y" ni remates de frase hecha).
 - La clase dura 2 horas, sin pausa, con todos los módulos en vivo y un ejercicio final (era de 3 horas; Manuel pidió recortar las redundancias para llegar a 2).
 - **Orden:** datos → cálculos/estadística → gráficos. La clase sigue el camino de un número, desde que nace hasta que
   llega al titular.
@@ -119,12 +120,12 @@ aprenden a hacer esto y a que no se los hagan.
 
 | # | Módulo | 🎣 Gancho + 🙋 interacción | 🎛️ Hacelo vos | Min |
 |---|---|---|---|---|
-| 0 | **Prólogo: "Los números no mienten… ¿o no?"** | Dos titulares opuestos con la misma inflación. Después, cuatro tablas con la misma media, varianza y r: "¿cómo se imaginan el gráfico?" y se revela | Anscombe: un alumno arrastra un punto y el aula canta el R² | 8 |
+| 0 | **Prólogo: "Los números no mienten… ¿o no?"** | Dos titulares opuestos con la misma inflación. Después, el cuarteto de Anscombe tapado: mismos números (la tabla ya no va, a pedido de Manuel), "¿cómo se imaginan los gráficos?" y se destapa | Anscombe: un alumno arrastra un punto y el aula canta el R² | 8 |
 | | **Acto I — Mentir con datos** (arranca con la ficha de Dulce Dato) | | | |
 | 1 | Definiciones | "Tenemos 4.800 clientes": ¿cuántos clientes tiene Dulce Dato? ¿Es desocupado quien trabajó una hora? ⭐ ¿Cuánta inflación hubo en 2010? (el INDEC intervenido; Moreno, el de la foto de la portada) | Toggles de definición que mueven la tasa de desocupación; receta de "clientes activos" con pandas | 6 |
 | 2 | Muestras | Encuesta en el Instagram de la marca: "al 71% le encanta el alfajor de pistacho". ¿Lo lanzan? Aviones de Wald | Encuesta en Instagram vs muestra aleatoria | 7 |
 | 3 | Cherry picking | Sin gancho propio: retoma los dos noticieros del prólogo (mayo de 2025 a marzo de 2026) y le pone nombre. Dos equipos con la misma serie | Selector de inicio y fin sobre la inflación mensual del INDEC | 5 |
-| 4 | Ley de Goodhart | Arranca con un video de Luquitas Rodríguez con Pedro Rosemblat. El tablero del gerente: "Récord de clientes nuevos". ¿Le renuevan el bono? ⭐ La meta de dinero (£M3) del Reino Unido en 1980: se pasó de la meta y la inflación bajó igual | Peso del bono por cliente nuevo: los clientes se disparan, las ventas bajan y la correlación se desarma | 9 |
+| 4 | Ley de Goodhart | Arranca con un video de Luquitas Rodríguez con Pedro Rosemblat (cómo se mide si algo "pega"). Después, el contexto: Marta quiere vender más y le paga al gerente un bono por cliente nuevo. Un año después, el tablero del gerente: "Récord de clientes nuevos". ¿Le renuevan el bono? ⭐ La meta de dinero (£M3) del Reino Unido en 1980: se pasó de la meta y la inflación bajó igual | Peso del bono por cliente nuevo: los clientes se disparan, las ventas bajan y la correlación se desarma | 9 |
 | | **Acto II — Mentir con estadística** | | | |
 | 5 | El promedio | "En esta empresa el sueldo promedio es de 2,1 millones": ¿cuánto cobra la persona del medio? Adiviná | Los 24 sueldos de la pyme: lo que se paga la dueña mueve la media y casi no la mediana | 5 |
 | 6 | Porcentajes | **La deserción escolar pasa de 5% a 10%: ¿subió 5% o 100%?** La píldora de 1995. Las cuentas de la pyme: −50% y +50% (y, en la respuesta, margen contra markup) | Riesgo relativo ↔ absoluto. ⭐ Nominal vs real con el IPC del INDEC | 8 |
