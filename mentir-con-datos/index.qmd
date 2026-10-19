@@ -90,7 +90,7 @@ plt.show()
 
 :::: {.diapo}
 
-Hoy vamos a aprender a mentir con datos. Vamos a hacer gráficos tramposos a propósito, con Python, para entender cómo funcionan y darnos cuenta **cuando nos lo hacen a nosotros**.
+Hoy vamos a aprender a mentir con datos. Vamos a armar gráficos y números tramposos a propósito, para entender cómo funcionan y darnos cuenta **cuando nos lo hacen a nosotros**.
 
 Vamos a seguir el camino de un número. Primero alguien *elige* qué medir, a quién preguntarle y qué período mirar; después *calcula* un resumen, y al final lo *dibuja*. Se puede hacer trampa en cualquiera de esos pasos, y las de los primeros son las más difíciles de ver. Vamos en orden, desde que nace el dato hasta que llega al titular.
 
@@ -1968,7 +1968,7 @@ plt.show()
 ::: {.acto-interior}
 [Epílogo]{.acto-pill}
 
-Qué preguntar y qué mirar, y al final un ejercicio para ponerse del otro lado y armar gráficos tramposos.
+Qué preguntar y qué mirar cada vez que te muestran un número.
 :::
 :::
 
@@ -1992,53 +1992,6 @@ Todos los antídotos de la clase, en una lista. Tildá los que ya te salen de me
 :::
 
 ::::
-
-## Sé el villano {#villano}
-
-:::: {.diapo}
-
-::: {.desafio data-minutos="15" data-kicker="Ejercicio final · en grupos"}
-1. Armen grupos de 3 o 4. A cada grupo le toca una serie y dos clientes con intereses opuestos:
-    - **A** · Las ventas mensuales de Dulce Dato: un gráfico para el banco y otro para el delegado que pide aumento.
-    - **B** · Los sueldos de Dulce Dato: uno para Marta y otro para el delegado, en la paritaria.
-    - **C** · La encuesta a los clientes: uno para la agencia de publicidad y otro para la competencia.
-    - **D** · La inflación mensual del INDEC (datos reales): uno para el gobierno y otro para la oposición.
-2. Con el código que está en la página de la clase, abajo de esta consigna (en Colab), hagan **dos gráficos de la misma serie con titulares opuestos**, con al menos dos trucos de la clase en cada uno. Tienen 10 minutos.
-3. Intercambien con otro grupo y, con el checklist en la mano, encuentren los trucos del otro: un punto por cada truco descubierto. Los autores se llevan un punto por cada truco que nadie vio.
-:::
-
-::::
-
-```{python}
-#| eval: false
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-
-grupo = "A"   # ← cambien la letra
-
-if grupo == "A":   # Ventas de Dulce Dato, en miles de alfajores por mes (inventadas, con temporada alta en invierno)
-    rng = np.random.default_rng(14)
-    meses = pd.date_range("2021-01-01", "2026-09-01", freq="MS")
-    temporada = 1 + 0.25 * np.cos(2 * np.pi * (meses.month - 7) / 12)
-    serie = pd.Series(330 * temporada * np.exp(np.cumsum(rng.normal(0.004, 0.04, len(meses)))), index=meses).round()
-elif grupo == "B": # Sueldos de las 24 personas de Dulce Dato, en millones de pesos por mes
-    serie = pd.Series([1.18, 1.20, 1.22, 1.24, 1.25, 1.26, 1.28, 1.30, 1.31, 1.33, 1.35, 1.38, 1.40, 1.45,
-                       1.42, 1.50, 1.62, 1.48, 1.55, 1.85, 1.95, 2.30, 4.50, 14.00])
-elif grupo == "C": # «¿Por qué elegís Dulce Dato?» (se podía marcar más de una; % que marcó cada razón)
-    serie = pd.Series({"Precio": 61, "Sabor": 54, "Lo tiene mi kiosco": 38, "Tamaño": 22, "Envoltorio": 9})
-else:              # D · Inflación mensual del INDEC (datos reales, de la API de datos.gob.ar)
-    url = "https://apis.datos.gob.ar/series/api/series/?ids=148.3_INIVELNAL_DICI_M_26&format=csv&limit=5000"
-    nivel = pd.read_csv(url, index_col=0, parse_dates=True, storage_options={"User-Agent": "Mozilla/5.0"}).iloc[:, 0]
-    serie = nivel.pct_change().dropna() * 100
-
-tipo = "line" if grupo in ("A", "D") else "bar"
-fig, (izq, der) = plt.subplots(1, 2, figsize=(11, 4))
-serie.plot(ax=izq, kind=tipo, title="Titular 1: ...")
-serie.plot(ax=der, kind=tipo, title="Titular 2: ...")
-plt.show()
-```
-
 
 ## Todos los gráficos {#todos-los-graficos}
 

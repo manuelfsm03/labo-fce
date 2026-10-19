@@ -9,7 +9,7 @@ Santi Fiorino, el cuarteto de Anscombe de su home y Spurious Correlations de Tyl
 
 **Definido con Manuel:**
 - Los textos se escriben como habla Manuel en clase, sin estructuras que suenen a IA (nada de "Las dos, y conviene decirlo bien", "No es X: es Y" ni remates de frase hecha).
-- La clase dura 2 horas, sin pausa, con todos los módulos en vivo y un ejercicio final (era de 3 horas; Manuel pidió recortar las redundancias para llegar a 2).
+- La clase dura 2 horas, sin pausa, con todos los módulos en vivo (era de 3 horas; Manuel pidió recortar las redundancias para llegar a 2).
 - **Orden:** datos → cálculos/estadística → gráficos. La clase sigue el camino de un número, desde que nace hasta que
   llega al titular.
 - **Ejemplos:** algunos económicos, con datos argentinos reales, y muchos **de gestión**, como si se tratara de una
@@ -139,10 +139,10 @@ aprenden a hacer esto y a que no se los hagan.
 | 13 | Pictogramas | "Casi duplicamos las ventas": ¿cuántas veces más grande se ve el alfajor? Adiviná | Slider de escala: barra, alfajor agrandado, alfajores apilados | 4 |
 | 14 | Superficie ≠ gente | La distribuidora que "llega al 73% del país": ¿qué % de la gente vive ahí? Adiviná | Mapa de celdas: territorio vs gente (Censo 2022) | 4 |
 | 15 | ⭐ Doble eje y log | ¿Los salarios le ganaron al dólar? ¿El dólar se disparó más en 2002 o en 2023? Cada pregunta va junto a su interactivo | Reescalar el 2° eje; lineal ↔ log | 4 |
-| | **Epílogo — Manual de defensa personal** | "El encandilamiento de los números", checklist que junta todos los antídotos y ejercicio **"Sé el villano"** en grupos (ventas, sueldos y encuesta de Dulce Dato, o la inflación del INDEC): 10 minutos para hacer los gráficos y la ronda de "detectá la trampa" del otro grupo | | 18 |
+| | **Epílogo — Manual de defensa personal** | "El encandilamiento de los números" y el checklist que junta todos los antídotos. El ejercicio final "Sé el villano" se sacó a pedido de Manuel | | 3 |
 | | **Recursos** | Links a los reels, los videos, Anscombe 1973, Vigen, Datasaurus, Huff, Tufte, Cairo (*How Charts Lie*), Bergstrom y West (*Calling Bullshit*), The Economist (*Mistakes, we've drawn a few*), Chequeado, Our World in Data, datos.gob.ar e INDEC | | — |
 
-Suma unos 113 min, sin pausa, con margen para preguntas dentro de las 2 horas. El p-hacking (monedas y tests A/B) se sacó entero a pedido de Manuel. Los ⭐ son extras de economía: si hace falta una pausa, se saltean (unos 10 min).
+Suma unos 98 min, sin pausa: dentro de las 2 horas quedan unos 20 min de margen para preguntas o para estirar los desafíos. El p-hacking (monedas y tests A/B) y el ejercicio "Sé el villano" se sacaron enteros a pedido de Manuel.
 
 **Material base por módulo** (es solo para mí, no se muestra en la clase):
 - Fiorino: P8→3 (y el eje del 10), P3→9, P1→10, P2→11, P4→12, P6→12 (tortas en 3D), P7→13, P5→14.

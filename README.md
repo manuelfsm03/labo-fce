@@ -27,9 +27,9 @@ La página se publica con GitHub Pages desde este mismo repo. La rama `gh-pages`
 | Acto I · Datos (1–4) | 27 | Se presenta Dulce Dato. Definiciones: los clientes de la pyme, la EPH y ⭐ el INDEC intervenido (6) · muestras: el alfajor de pistacho y los aviones de Wald (7) · cherry picking: los noticieros del prólogo y el juego en equipos (5) · ley de Goodhart: el video de Luquitas Rodríguez con Pedro Rosemblat, Marta y el bono por cliente nuevo y ⭐ la meta de dinero del Reino Unido en 1980 (9) |
 | Acto II · Estadística (5–9) | 32 | Promedio y los sueldos de la pyme (5) · porcentajes: la deserción escolar, la píldora, −50% y +50%, y ⭐ nominal vs real (8) · tasa base y la máquina que acierta el 99% (6) · Simpson y el premio al mejor vendedor (5) · correlaciones espurias (8) |
 | Acto III · Gráficos (10–15) | 28 | Eje Y truncado (6) · acumulados (4) · tortas, también en 3D (6) · pictogramas (4) · mapas (4) · ⭐ doble eje y escala log (4) |
-| Epílogo | 18 | El encandilamiento de los números y el checklist (3) · **Sé el villano** en grupos (15) |
+| Epílogo | 3 | El encandilamiento de los números y el checklist |
 
-Suman unos 113 minutos sin pausa: quedan unos minutos de margen para preguntas dentro de las 2 horas. **Si hace falta una pausa o falta tiempo**, los ⭐ son extras de economía y se pueden saltear (unos 10 minutos; la página los deja para leer después). **Para preparar:** que tengan Colab a mano para el ejercicio final.
+Suman unos 98 minutos sin pausa: dentro de las 2 horas quedan unos 20 minutos de margen para preguntas o para estirar los desafíos. **Si hace falta una pausa o falta tiempo**, los ⭐ son extras de economía y se pueden saltear (unos 10 minutos; la página los deja para leer después).
 
 ### Cómo se arma la página
 
