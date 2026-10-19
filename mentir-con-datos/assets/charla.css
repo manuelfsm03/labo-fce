@@ -202,10 +202,10 @@ figure.imagen-clase { margin: 1.2rem auto 1.4rem; max-width: 860px; background: 
 figure.hero-foto { margin: 0; pointer-events: none; opacity: .75; mix-blend-mode: multiply; }
 .hero-foto img { display: block; width: 100%; height: auto; }
 @media (min-width: 1261px) {
-  figure.hero-foto { position: absolute; left: calc(100% - 10px); top: -18px; width: 300px; z-index: 0; }
+  figure.hero-foto { position: absolute; left: calc(100% + 20px); top: 0; width: 210px; z-index: 0; }
 }
 @media (max-width: 1260px) {
-  figure.hero-foto { width: 150px; margin: .4rem 0 0 auto; }
+  figure.hero-foto { width: 110px; margin: .4rem 0 0 auto; }
 }
 
 /* ---------- Franjas de acto (como los "Bloque" del taller) ---------- */
