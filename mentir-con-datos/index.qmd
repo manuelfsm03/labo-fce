@@ -30,8 +30,7 @@ gobiernos = [{"nombre": n, "corto": c, "desde": d, "hasta": h} for n, c, d, h in
 
 ```{=html}
 <figure class="hero-foto" id="hero-foto">
-  <img src="assets/moreno.jpg" alt="Guillermo Moreno, de cerca, mirando de reojo." width="480" height="585">
-  <figcaption><b>Guillermo Moreno</b><span>Secretario de Comercio Interior, 2006-2013. En el módulo 1 van a ver qué hace acá.</span></figcaption>
+  <img src="assets/moreno-trazo.png" alt="Dibujo de la cara de Guillermo Moreno, con trazos finos." width="640" height="700">
 </figure>
 ```
 
@@ -331,7 +330,7 @@ Son 100 personas inventadas, con proporciones parecidas a las de la EPH. Según 
 - No lo sabemos con certeza
 
 ::: {.respuesta}
-**No lo sabemos con certeza.** El INDEC informó 10,9%. Pero en enero de 2007, con el secretario de Comercio Interior a la cabeza (Guillermo Moreno, el de la portada), el gobierno intervino el organismo, desplazó a la técnica a cargo del índice de precios, y el índice dejó de ser creíble. Las consultoras privadas y varias provincias medían más del doble, y un estudio con precios de supermercados online (Cavallo, 2013) encontró que entre 2007 y 2011 la inflación fue casi el triple de la oficial. En 2016 se declaró la emergencia estadística y el propio INDEC advirtió que las series publicadas desde 2007 debían tomarse con reservas.
+**No lo sabemos con certeza.** El INDEC informó 10,9%. Pero en enero de 2007, con el secretario de Comercio Interior a la cabeza (Guillermo Moreno, el del dibujo de la portada), el gobierno intervino el organismo, desplazó a la técnica a cargo del índice de precios, y el índice dejó de ser creíble. Las consultoras privadas y varias provincias medían más del doble, y un estudio con precios de supermercados online (Cavallo, 2013) encontró que entre 2007 y 2011 la inflación fue casi el triple de la oficial. En 2016 se declaró la emergencia estadística y el propio INDEC advirtió que las series publicadas desde 2007 debían tomarse con reservas.
 :::
 :::
 
@@ -2073,4 +2072,4 @@ IPC, índice de salarios y Censo 2022: **INDEC**. Dólar oficial: **BCRA**. Supe
 
 El dibujo del ejercicio y el colesterol del módulo 8 es de *The Book of Why*, de Judea Pearl y Dana Mackenzie (2018), con las etiquetas traducidas.
 
-Foto de la portada: [Guillermo Moreno, 2018](https://commons.wikimedia.org/wiki/File:Guillermo_Moreno.jpg), de Niamfrifruli, vía Wikimedia Commons, con licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.es) (recortada).
+Dibujo de la portada: hecho a partir de la foto [Guillermo Moreno, 2018](https://commons.wikimedia.org/wiki/File:Guillermo_Moreno.jpg), de Niamfrifruli, vía Wikimedia Commons, con licencia [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.es). El dibujo se comparte con la misma licencia.
