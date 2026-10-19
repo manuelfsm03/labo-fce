@@ -151,7 +151,7 @@
   // Al entrar al modo charla los bloques se mudan a #mazo (dejan una marca en su lugar) y al salir vuelven, así que los
   // interactivos conservan lo que se tocó. Cada diapositiva se arma en un lienzo de 1280 px de ancho que se escala para
   // llenar la pantalla; si no entra, se achica hasta entrar entera.
-  var KEY = 'labo-modo', KEY_DIAPO = 'labo-diapo', ANCHO = 1280, ANGOSTO = 760;
+  var ANCHO = 1280, ANGOSTO = 760;
   var moverse = !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   var mazo = null, diapos = [], actual = 0, listo = false, enCharla = false, avisoInicial = 0;
 
@@ -321,7 +321,6 @@
     encajar(d);
     if (!sinAnimar) { animar(d); }
     actualizarBarra();
-    try { localStorage.setItem(KEY_DIAPO, String(i)); } catch (e) { /* sin almacenamiento */ }
   }
   function avanzar() {
     var p = pendiente(diapos[actual]);
@@ -388,7 +387,6 @@
     if (charla && !enCharla) { entrar(desde); } else if (!charla && enCharla) { salir(); }
     btn.textContent = charla ? '📖 Modo lectura' : '🎤 Modo charla';
     btn.setAttribute('aria-pressed', String(charla));
-    try { localStorage.setItem(KEY, modo); } catch (e) { /* sin almacenamiento: no pasa nada */ }
     window.dispatchEvent(new Event('resize'));
     document.dispatchEvent(new Event('labo:modo'));
   }
@@ -443,12 +441,16 @@
   var inicial = 'lectura', diapoInicial = null;
   try {
     var q = new URLSearchParams(location.search);
-    if (q.get('modo') === 'charla' || (q.get('modo') !== 'lectura' && localStorage.getItem(KEY) === 'charla')) { inicial = 'charla'; }
+    // Al recargar, la página vuelve siempre al modo lectura, arriba y con las respuestas tapadas.
+    // Solo la dirección puede pedir el modo charla: ?modo=charla&diapo=N
+    if (q.get('modo') === 'charla') { inicial = 'charla'; }
     var guardada = parseInt(q.get('diapo') || '', 10);
     if (!isNaN(guardada)) { diapoInicial = guardada - 1; }
-    else if (inicial === 'charla') { guardada = parseInt(localStorage.getItem(KEY_DIAPO) || '', 10); if (!isNaN(guardada)) { diapoInicial = guardada; } }
   } catch (e) { /* idem */ }
   if (inicial === 'charla') { document.documentElement.classList.add('charla-cargando'); }
+  try { localStorage.removeItem('labo-modo'); localStorage.removeItem('labo-diapo'); } catch (e) { /* idem */ }
+  if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
+  if (!location.hash) { window.scrollTo(0, 0); }
   function preparar() {
     if (listo) { return; }
     listo = true;

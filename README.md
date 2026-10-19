@@ -13,6 +13,7 @@ Sigue el camino de un número: primero lo que se **elige** (datos), después lo 
   - Se avanza con ← → o con un control remoto (RePág/AvPág). En las preguntas, → primero destapa la respuesta y después pasa a la siguiente diapositiva.
   - Esc vuelve a la página en el mismo lugar, y lo que se tocó en los interactivos queda.
   - Se puede abrir directo en ese modo agregando `?modo=charla` al final de la dirección, o en una diapositiva puntual con `?modo=charla&diapo=24`.
+  - Al recargar, la página vuelve al modo lectura, arriba y con todas las respuestas tapadas.
 - **Los gráficos:** cada interactivo se descarga como PNG o con sus datos en CSV, y al final hay un índice con todos.
 
 ### Publicación

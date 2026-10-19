@@ -724,9 +724,20 @@ debajo_s = int((plantilla.sueldo < media_s).sum())
 assert round(media_s, 1) == 2.1 and round(mediana_s, 2) == 1.39 and debajo_s == 21
 ```
 
-:::: {.diapo .dos}
+:::: {.diapo}
 
 ::: {.gancho}
+[Dulce Dato, paritaria de marzo · inventado]{.medio}
+[Los sueldos no alcanzan]{.titular}
+
+El delegado de los trabajadores le pide a Marta un aumento: dice que con lo que cobran no llegan a fin de mes. Marta no quiere dar más de lo que subieron los precios, y arma su respuesta con la planilla de sueldos de la empresa.
+:::
+
+::::
+
+:::: {.diapo .dos}
+
+::: {.gancho data-kicker="La respuesta de Marta"}
 [Reunión de Marta con el delegado de los trabajadores · inventada]{.medio}
 [En esta empresa el sueldo promedio es de `{python} labo.coma(media_s, 1)` millones. No se pueden quejar.]{.titular}
 
@@ -1059,9 +1070,20 @@ tasa_diego = 100 * visitas.a_si.sum() / visitas.a_n.sum()
 tasa_laura = 100 * visitas.b_si.sum() / visitas.b_n.sum()
 ```
 
-:::: {.diapo .dos}
+:::: {.diapo}
 
 ::: {.gancho}
+[Dulce Dato, fin de septiembre · inventado]{.medio}
+[Un premio al mejor vendedor]{.titular}
+
+Dulce Dato tiene dos vendedores, Diego y Laura, que visitan kioscos, almacenes y supermercados. Este mes Marta quiere premiar al que mejor vende, y le pide al gerente que los compare: qué parte de sus visitas terminan en una venta.
+:::
+
+::::
+
+:::: {.diapo .dos}
+
+::: {.gancho data-kicker="La comparación"}
 [La planilla del gerente comercial · inventada]{.medio}
 [Diego cierra el `{python} labo.coma(tasa_diego, 0)`% de sus visitas y Laura, el `{python} labo.coma(tasa_laura, 0)`%. El premio al mejor vendedor es para Diego.]{.titular}
 :::
@@ -1266,9 +1288,20 @@ calif = pd.DataFrame({"nombre": ["Dulce Dato", "Marca A", "Marca B", "Marca C", 
                       "valor": [4.7, 4.5, 4.4, 4.6, 4.5]})
 ```
 
-:::: {.diapo .dos}
+:::: {.diapo}
 
 ::: {.gancho}
+[Dulce Dato, campaña de verano · inventado]{.medio}
+[Queremos ser los favoritos]{.titular}
+
+Marta contrata a una agencia para una campaña en Instagram. Le pasa una encuesta en la que los clientes califican de 1 a 5 estrellas a cinco marcas de alfajores, y Dulce Dato salió primera. La agencia vuelve con este aviso.
+:::
+
+::::
+
+:::: {.diapo .dos}
+
+::: {.gancho data-kicker="El aviso"}
 [Publicidad de Dulce Dato en Instagram · inventada]{.medio}
 [El alfajor que más les gusta a los clientes]{.titular}
 
@@ -1394,9 +1427,20 @@ infl24 = pd.DataFrame({"mensual": (nivel24.pct_change() * 100)["2024"],
                        "acumulada": (nivel24["2024"] / nivel24["2023-12-01"] - 1) * 100})
 ```
 
-:::: {.diapo .dos}
+:::: {.diapo}
 
 ::: {.gancho}
+[Dulce Dato, octubre de 2026 · inventado]{.medio}
+[¿Cómo viene el año?]{.titular}
+
+El banco tiene que decidir si le renueva un crédito a Dulce Dato. Marta le pide al gerente comercial un resumen de las ventas de 2026 para la reunión, y el gerente arma una presentación con un solo gráfico.
+:::
+
+::::
+
+:::: {.diapo .dos}
+
+::: {.gancho data-kicker="La presentación"}
 [La presentación del gerente comercial · inventada]{.medio}
 [En 2026 ya vendimos `{python} labo.coma(acum26, 1)` millones de alfajores: las ventas no paran de crecer]{.titular}
 
