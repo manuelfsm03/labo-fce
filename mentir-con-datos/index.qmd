@@ -330,7 +330,7 @@ Son 100 personas inventadas, con proporciones parecidas a las de la EPH. Según 
 - No lo sabemos con certeza
 
 ::: {.respuesta}
-**No lo sabemos con certeza.** El INDEC informó 10,9%. Pero en enero de 2007, con el secretario de Comercio Interior a la cabeza (Guillermo Moreno, que anda escondido en la portada), el gobierno intervino el organismo, desplazó a la técnica a cargo del índice de precios, y el índice dejó de ser creíble. Las consultoras privadas y varias provincias medían más del doble, y un estudio con precios de supermercados online (Cavallo, 2013) encontró que entre 2007 y 2011 la inflación fue casi el triple de la oficial. En 2016 se declaró la emergencia estadística y el propio INDEC advirtió que las series publicadas desde 2007 debían tomarse con reservas.
+**No lo sabemos con certeza.** El INDEC informó 10,9%. Pero en enero de 2007, con el secretario de Comercio Interior a la cabeza (Guillermo Moreno, que anda escondido en la portada), el gobierno intervino el organismo, desplazó a la técnica a cargo del índice de precios, y el índice dejó de ser creíble. Las consultoras privadas y varias provincias medían más del doble, y un estudio con precios de supermercados online (Cavallo, 2013) encontró que entre 2007 y 2011 la inflación fue casi el triple de la oficial. Hasta el redondeo era raro: desde mediados de 2008, durante 33 meses seguidos, la inflación mensual oficial nunca redondeó para arriba. Es como sacar 33 caras seguidas con una moneda, algo que pasa 1 vez cada 8.590 millones ([lo calculó FIEL en una nota de 2011](https://www.fiel.org/publicaciones/ArticulosDiario/Perfil%20AV%205-2011.pdf)). En 2016 se declaró la emergencia estadística y el propio INDEC advirtió que las series publicadas desde 2007 debían tomarse con reservas.
 :::
 :::
 
@@ -2106,6 +2106,7 @@ Los reels de Fiorino, uno por uno: [eje Y](https://www.instagram.com/reel/C-YxMX
 - Goodhart, C. A. E. (1981). Problems of Monetary Management: The U.K. Experience. En A. S. Courakis (ed.), *Inflation, Depression, and Economic Policy in the West*. Mansell. (El trabajo original es de 1975.)
 - Granger, C. W. J. y Newbold, P. (1974). Spurious regressions in econometrics. *Journal of Econometrics*, 2(2), 111–120. [doi:10.1016/0304-4076(74)90034-7](https://doi.org/10.1016/0304-4076(74)90034-7)
 - Angrist, J. D. y Pischke, J.-S. (2010). The Credibility Revolution in Empirical Economics: How Better Research Design Is Taking the Con out of Econometrics. *Journal of Economic Perspectives*, 24(2), 3–30. [doi:10.1257/jep.24.2.3](https://doi.org/10.1257/jep.24.2.3)
+- FIEL (2011). Inflación y mentiras. *Perfil*, mayo de 2011. [PDF](https://www.fiel.org/publicaciones/ArticulosDiario/Perfil%20AV%205-2011.pdf) (el redondeo del IPC durante 33 meses).
 - Cavallo, A. (2013). Online and official price indexes: Measuring Argentina's inflation. *Journal of Monetary Economics*, 60(2), 152–165. [doi:10.1016/j.jmoneco.2012.10.002](https://doi.org/10.1016/j.jmoneco.2012.10.002)
 - Matejka, J. y Fitzmaurice, G. (2017). Same Stats, Different Graphs (el *Datasaurus*). *CHI 2017*. [doi:10.1145/3025453.3025912](https://doi.org/10.1145/3025453.3025912)
 - Strathern, M. (1997). 'Improving ratings': audit in the British University system. *European Review*, 5(3), 305–321. (La frase "cuando una medida se convierte en meta, deja de ser una buena medida".)
