@@ -476,6 +476,49 @@ En una empresa se ve seguido. El gerente muestra las ventas "desde que llegó", 
 
 ::::
 
+### Cortar la hoja
+
+:::: {.diapo .dos}
+
+::: {.gancho data-kicker="Un caso real"}
+[Entrevista en C5N, agosto de 2020]{.medio}
+[El cuadro éste deberíamos cortarlo acá]{.titular}
+
+Alberto Fernández habla del acuerdo con los bonistas. Le acercan un gráfico con los pagos de deuda de cada año, antes y después del acuerdo, y antes de mostrarlo dobla la hoja.
+
+```{=html}
+<figure class="imagen-clase"><img src="assets/alberto-c5n.jpg" width="700" height="548" alt="Alberto Fernández, en Olivos, muestra a cámara una hoja doblada con un gráfico de barras."></figure>
+```
+:::
+
+::: {.pregunta data-correcta="2"}
+¿Qué quedó del otro lado del doblez?
+
+- Nada importante: años muy lejanos
+- Los años en los que, con el acuerdo, se paga más que antes
+- La fuente del gráfico
+
+::: {.respuesta}
+**Los años en los que, con el acuerdo, se paga más.** El gráfico completo está en la diapositiva que sigue.
+:::
+:::
+
+::::
+
+:::: {.diapo .dos .media}
+
+```{=html}
+<figure class="imagen-clase"><img src="assets/deuda-guzman.jpg" width="776" height="584" alt="Gráfico de los pagos de deuda de 2020 a 2030: hasta 2024 la propuesta paga mucho menos que el perfil anterior, y en 2025, 2029 y 2030 paga más."></figure>
+```
+
+::: {.lado}
+**Del otro lado del doblez.** El gráfico completo, que el ministro Guzmán había mostrado ese mismo día, llegaba hasta 2030. Hasta 2024 los pagos con el acuerdo (naranja) son mucho menores que los de antes (celeste), pero en 2025, 2029 y 2030 son mayores, porque el acuerdo estiró los plazos.
+
+El ahorro existió: los especialistas lo calcularon en más de 30.000 millones de dólares. Pero mirando solo los primeros años parece mucho más grande.
+:::
+
+::::
+
 ### Hacelo vos
 
 :::: {.diapo .dos .ancha}
@@ -2106,6 +2149,7 @@ Los reels de Fiorino, uno por uno: [eje Y](https://www.instagram.com/reel/C-YxMX
 - Goodhart, C. A. E. (1981). Problems of Monetary Management: The U.K. Experience. En A. S. Courakis (ed.), *Inflation, Depression, and Economic Policy in the West*. Mansell. (El trabajo original es de 1975.)
 - Granger, C. W. J. y Newbold, P. (1974). Spurious regressions in econometrics. *Journal of Econometrics*, 2(2), 111–120. [doi:10.1016/0304-4076(74)90034-7](https://doi.org/10.1016/0304-4076(74)90034-7)
 - Angrist, J. D. y Pischke, J.-S. (2010). The Credibility Revolution in Empirical Economics: How Better Research Design Is Taking the Con out of Econometrics. *Journal of Economic Perspectives*, 24(2), 3–30. [doi:10.1257/jep.24.2.3](https://doi.org/10.1257/jep.24.2.3)
+- Chequeado (2020). Deuda: por qué es engañosa la forma en la que el Presidente mostró el ahorro por el acuerdo en C5N. [chequeado.com](https://chequeado.com/hilando-fino/deuda-por-que-es-enganosa-la-forma-en-la-que-el-presidente-mostro-el-ahorro-por-el-acuerdo-en-c5n/) (de ahí salen la imagen de la entrevista y el gráfico completo del módulo 3).
 - FIEL (2011). Inflación y mentiras. *Perfil*, mayo de 2011. [PDF](https://www.fiel.org/publicaciones/ArticulosDiario/Perfil%20AV%205-2011.pdf) (el redondeo del IPC durante 33 meses).
 - Cavallo, A. (2013). Online and official price indexes: Measuring Argentina's inflation. *Journal of Monetary Economics*, 60(2), 152–165. [doi:10.1016/j.jmoneco.2012.10.002](https://doi.org/10.1016/j.jmoneco.2012.10.002)
 - Matejka, J. y Fitzmaurice, G. (2017). Same Stats, Different Graphs (el *Datasaurus*). *CHI 2017*. [doi:10.1145/3025453.3025912](https://doi.org/10.1145/3025453.3025912)
