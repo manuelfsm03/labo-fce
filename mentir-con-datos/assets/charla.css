@@ -198,11 +198,27 @@ figure.imagen-clase { margin: 1.2rem auto 1.4rem; max-width: 860px; background: 
 .hero-formas .f-cuadradito { width: 26px; height: 26px; background-color: var(--dulce); left: 268px; bottom: 30%; rotate: -10deg; }
 .hero-formas .f-arco { width: 120px; height: 160px; border-radius: 60px 60px 0 0; background-color: var(--dulce); left: 110px; bottom: -4%; }
 @media (max-width: 1260px) { .hero-formas { display: none; } }
-/* El dibujo de Moreno en la portada: trazos finos color chocolate, sin marco, como parte del fondo */
-figure.hero-foto { margin: 0; pointer-events: none; opacity: .75; mix-blend-mode: multiply; }
-.hero-foto img { display: block; width: 100%; height: auto; }
+/* El dibujo de Moreno en la portada es un easter egg: está tapado por el círculo verde (que reemplaza al de las formas)
+   y aparece al pasar el mouse por el círculo o al tocarlo */
+figure.hero-foto { margin: 0; position: relative; }
+.hero-foto img { display: block; width: 100%; height: auto; opacity: 0; mix-blend-mode: multiply; transition: opacity .5s ease; }
+.hero-tapa {
+  position: absolute; left: 44%; top: 46%; width: 72%; aspect-ratio: 1; translate: -50% -50%;
+  border: 0; padding: 0; border-radius: 50%; cursor: pointer;
+  background-color: var(--bosque); background-image: var(--grano);
+  transition: translate .6s var(--salida), scale .6s var(--salida);
+}
+.hero-tapa:focus-visible { outline: 3px solid var(--celeste); outline-offset: 4px; }
+/* El hover es sobre toda la zona del dibujo: si fuera solo sobre el círculo, al correrse saldría de abajo del mouse y volvería */
+@media (hover: hover) {
+  .hero-foto:hover img { opacity: .75; }
+  .hero-foto:hover .hero-tapa { translate: 10% 55%; scale: .38; }
+}
+.hero-foto.destapado img { opacity: .75; }
+.hero-foto.destapado .hero-tapa { translate: 10% 55%; scale: .38; }
+.hero-formas .f-circulo { display: none; }
 @media (min-width: 1261px) {
-  figure.hero-foto { position: absolute; left: calc(100% + 20px); top: 0; width: 210px; z-index: 0; }
+  figure.hero-foto { position: absolute; left: calc(100% + 20px); top: 0; width: 210px; z-index: 1; }
 }
 @media (max-width: 1260px) {
   figure.hero-foto { width: 110px; margin: .4rem 0 0 auto; }
@@ -434,7 +450,7 @@ body.charla .solo-charla { display: block; }
 #mazo .hero-formas .f-cuadrado { width: 52px; height: 52px; left: 300px; top: 2%; }
 #mazo .hero-formas .f-cuadradito { left: 300px; bottom: 36%; }
 #mazo .hero-formas .f-arco { width: 160px; height: 210px; border-radius: 80px 80px 0 0; left: 150px; bottom: -14%; }
-#mazo .tipo-portada .hero-foto { position: absolute; left: auto; right: -310px; top: 0; width: 270px; margin: 0; z-index: 0; }
+#mazo .tipo-portada .hero-foto { position: absolute; left: auto; right: -310px; top: 0; width: 270px; margin: 0; z-index: 1; }
 #mazo.angosto .tipo-portada .hero-foto { position: static; width: 140px; margin: 14px 0 0 auto; }
 
 /* Franjas de acto: la diapositiva entera toma el color del acto */

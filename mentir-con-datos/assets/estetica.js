@@ -30,7 +30,13 @@
     document.getElementById('title-block-header').appendChild(formas);
     // La foto de la portada viene del .qmd (así se embebe) y se muda al costado del título
     var foto = document.getElementById('hero-foto');
-    if (foto) { document.getElementById('title-block-header').appendChild(foto); }
+    if (foto) {
+      document.getElementById('title-block-header').appendChild(foto);
+      // Easter egg: Moreno está escondido detrás del círculo verde. Pasando el mouse (o tocándolo) el círculo se corre.
+      var tapa = el('button', { type: 'button', 'class': 'hero-tapa', 'aria-label': 'Un círculo verde. ¿Qué habrá atrás?' });
+      tapa.addEventListener('click', function () { foto.classList.toggle('destapado'); });
+      foto.appendChild(tapa);
+    }
   }
 
   // ---------- Franjas de acto: el h1 entra a la franja que viene del .qmd ----------
