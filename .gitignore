@@ -5,4 +5,4 @@ __pycache__/
 **/*.quarto_ipynb
 mentir-con-datos/mentir-con-datos_files/
 *.mp4
-!mentir-con-datos/assets/goodhart-luquitas.mp4
+!mentir-con-datos/assets/videos/*.mp4

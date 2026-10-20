@@ -521,27 +521,26 @@ El ahorro existió: los especialistas lo calcularon en más de 30.000 millones d
 
 ### Cambiar de serie
 
-:::: {.diapo}
+:::: {.diapo .dos .serie}
 
-Otra forma de elegir la ventana es elegir **qué serie** mirar, después de ver cuál conviene. El INDEC publica la actividad económica (el EMAE) en dos versiones: la serie desestacionalizada y la tendencia-ciclo, que es más suave.
+::: {.lado}
+Otra forma de elegir la ventana es elegir **qué serie** mirar, después de ver cuál conviene. El INDEC publica la actividad económica (el EMAE) desestacionalizada y en tendencia-ciclo. En marzo de 2026, la desestacionalizada subió 3,5%:
 
-::: {.citas}
-::: {.cita}
-[Luis Caputo, sobre el EMAE de marzo de 2026]{.medio}
-
-«El nivel de actividad económica alcanzó un nuevo máximo histórico en marzo. [...] Registró un crecimiento de 3,5% mensual en la **serie desestacionalizada**.»
+```{=html}
+<figure class="imagen-clase tuit"><img src="assets/tuit-caputo-marzo.png" width="581" height="554" alt="Tuit de Luis Caputo del 21 de mayo de 2026: el nivel de actividad económica alcanzó un nuevo máximo histórico en marzo, con un crecimiento de 3,5% mensual en la serie desestacionalizada."></figure>
+```
 :::
 
-::: {.cita}
-[Luis Caputo, cuando la misma serie cayó 2,9% en julio de 2026]{.medio}
-
-«Si se mira el **EMAE desestacionalizado**, claramente está dando un nivel de volatilidad que no refleja la realidad.»
-:::
-:::
-
-Y Milei, en esos días: «Nosotros nos enfocamos en el indicador tendencia a ciclo». Con la pobreza pasó algo parecido: en el primer semestre de 2026 subió 4,1 puntos contra el semestre anterior, y el tuit oficial la comparó con el primer semestre de 2024.
+```{=html}
+<figure class="video-clase vertical">
+  <video controls preload="auto" playsinline poster="assets/videos/caputo-emae.jpg" src="assets/videos/caputo-emae.mp4" aria-label="Luis Caputo en el streaming Carajo, en octubre de 2026, sobre el EMAE desestacionalizado"></video>
+  <figcaption>En julio la misma serie cayó 2,9%. Caputo, en octubre.</figcaption>
+</figure>
+```
 
 ::::
+
+En esos mismos días, Milei dijo en LN+: «Nosotros nos enfocamos en el indicador tendencia a ciclo». Con la pobreza pasó algo parecido: en el primer semestre de 2026 subió 4,1 puntos contra el semestre anterior, y el tuit oficial la comparó con el primer semestre de 2024.
 
 ### Hacelo vos
 
@@ -628,7 +627,7 @@ Pedro Rosemblat le pregunta a Luquitas Rodríguez cómo se mide si lo que hacen 
 
 ```{=html}
 <figure class="video-clase">
-  <video controls preload="auto" playsinline poster="assets/goodhart-luquitas.jpg" src="assets/goodhart-luquitas.mp4" aria-label="Fragmento de la entrevista de Pedro Rosemblat a Luquitas Rodríguez en Gelatina"></video>
+  <video controls preload="auto" playsinline poster="assets/videos/goodhart-luquitas.jpg" src="assets/videos/goodhart-luquitas.mp4" aria-label="Fragmento de la entrevista de Pedro Rosemblat a Luquitas Rodríguez en Gelatina"></video>
   <figcaption>Las agencias cuentan menciones y vistas, y con esos números se ordena la industria. ¿Qué pasa cuando todos empiezan a trabajar para esos números?</figcaption>
 </figure>
 ```
@@ -2174,7 +2173,7 @@ Los reels de Fiorino, uno por uno: [eje Y](https://www.instagram.com/reel/C-YxMX
 - Granger, C. W. J. y Newbold, P. (1974). Spurious regressions in econometrics. *Journal of Econometrics*, 2(2), 111–120. [doi:10.1016/0304-4076(74)90034-7](https://doi.org/10.1016/0304-4076(74)90034-7)
 - Angrist, J. D. y Pischke, J.-S. (2010). The Credibility Revolution in Empirical Economics: How Better Research Design Is Taking the Con out of Econometrics. *Journal of Economic Perspectives*, 24(2), 3–30. [doi:10.1257/jep.24.2.3](https://doi.org/10.1257/jep.24.2.3)
 - Chequeado (2020). Deuda: por qué es engañosa la forma en la que el Presidente mostró el ahorro por el acuerdo en C5N. [chequeado.com](https://chequeado.com/hilando-fino/deuda-por-que-es-enganosa-la-forma-en-la-que-el-presidente-mostro-el-ahorro-por-el-acuerdo-en-c5n/) (de ahí salen la imagen de la entrevista y el gráfico completo del módulo 3).
-- Infobae (10 de octubre de 2026). ¿Los datos oficiales no reflejan la realidad económica?: cómo lee el Gobierno las cifras del Indec y la mirada de los economistas. [infobae.com](https://www.infobae.com/economia/2026/10/10/los-datos-oficiales-no-reflejan-la-realidad-economica-como-lee-el-gobierno-las-cifras-del-indec-y-la-mirada-de-los-economistas/); el tuit de Caputo sobre marzo, en [x.com](https://x.com/LuisCaputoAR/status/2057537770797908164), y el de julio y la pobreza, en [BAE Negocios](https://www.baenegocios.com/economia/caputo-adjudico-la-caida-de-la-actividad-el-retroceso-por-el-clima-el-gas-y-el-mundial/) (las citas del módulo 3).
+- Infobae (10 de octubre de 2026). ¿Los datos oficiales no reflejan la realidad económica?: cómo lee el Gobierno las cifras del Indec y la mirada de los economistas. [infobae.com](https://www.infobae.com/economia/2026/10/10/los-datos-oficiales-no-reflejan-la-realidad-economica-como-lee-el-gobierno-las-cifras-del-indec-y-la-mirada-de-los-economistas/); el tuit de Caputo sobre marzo, en [x.com](https://x.com/LuisCaputoAR/status/2057537770797908164); el video de Caputo es un recorte de la entrevista en La Misa (Carajo), difundido por Multimedio Mordisquito, y el tuit de julio y la pobreza están en [BAE Negocios](https://www.baenegocios.com/economia/caputo-adjudico-la-caida-de-la-actividad-el-retroceso-por-el-clima-el-gas-y-el-mundial/) (las citas del módulo 3).
 - FIEL (2011). Inflación y mentiras. *Perfil*, mayo de 2011. [PDF](https://www.fiel.org/publicaciones/ArticulosDiario/Perfil%20AV%205-2011.pdf) (el redondeo del IPC durante 33 meses).
 - Cavallo, A. (2013). Online and official price indexes: Measuring Argentina's inflation. *Journal of Monetary Economics*, 60(2), 152–165. [doi:10.1016/j.jmoneco.2012.10.002](https://doi.org/10.1016/j.jmoneco.2012.10.002)
 - Matejka, J. y Fitzmaurice, G. (2017). Same Stats, Different Graphs (el *Datasaurus*). *CHI 2017*. [doi:10.1145/3025453.3025912](https://doi.org/10.1145/3025453.3025912)

@@ -162,6 +162,12 @@
 #mazo .video-clase { max-width: 900px; margin: 6px auto 0; }
 #mazo .video-clase figcaption { font-size: 20px; color: var(--tinta); }
 #mazo.angosto .video-clase figcaption { font-size: 16px; }
+.video-clase.vertical { max-width: 340px; margin-left: auto; margin-right: auto; }
+.imagen-clase.tuit { max-width: 520px; padding: .3rem; }
+#mazo .diapo.serie { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); }
+#mazo .video-clase.vertical { max-width: 330px; margin: 0 auto; }
+#mazo .video-clase.vertical figcaption { font-size: 17px; text-align: center; }
+#mazo .imagen-clase.tuit { max-width: 560px; margin: 12px 0 0; }
 
 /* Imágenes que no son gráficos de la clase (por ejemplo, el dibujo de Simpson): tarjeta blanca con borde negro */
 figure.imagen-clase { margin: 1.2rem auto 1.4rem; max-width: 860px; background: var(--tarjeta); border: var(--borde); border-radius: var(--radio); padding: .7rem .9rem; }
