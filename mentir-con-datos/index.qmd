@@ -519,6 +519,30 @@ El ahorro existió: los especialistas lo calcularon en más de 30.000 millones d
 
 ::::
 
+### Cambiar de serie
+
+:::: {.diapo}
+
+Otra forma de elegir la ventana es elegir **qué serie** mirar, después de ver cuál conviene. El INDEC publica la actividad económica (el EMAE) en dos versiones: la serie desestacionalizada y la tendencia-ciclo, que es más suave.
+
+::: {.citas}
+::: {.cita}
+[Luis Caputo, sobre el EMAE de marzo de 2026]{.medio}
+
+«El nivel de actividad económica alcanzó un nuevo máximo histórico en marzo. [...] Registró un crecimiento de 3,5% mensual en la **serie desestacionalizada**.»
+:::
+
+::: {.cita}
+[Luis Caputo, cuando la misma serie cayó 2,9% en julio de 2026]{.medio}
+
+«Si se mira el **EMAE desestacionalizado**, claramente está dando un nivel de volatilidad que no refleja la realidad.»
+:::
+:::
+
+Y Milei, en esos días: «Nosotros nos enfocamos en el indicador tendencia a ciclo». Con la pobreza pasó algo parecido: en el primer semestre de 2026 subió 4,1 puntos contra el semestre anterior, y el tuit oficial la comparó con el primer semestre de 2024.
+
+::::
+
 ### Hacelo vos
 
 :::: {.diapo .dos .ancha}
@@ -2150,6 +2174,7 @@ Los reels de Fiorino, uno por uno: [eje Y](https://www.instagram.com/reel/C-YxMX
 - Granger, C. W. J. y Newbold, P. (1974). Spurious regressions in econometrics. *Journal of Econometrics*, 2(2), 111–120. [doi:10.1016/0304-4076(74)90034-7](https://doi.org/10.1016/0304-4076(74)90034-7)
 - Angrist, J. D. y Pischke, J.-S. (2010). The Credibility Revolution in Empirical Economics: How Better Research Design Is Taking the Con out of Econometrics. *Journal of Economic Perspectives*, 24(2), 3–30. [doi:10.1257/jep.24.2.3](https://doi.org/10.1257/jep.24.2.3)
 - Chequeado (2020). Deuda: por qué es engañosa la forma en la que el Presidente mostró el ahorro por el acuerdo en C5N. [chequeado.com](https://chequeado.com/hilando-fino/deuda-por-que-es-enganosa-la-forma-en-la-que-el-presidente-mostro-el-ahorro-por-el-acuerdo-en-c5n/) (de ahí salen la imagen de la entrevista y el gráfico completo del módulo 3).
+- Infobae (10 de octubre de 2026). ¿Los datos oficiales no reflejan la realidad económica?: cómo lee el Gobierno las cifras del Indec y la mirada de los economistas. [infobae.com](https://www.infobae.com/economia/2026/10/10/los-datos-oficiales-no-reflejan-la-realidad-economica-como-lee-el-gobierno-las-cifras-del-indec-y-la-mirada-de-los-economistas/); el tuit de Caputo sobre marzo, en [x.com](https://x.com/LuisCaputoAR/status/2057537770797908164), y el de julio y la pobreza, en [BAE Negocios](https://www.baenegocios.com/economia/caputo-adjudico-la-caida-de-la-actividad-el-retroceso-por-el-clima-el-gas-y-el-mundial/) (las citas del módulo 3).
 - FIEL (2011). Inflación y mentiras. *Perfil*, mayo de 2011. [PDF](https://www.fiel.org/publicaciones/ArticulosDiario/Perfil%20AV%205-2011.pdf) (el redondeo del IPC durante 33 meses).
 - Cavallo, A. (2013). Online and official price indexes: Measuring Argentina's inflation. *Journal of Monetary Economics*, 60(2), 152–165. [doi:10.1016/j.jmoneco.2012.10.002](https://doi.org/10.1016/j.jmoneco.2012.10.002)
 - Matejka, J. y Fitzmaurice, G. (2017). Same Stats, Different Graphs (el *Datasaurus*). *CHI 2017*. [doi:10.1145/3025453.3025912](https://doi.org/10.1145/3025453.3025912)
